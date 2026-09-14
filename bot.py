@@ -31,6 +31,10 @@ async def hug(ctx, *, who: str = None):
 
     target = who
 
+    if who in ("@everyone", "@here"):
+        await ctx.reply("You can't just do that!")
+        return
+
     hug_messages = \
     [
         f"{user} tightly hugs {target} 🫂",
@@ -67,6 +71,10 @@ async def praise(ctx, *, who: str = None):
 
     target = who
 
+    if who in ("@everyone", "@here"):
+        await ctx.reply("You can't just do that!")
+        return
+
     praise_messages = \
         [
             f"Hehe ^^\n{target} is such a cutie! ^^",
@@ -93,6 +101,10 @@ async def permahug(ctx, *, who: str = None):
     user = ctx.author.mention
 
     target = who
+
+    if who in ("@everyone", "@here"):
+        await ctx.reply("You can't just do that!")
+        return
 
     hug_messages = \
     [
