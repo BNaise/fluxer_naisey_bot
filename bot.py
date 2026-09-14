@@ -31,7 +31,7 @@ async def echo(ctx, *, message: str):
 @bot.command()
 async def hug(ctx, *, who: str = None):
     user = ctx.author.mention
-    target = who if who else user
+    target = who
 
     hug_messages = \
     [
@@ -55,8 +55,12 @@ async def hug(ctx, *, who: str = None):
     ]
 
     choice = random.choice(hug_messages)
-
-    await ctx.reply(choice)
+    if who == user:
+        await ctx.reply(f"{user} gave themselves a hug 🫂🥺")
+    elif who:
+        await ctx.reply(choice)
+    else:
+        await ctx.reply(f"{user} gave themselves a hug 🫂🥺")
 
 # 4. Run the bot using your Fluxer token
 if __name__ == "__main__":
