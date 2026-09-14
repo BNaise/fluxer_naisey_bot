@@ -7,26 +7,23 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# 1. Initialize the bot with a command prefix and default intents
-bot = fluxer.Bot(command_prefix="!", intents=fluxer.Intents.default())
-# 2. Event listener for when the bot successfully logs in
+bot = fluxer.Bot(command_prefix="!", intents=fluxer.Intents.all())
 
 @bot.event
 async def on_ready():
     print(f"Bot is online! Logged in as {bot.user.username}")
 
-# 3. Simple text command
+# Commands
 @bot.command()
-async def ping(ctx):
-    await ctx.reply("Pong!")
+async def help(ctx):
+    await ctx.reply("These are the commands you can use:\n\n"
+                    "!hug (user) # Sends a hug to the mentioned user by you :3\n\n"
+                    "!help # Sends this help message\n\n"
+                    "(That's it for right now, other commands will be added in the future enjoy! :3)")
 
-@bot.command()
-async def test(ctx):
-    await ctx.reply("Test!")
-
-@bot.command()
-async def echo(ctx, *, message: str):
-    await ctx.reply(message)
+# @bot.command()
+# async def printer(ctx, *, message: str):
+#     await ctx.reply(message)
 
 @bot.command()
 async def hug(ctx, *, who: str = None):
