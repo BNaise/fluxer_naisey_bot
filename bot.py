@@ -21,13 +21,10 @@ async def help(ctx):
                     "!help # Sends this help message\n\n"
                     "(That's it for right now, other commands will be added in the future enjoy! :3)")
 
-# @bot.command()
-# async def printer(ctx, *, message: str):
-#     await ctx.reply(message)
-
 @bot.command()
 async def hug(ctx, *, who: str = None):
     user = ctx.author.mention
+
     target = who
 
     hug_messages = \
@@ -52,6 +49,7 @@ async def hug(ctx, *, who: str = None):
     ]
 
     choice = random.choice(hug_messages)
+
     if who == user:
         await ctx.reply(f"{user} gave themselves a hug 🫂🥺")
     elif who:
@@ -61,6 +59,5 @@ async def hug(ctx, *, who: str = None):
 
 # 4. Run the bot using your Fluxer token
 if __name__ == "__main__":
-    # Replace with your actual Fluxer bot token
     TOKEN = os.getenv('TOKEN')
     bot.run(TOKEN)
