@@ -19,8 +19,10 @@ async def on_ready():
 @bot.command()
 async def naiseyhelp(ctx):
     await ctx.reply("These are the commands you can use:\n\n"
-                    "!hug (user) # Sends a hug to the mentioned user by you :3\n\n"
                     "!help # Sends this help message\n\n"
+                    "!hug (user) # Sends a hug to the mentioned user by you :3\n\n"
+                    "!permahug (user) # Sends a permanent hug to the mentioned user by you ^w^\n\n"
+                    "!praise (user) # Praises the mentioned user\n\n"
                     "(That's it for right now, other commands will be added in the future enjoy! :3)")
 
 @bot.command()
