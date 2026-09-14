@@ -5,6 +5,8 @@ import fluxer
 
 from dotenv import load_dotenv
 
+import keep_alive
+
 load_dotenv()
 
 bot = fluxer.Bot(command_prefix="!", intents=fluxer.Intents.all())
@@ -15,7 +17,7 @@ async def on_ready():
 
 # Commands
 @bot.command()
-async def help(ctx):
+async def naiseyhelp(ctx):
     await ctx.reply("These are the commands you can use:\n\n"
                     "!hug (user) # Sends a hug to the mentioned user by you :3\n\n"
                     "!help # Sends this help message\n\n"
@@ -56,6 +58,59 @@ async def hug(ctx, *, who: str = None):
         await ctx.reply(choice)
     else:
         await ctx.reply(f"{user} gave themselves a hug 🫂🥺")
+
+@bot.command()
+async def praise(ctx, *, who: str = None):
+    user = ctx.author.mention
+
+    target = who
+
+    praise_messages = \
+        [
+            f"Hehe ^^\n{target} is such a cutie! ^^",
+            f"Awwwww :3\n{target} is soooo cute! :33 ",
+            f"{target}! you are so adorable! :3 ",
+            f"{target}! you are sooo awesome! :3 ",
+            f"Awwwww! :3 isn't {target} sooooo cute? ^?^",
+            f"{target} is so cute! :3 >w<",
+            f"{target} is so cute that I can hug them endlessly! ^w^",
+            f"{target} is such a cutie patooti :3 ^~^"
+        ]
+
+    choice = random.choice(praise_messages)
+
+    if who == user:
+        await ctx.reply("You can't just do that!")
+    elif who:
+        await ctx.reply(choice)
+    else:
+        await ctx.reply("Mention a user or write someones name")
+
+@bot.command()
+async def permahug(ctx, *, who: str = None):
+    user = ctx.author.mention
+
+    target = who
+
+    hug_messages = \
+    [
+        f"{user} permanently hugs {target} 🫂",
+        f"{user} hugs {target} permanently 🫂",
+        f"{user} hugs {target} and they won't let go, ever 🫂🫂",
+        f"{user} hugs {target} and never let's go until the end of time and beyond 🫂",
+        f"{user} has trapped {target} with an eternal hug 🫂"
+    ]
+
+    choice = random.choice(hug_messages)
+
+    if who == user:
+        await ctx.reply(f"{user} gave themselves a permanent hug 🫂🥺")
+    elif who:
+        await ctx.reply(choice)
+    else:
+        await ctx.reply(f"{user} gave themselves a permanent hug 🫂🥺")
+
+keep_alive.keep_alive()
 
 # 4. Run the bot using your Fluxer token
 if __name__ == "__main__":
