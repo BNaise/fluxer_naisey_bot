@@ -31,9 +31,9 @@ async def hug(ctx, *, who: str = None):
 
     target = who
 
-    if who in ("@everyone", "@here"):
-        await ctx.reply("You can't just do that!")
-        return
+    # if who in ("@everyone", "@here"):
+    #     await ctx.reply("You can't just do that!")
+    #     return
 
     hug_messages = \
     [
@@ -71,9 +71,9 @@ async def praise(ctx, *, who: str = None):
 
     target = who
 
-    if who in ("@everyone", "@here"):
-        await ctx.reply("You can't just do that!")
-        return
+    # if who in ("@everyone", "@here"):
+    #     await ctx.reply("You can't just do that!")
+    #     return
 
     praise_messages = \
         [
@@ -102,9 +102,9 @@ async def permahug(ctx, *, who: str = None):
 
     target = who
 
-    if who in ("@everyone", "@here"):
-        await ctx.reply("You can't just do that!")
-        return
+    # if who in ("@everyone", "@here"):
+    #     await ctx.reply("You can't just do that!")
+    #     return
 
     hug_messages = \
     [
@@ -124,7 +124,97 @@ async def permahug(ctx, *, who: str = None):
     else:
         await ctx.reply(f"{user} gave themselves a permanent hug 🫂🥺")
 
-keep_alive.keep_alive()
+@bot.command()
+async def silly(ctx, *, who: str = None):
+    user = ctx.author.mention
+
+    target = who
+
+    if not who:
+        messages = \
+            [
+              "Bleh",
+              "Meow :3",
+              "Mrewwww :3",
+              "Nyaaaaa~",
+              "Nyon!",
+              "Ueueleuleuleue!"
+            ]
+    else:
+        messages = \
+            [
+              f"Ummmm {target}! {user} is purring at you ^w^",
+              f"Hehe {target}! {user} is meowing at you :3 ",
+              f"{user} is meowing at {target}! ~ ^w^ ~",
+              f"{target} is getting nuzzled by {user} ^^",
+              f"{user} is gently patting {target}'s head :3",
+              f"{target}! {user} tackles you with a hug :3"
+            ]
+
+    choice = random.choice(messages)
+
+    await ctx.reply(choice)
+
+@bot.command()
+async def deltarot(ctx):
+
+    messages = \
+        [
+            "JARONA!",
+            "Freedom’s just a penumbra phantasm for big shots with black knives about the world revolving around the hammer of justice sealed away with cutie mew mew magic at the pirate dojo in my castle town during the sunset of seven suns.",
+            "FREEDOM",
+            "FRIEND",
+            "GASTER",
+            "PENUMBRA PHANTASM",
+            "Friend inside me!",
+            "BIG SHOT",
+            "Papyrus is the roaring knight trust",
+            "Always bet on papyrus knight!",
+            "DECEMBER",
+            "Yeah... the WORLD is kinda REVOLVING...",
+            "Mike...",
+            "1997",
+            "1225",
+            "Rip Onion :'(",
+            "HERE I COME SANFRANDISCOOOOOOOO!",
+            "SUSTINGUS",
+            "Hey guys, I think I found a glue!",
+            "Mysterious wind",
+            "Hey i think this kinda took a weird route.",
+            "Human... I remember... You're genocides...",
+            "Hey undyne!\nHow many human souls do we need to break the barrier?",
+            f"CHAOS CHAOS!"
+        ]
+
+    choice = random.choice(messages)
+
+    if choice == "Hey undyne!\nHow many human souls do we need to break the barrier?":
+        file = fluxer.File("files/undyne-seven.webp")
+        await ctx.reply(choice, file=file)
+    else:
+        await ctx.reply(choice)
+
+@bot.command()
+async def gamble(ctx):
+
+    messages = ["Aww dang it!",
+                "I can't stop winning!"]
+
+    await ctx.reply(random.choice(messages))
+
+@bot.command()
+async def roll(ctx, finish: int = None, start: int = 1):
+
+    if finish:
+        if finish >= start:
+            random_number = random.randint(start, finish)
+            await ctx.reply(str(random_number))
+        elif finish < start:
+            await ctx.reply("Finishing number should be bigger then starting number.")
+    else:
+        await ctx.reply("Please enter a number")
+
+# keep_alive.keep_alive()
 
 # 4. Run the bot using your Fluxer token
 if __name__ == "__main__":
