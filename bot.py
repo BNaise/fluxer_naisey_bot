@@ -18,12 +18,27 @@ async def on_ready():
 # Commands
 @bot.command()
 async def naiseyhelp(ctx):
-    await ctx.reply("These are the commands you can use:\n\n"
-                    "!naiseyhelp # Sends this help message\n\n"
-                    "!hug (user) # Sends a hug to the mentioned user by you :3\n\n"
-                    "!permahug (user) # Sends a permanent hug to the mentioned user by you ^w^\n\n"
-                    "!praise (user) # Praises the mentioned user\n\n"
-                    "(That's it for right now, other commands will be added in the future enjoy! :3)")
+
+    embed = fluxer.Embed(
+        title="Naisey's commands",
+        description="Here's everything I can do right now :P",
+        color=0x52F0EF
+    )
+    embed.add_field(name="!naiseyhelp", value="Sends this help message", inline=False)
+    embed.add_field(name="!hug (user)", value="Sends a hug to the mentioned user by you :3", inline=False)
+    embed.add_field(name="!permahug (user)", value="Sends a permanent hug to the mentioned user by you ^w^", inline=False)
+    embed.add_field(name="!praise (user)", value="Praises the mentioned user", inline=False)
+
+    embed.set_footer(text="(That's it for right now, other commands will be added in the future enjoy! :3)")
+
+    # await ctx.reply("These are the commands you can use:\n\n"
+    #                 "!naiseyhelp # Sends this help message\n\n"
+    #                 "!hug (user) # Sends a hug to the mentioned user by you :3\n\n"
+    #                 "!permahug (user) # Sends a permanent hug to the mentioned user by you ^w^\n\n"
+    #                 "!praise (user) # Praises the mentioned user\n\n"
+    #                 "(That's it for right now, other commands will be added in the future enjoy! :3)")
+
+    await ctx.reply(embed=embed)
 
 @bot.command()
 async def hug(ctx, *, who: str = None):
@@ -213,6 +228,29 @@ async def roll(ctx, finish: int = None, start: int = 1):
             await ctx.reply("Finishing number should be bigger then starting number.")
     else:
         await ctx.reply("Please enter a number")
+
+@bot.command()
+async def kiss(ctx, *, who: str = None):
+    user = ctx.author.mention
+
+    target = who
+
+    hug_messages = \
+    [
+        f"{user} kissed {target}! They're so cute!",
+        f"OMG- GUYS- {user} JUST KISSED {target}!!!!",
+        f"{user} **VIOLENTLY** pulled {target} to them and **SMOOCHED** them on the **LIPS**, not letting **ANYONE ELSE** in",
+        f"Hehehehe, {user} gave {target} a little smooooch!"
+    ]
+
+    choice = random.choice(hug_messages)
+
+    if who == user:
+        await ctx.reply(f"{user} kissed themselves? ...how?")
+    elif who:
+        await ctx.reply(choice)
+    else:
+        await ctx.reply(f"{user} kissed themselves? ...how?")
 
 keep_alive.keep_alive()
 
