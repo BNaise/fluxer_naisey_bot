@@ -9,6 +9,9 @@ import keep_alive
 
 load_dotenv()
 
+debug = False
+# debug = True
+
 bot = fluxer.Bot(command_prefix="!", intents=fluxer.Intents.all())
 
 @bot.event
@@ -256,9 +259,13 @@ async def kiss(ctx, *, who: str = None):
     else:
         await ctx.reply(f"{user} kissed themselves? ...how?")
 
-keep_alive.keep_alive()
+if not debug:
+    keep_alive.keep_alive()
 
 # 4. Run the bot using your Fluxer token
 if __name__ == "__main__":
-    TOKEN = os.getenv('TOKEN')
+    if not debug:
+        TOKEN = os.getenv('TOKEN')
+    else:
+        TOKEN = os.getenv('TOKEN2')
     bot.run(TOKEN)
