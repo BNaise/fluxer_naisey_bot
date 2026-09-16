@@ -214,7 +214,7 @@ async def roll(ctx, finish: int = None, start: int = 1):
     else:
         await ctx.reply("Please enter a number")
 
-# keep_alive.keep_alive()
+keep_alive.keep_alive()
 
 # 4. Run the bot using your Fluxer token
 if __name__ == "__main__":
