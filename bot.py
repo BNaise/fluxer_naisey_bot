@@ -27,7 +27,11 @@ async def naiseyhelp(ctx):
     embed.add_field(name="!naiseyhelp", value="Sends this help message", inline=False)
     embed.add_field(name="!hug (user)", value="Sends a hug to the mentioned user by you :3", inline=False)
     embed.add_field(name="!permahug (user)", value="Sends a permanent hug to the mentioned user by you ^w^", inline=False)
-    embed.add_field(name="!praise (user)", value="Praises the mentioned user", inline=False)
+    embed.add_field(name="!kiss (user)", value="Kiss the mentioned user", inline=False)
+    embed.add_field(name="!silly (user (optional))", value="Silly :P", inline=False)
+    embed.add_field(name="!deltarot", value="Says Deltarots -_-", inline=False)
+    embed.add_field(name="!gamble", value="Let's go gambling!!", inline=False)
+    embed.add_field(name="!roll (Finishing number) (Starting number (Optional, Default is 1))", value="Praises the mentioned user", inline=False)
 
     embed.set_footer(text="(That's it for right now, other commands will be added in the future enjoy! :3)")
 
