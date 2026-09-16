@@ -31,7 +31,7 @@ async def naiseyhelp(ctx):
     embed.add_field(name="!silly (user (optional))", value="Silly :P", inline=False)
     embed.add_field(name="!deltarot", value="Says Deltarots -_-", inline=False)
     embed.add_field(name="!gamble", value="Let's go gambling!!", inline=False)
-    embed.add_field(name="!roll (Finishing number) (Starting number (Optional, Default is 1))", value="Praises the mentioned user", inline=False)
+    embed.add_field(name="!roll (Finishing number) (Starting number (Optional, Default is 1))", value="Rolls a random number between the Starting number and Finishing number.", inline=False)
 
     embed.set_footer(text="(That's it for right now, other commands will be added in the future enjoy! :3)")
 
