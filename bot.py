@@ -31,19 +31,13 @@ async def naiseyhelp(ctx):
     embed.add_field(name="!hug (user)", value="Sends a hug to the mentioned user by you :3", inline=False)
     embed.add_field(name="!permahug (user)", value="Sends a permanent hug to the mentioned user by you ^w^", inline=False)
     embed.add_field(name="!kiss (user)", value="Kiss the mentioned user", inline=False)
+    embed.add_field(name="!cheekkiss (user)", value="Kiss the mentioned user on the cheek :3", inline=False)
     embed.add_field(name="!silly (user (optional))", value="Silly :P", inline=False)
     embed.add_field(name="!deltarot", value="Says Deltarots -_-", inline=False)
     embed.add_field(name="!gamble", value="Let's go gambling!!", inline=False)
     embed.add_field(name="!roll (Finishing number) (Starting number (Optional, Default is 1))", value="Rolls a random number between the Starting number and Finishing number.", inline=False)
 
     embed.set_footer(text="(That's it for right now, other commands will be added in the future enjoy! :3)")
-
-    # await ctx.reply("These are the commands you can use:\n\n"
-    #                 "!naiseyhelp # Sends this help message\n\n"
-    #                 "!hug (user) # Sends a hug to the mentioned user by you :3\n\n"
-    #                 "!permahug (user) # Sends a permanent hug to the mentioned user by you ^w^\n\n"
-    #                 "!praise (user) # Praises the mentioned user\n\n"
-    #                 "(That's it for right now, other commands will be added in the future enjoy! :3)")
 
     await ctx.reply(embed=embed)
 
@@ -53,11 +47,11 @@ async def hug(ctx, *, who: str = None):
 
     target = who
 
-    # if who in ("@everyone", "@here"):
-    #     await ctx.reply("You can't just do that!")
-    #     return
+    if who in ("@everyone", "@here"):
+        await ctx.reply("You can't just do that!")
+        return
 
-    hug_messages = \
+    messages = \
     [
         f"{user} tightly hugs {target} 🫂",
         f"{target} got absolutely loved and hugged by {user} 🫂",
@@ -78,7 +72,7 @@ async def hug(ctx, *, who: str = None):
         f"{user} hugs {target}. No escape. 🫂"
     ]
 
-    choice = random.choice(hug_messages)
+    choice = random.choice(messages)
 
     if who == user:
         await ctx.reply(f"{user} gave themselves a hug 🫂🥺")
@@ -93,11 +87,11 @@ async def praise(ctx, *, who: str = None):
 
     target = who
 
-    # if who in ("@everyone", "@here"):
-    #     await ctx.reply("You can't just do that!")
-    #     return
+    if who in ("@everyone", "@here"):
+        await ctx.reply("You can't just do that!")
+        return
 
-    praise_messages = \
+    messages = \
         [
             f"Hehe ^^\n{target} is such a cutie! ^^",
             f"Awwwww :3\n{target} is soooo cute! :33 ",
@@ -109,7 +103,7 @@ async def praise(ctx, *, who: str = None):
             f"{target} is such a cutie patooti :3 ^~^"
         ]
 
-    choice = random.choice(praise_messages)
+    choice = random.choice(messages)
 
     if who == user:
         await ctx.reply("You can't just do that!")
@@ -124,11 +118,11 @@ async def permahug(ctx, *, who: str = None):
 
     target = who
 
-    # if who in ("@everyone", "@here"):
-    #     await ctx.reply("You can't just do that!")
-    #     return
+    if who in ("@everyone", "@here"):
+        await ctx.reply("You can't just do that!")
+        return
 
-    hug_messages = \
+    messages = \
     [
         f"{user} permanently hugs {target} 🫂",
         f"{user} hugs {target} permanently 🫂",
@@ -137,7 +131,7 @@ async def permahug(ctx, *, who: str = None):
         f"{user} has trapped {target} with an eternal hug 🫂"
     ]
 
-    choice = random.choice(hug_messages)
+    choice = random.choice(messages)
 
     if who == user:
         await ctx.reply(f"{user} gave themselves a permanent hug 🫂🥺")
@@ -151,6 +145,10 @@ async def silly(ctx, *, who: str = None):
     user = ctx.author.mention
 
     target = who
+
+    if who in ("@everyone", "@here"):
+        await ctx.reply("You can't just do that!")
+        return
 
     if not who:
         messages = \
@@ -242,7 +240,7 @@ async def kiss(ctx, *, who: str = None):
 
     target = who
 
-    hug_messages = \
+    messages = \
     [
         f"{user} kissed {target}! They're so cute!",
         f"OMG- GUYS- {user} JUST KISSED {target}!!!!",
@@ -250,7 +248,7 @@ async def kiss(ctx, *, who: str = None):
         f"Hehehehe, {user} gave {target} a little smooooch!"
     ]
 
-    choice = random.choice(hug_messages)
+    choice = random.choice(messages)
 
     if who == user:
         await ctx.reply(f"{user} kissed themselves? ...how?")
@@ -258,6 +256,35 @@ async def kiss(ctx, *, who: str = None):
         await ctx.reply(choice)
     else:
         await ctx.reply(f"{user} kissed themselves? ...how?")
+
+@bot.command()
+async def cheekkiss(ctx, *, who: str = None):
+    user = ctx.author.mention
+
+    target = who
+
+    if who in ("@everyone", "@here"):
+        await ctx.reply("You can't just do that!")
+        return
+
+    messages = \
+    [
+        f"{user} gave {target} a cute kiss on the cheek! Awwhh! :3",
+        f"{user} gave {target} a little cheek smooch! ^^",
+        f"{user} not so violently pulled {target} to them and pekced them on the cheek, letting everyone else in ^w^",
+        f"Hey guys, {user} gave {target} a little cheek smooch!!! :3",
+        f"Hehehe {user} is so cute, they just kissed {target} on the cheek ^^",
+        f"Hehehe- {user} gave {target} a peck on the cheek!!!! :3"
+    ]
+
+    choice = random.choice(messages)
+
+    if who == user:
+        await ctx.reply(f"{user} kissed themselves on the cheek? ...how?")
+    elif who:
+        await ctx.reply(choice)
+    else:
+        await ctx.reply(f"{user} kissed themselves on the cheek? ...how?")
 
 if not debug:
     keep_alive.keep_alive()
