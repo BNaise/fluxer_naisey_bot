@@ -1,5 +1,7 @@
 import os
 import random
+import re
+import math
 
 import fluxer
 
@@ -13,6 +15,74 @@ debug = False
 # debug = True
 
 bot = fluxer.Bot(command_prefix="!", intents=fluxer.Intents.all())
+
+def calculate(expr):
+    if expr.strip().lower() == "list":
+        return "\n".join([
+            "+  -  *  /  x  ^",
+            "sqrt(x)",
+            "sin(x)  cos(x)  tan(x)          [radians]",
+            "asin(x) acos(x) atan(x)         [radians]",
+            "sind(x) cosd(x) tand(x)         [degrees]",
+            "asind(x) acosd(x) atand(x)      [degrees]",
+            "sinh(x) cosh(x) tanh(x)",
+            "log(x) log(x, base) log10(x) log2(x)",
+            "exp(x)",
+            "abs(x)",
+            "factorial(x)",
+            "round(x) round(x, n)",
+            "floor(x) ceil(x)",
+            "gcd(a, b) lcm(a, b)",
+            "hypot(a, b)",
+            "mod(a, b)",
+            "min(a, b, ...) max(a, b, ...)",
+            "deg(x) rad(x)",
+            "pi  e",
+        ])
+    expr = expr.replace('x', '*').replace('X', '*').replace('^', '**')
+    if not re.fullmatch(r'[\d+\-*/().\s^a-zA-Z,]+', expr):
+        raise ValueError("Invalid characters in expression")
+    allowed_names = {
+        "sqrt": math.sqrt,
+        # radians (standard)
+        "sin": math.sin,
+        "cos": math.cos,
+        "tan": math.tan,
+        "asin": math.asin,
+        "acos": math.acos,
+        "atan": math.atan,
+        # degrees
+        "sind": lambda x: math.sin(math.radians(x)),
+        "cosd": lambda x: math.cos(math.radians(x)),
+        "tand": lambda x: math.tan(math.radians(x)),
+        "asind": lambda x: math.degrees(math.asin(x)),
+        "acosd": lambda x: math.degrees(math.acos(x)),
+        "atand": lambda x: math.degrees(math.atan(x)),
+        # hyperbolic
+        "sinh": math.sinh,
+        "cosh": math.cosh,
+        "tanh": math.tanh,
+        "log": math.log,
+        "log10": math.log10,
+        "log2": math.log2,
+        "exp": math.exp,
+        "pi": math.pi,
+        "e": math.e,
+        "abs": abs,
+        "factorial": math.factorial,
+        "round": round,
+        "floor": math.floor,
+        "ceil": math.ceil,
+        "gcd": math.gcd,
+        "lcm": math.lcm,
+        "hypot": math.hypot,
+        "mod": lambda a, b: a % b,
+        "min": min,
+        "max": max,
+        "deg": math.degrees,
+        "rad": math.radians,
+    }
+    return eval(expr, {"__builtins__": {}}, allowed_names)
 
 @bot.event
 async def on_ready():
@@ -36,6 +106,7 @@ async def naiseyhelp(ctx):
     embed.add_field(name="!deltarot", value="Says Deltarots -_-", inline=False)
     embed.add_field(name="!gamble", value="Let's go gambling!!", inline=False)
     embed.add_field(name="!roll (Finishing number) (Starting number (Optional, Default is 1))", value="Rolls a random number between the Starting number and Finishing number.", inline=False)
+    embed.add_field(name="!calc (equation)", value="Calculator! (type \"list\" as an equation to get a list of functions)", inline=False)
 
     embed.set_footer(text="(That's it for right now, other commands will be added in the future enjoy! :3)")
 
@@ -285,6 +356,15 @@ async def cheekkiss(ctx, *, who: str = None):
         await ctx.reply(choice)
     else:
         await ctx.reply(f"{user} kissed themselves on the cheek? ...how?")
+
+@bot.command()
+async def calc(ctx, *, equation: str):
+
+    try:
+      await ctx.reply(f"{equation} =\n{calculate(equation)}")
+
+    except Exception as e:
+      await ctx.reply(f"Error: {e}")
 
 if not debug:
     keep_alive.keep_alive()
