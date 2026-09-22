@@ -388,7 +388,7 @@ async def flowery(ctx, *, filename: str = None):
     if filename and filename.lower() == "list":
         embed = fluxer.Embed(
             title="Flowery clips",
-            description="\n".join(f"- {f}" for f in files),
+            description="\n".join(f"- {f}" for f in sorted(files)),
             color=0x52F0EF,
         )
         await ctx.reply(embed=embed)
