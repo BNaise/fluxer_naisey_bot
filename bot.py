@@ -295,12 +295,12 @@ async def calc(ctx, *, equation: str):
         await ctx.reply(f"{equation} =\n21")
     elif equation == "9 + 10":
         await ctx.reply(f"{equation} =\n21")
+    else:
+        try:
+          await ctx.reply(f"{equation} =\n{funcs.calculate(equation)}")
 
-    try:
-      await ctx.reply(f"{equation} =\n{funcs.calculate(equation)}")
-
-    except Exception as e:
-      await ctx.reply(f"Error: {e}")
+        except Exception as e:
+          await ctx.reply(f"Error: {e}")
 
 @bot.command()
 async def pet(ctx, *, args: str = None):
