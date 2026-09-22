@@ -5,7 +5,7 @@ import math
 import io
 
 import aiohttp
-import petpet
+from petpetgif import petpet
 
 import fluxer
 
