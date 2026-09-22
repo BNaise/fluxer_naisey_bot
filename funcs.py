@@ -6,7 +6,6 @@ import cmath
 import re
 import os
 import psycopg2
-import bot as beep
 
 from petpetgif_fix import petpet
 from PIL import Image
@@ -72,7 +71,7 @@ def get_bot_prefix(bot, message):
 
     return get_prefix(message.guild.id)
 
-if not beep.debug:
+def init_db_start():
     init_db()
 
 def make_pet_gif(source, dest, speed_ms=20):

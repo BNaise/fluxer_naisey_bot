@@ -19,6 +19,9 @@ debug = False
 # debug = True
 
 if not debug:
+    funcs.init_db_start()
+
+if not debug:
     bot = fluxer.Bot(command_prefix=funcs.get_bot_prefix, intents=fluxer.Intents.all())
 else:
     bot = fluxer.Bot(command_prefix="!", intents=fluxer.Intents.all())
