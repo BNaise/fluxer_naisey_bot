@@ -302,9 +302,9 @@ async def calc(ctx, *, equation: str):
     bruh = ""
     result = funcs.calculate(equation)
 
-    if result == "67":
+    if result == 67:
         bruh = " (Seriously bruh? -_-)"
-    elif result == "69":
+    elif result == 69:
         bruh = " (Seriously bruh? -_-)"
 
     if equation == "9+10":
