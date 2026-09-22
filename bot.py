@@ -291,6 +291,10 @@ async def cheekkiss(ctx, *, who: str = None):
 
 @bot.command()
 async def calc(ctx, *, equation: str):
+    if equation == "9+10":
+        await ctx.reply(f"{equation} =\n21")
+    elif equation == "9 + 10":
+        await ctx.reply(f"{equation} =\n21")
 
     try:
       await ctx.reply(f"{equation} =\n{funcs.calculate(equation)}")
