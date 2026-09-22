@@ -313,7 +313,7 @@ async def calc(ctx, *, equation: str):
         await ctx.reply(f"{equation} =\n21")
     else:
         try:
-          await ctx.reply(f"{equation} =\n{result + bruh}")
+          await ctx.reply(f"{equation} =\n{result}{bruh}")
 
         except Exception as e:
           await ctx.reply(f"Error: {e}")
