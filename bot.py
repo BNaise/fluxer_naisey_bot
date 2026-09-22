@@ -6,6 +6,7 @@ import io
 
 import aiohttp
 from petpetgif_fix import petpet
+from PIL import Image
 
 import fluxer
 
@@ -15,8 +16,8 @@ import keep_alive
 
 load_dotenv()
 
-debug = False
-# debug = True
+# debug = False
+debug = True
 
 bot = fluxer.Bot(command_prefix="!", intents=fluxer.Intents.all())
 
@@ -111,6 +112,7 @@ async def naiseyhelp(ctx):
     embed.add_field(name="!gamble", value="Let's go gambling!!", inline=False)
     embed.add_field(name="!roll (Finishing number) (Starting number (Optional, Default is 1))", value="Rolls a random number between the Starting number and Finishing number.", inline=False)
     embed.add_field(name="!calc (equation)", value="Calculator! (type \"list\" as an equation to get a list of functions)", inline=False)
+    embed.add_field(name="!pet (user) (speed (the higher the number the slower the speed, default is 30))", value="Pets a user :3", inline=False)
 
     embed.set_footer(text="(That's it for right now, other commands will be added in the future enjoy! :3)")
 
@@ -370,8 +372,37 @@ async def calc(ctx, *, equation: str):
     except Exception as e:
       await ctx.reply(f"Error: {e}")
 
+def make_pet_gif(source, dest, speed_ms=20):
+    temp = io.BytesIO()
+    petpet.make(source, temp)
+    temp.seek(0)
+
+    img = Image.open(temp)
+    frames = []
+    try:
+        while True:
+            frames.append(img.copy())
+            img.seek(img.tell() + 1)
+    except EOFError:
+        pass
+
+    frames[0].save(
+        dest, format="GIF", save_all=True,
+        append_images=frames[1:], duration=speed_ms, loop=0,disposal=2,
+    )
+
 @bot.command()
-async def pet(ctx, *, who: str = None):
+async def pet(ctx, *, args: str = None):
+    speed_ms = 30
+    text = args
+
+    if args:
+        parts = args.rsplit(" ", 1)
+        if len(parts) == 2 and parts[1].isdigit():
+            text, speed_ms = parts[0], int(parts[1])
+        elif args.isdigit():
+            text, speed_ms = None, int(args)
+
     if ctx.mentions:
         target = ctx.mentions[0]
     else:
@@ -382,7 +413,7 @@ async def pet(ctx, *, who: str = None):
             avatar_bytes = io.BytesIO(await resp.read())
 
     gif_bytes = io.BytesIO()
-    petpet.make(source=avatar_bytes, dest=gif_bytes)
+    make_pet_gif(avatar_bytes, gif_bytes, speed_ms=speed_ms)
     gif_bytes.seek(0)
 
     await ctx.reply(file=fluxer.File(gif_bytes, filename="pet.gif"))
