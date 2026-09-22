@@ -341,8 +341,8 @@ async def avatar(ctx, *, who: str = None):
     embed.set_image(url=target.avatar_url)
     await ctx.reply(embed=embed)
 
-# debug = False
-debug = True
+debug = False
+# debug = True
 
 if not debug:
     funcs.keep_alive()
