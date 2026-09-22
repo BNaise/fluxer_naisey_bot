@@ -15,7 +15,13 @@ load_dotenv()
 
 DATABASE_URL = os.getenv("DATABASE_URL")
 
-bot = fluxer.Bot(command_prefix=funcs.get_bot_prefix, intents=fluxer.Intents.all())
+debug = False
+# debug = True
+
+if not debug:
+    bot = fluxer.Bot(command_prefix=funcs.get_bot_prefix, intents=fluxer.Intents.all())
+else:
+    bot = fluxer.Bot(command_prefix="!", intents=fluxer.Intents.all())
 
 @bot.event
 async def on_ready():
@@ -37,14 +43,14 @@ async def naiseyhelp(ctx):
     embed.add_field(name=f"{prefux}permahug (user)", value="Sends a permanent hug to the mentioned user by you ^w^", inline=False)
     embed.add_field(name=f"{prefux}kiss (user)", value="Kiss the mentioned user", inline=False)
     embed.add_field(name=f"{prefux}cheekkiss (user)", value="Kiss the mentioned user on the cheek :3", inline=False)
-    embed.add_field(name=f"{prefux}silly (user (optional))", value="Silly :P", inline=False)
+    embed.add_field(name=f"{prefux}silly (user [optional])", value="Silly :P", inline=False)
     embed.add_field(name=f"{prefux}deltarot", value="Says Deltarots -_-", inline=False)
     embed.add_field(name=f"{prefux}gamble", value="Let's go gambling!!", inline=False)
-    embed.add_field(name=f"{prefux}roll (Finishing number) (Starting number (Optional, Default is 1))", value="Rolls a random number between the Starting number and Finishing number.", inline=False)
+    embed.add_field(name=f"{prefux}roll (Finishing number) (Starting number [Optional, Default is 1])", value="Rolls a random number between the Starting number and Finishing number.", inline=False)
     embed.add_field(name=f"{prefux}calc (equation)", value="Calculator! (type \"list\" as an equation to get a list of functions)", inline=False)
     embed.add_field(name=f"{prefux}avatar (user)", value="Get a user's avatar.", inline=False)
     embed.add_field(name=f"{prefux}pet (user) (speed (the higher the number the slower the speed, default is 30))", value="Pets a user :3 (Warning: It takes some time to output the gif so be patient and don't overload it)", inline=False)
-    embed.add_field(name=f"{prefux}flowery", value="Flowery :3", inline=False)
+    embed.add_field(name=f"{prefux}flowery (file name [optional])", value="Flowery :3", inline=False)
     embed.add_field(name=f"{prefux}prefixset (prefix)", value="Set the bots prefix (Admin only)", inline=False)
 
     embed.set_footer(text="(That's it for right now, other commands will be added in the future enjoy! :3)")
@@ -367,13 +373,39 @@ async def avatar(ctx, *, who: str = None):
 flowery_folder = "files/audio/flowery_voice_clips/"
 
 @bot.command()
-async def flowery(ctx):
+async def flowery(ctx, *, filename: str = None):
     files = os.listdir(flowery_folder)
+    if not files:
+        await ctx.reply("No files in the folder!")
+        return
 
-    choice = random.choice(files)
+    if filename and filename.lower() == "list":
+        embed = fluxer.Embed(
+            title="Flowery clips",
+            description="\n".join(f"- {f}" for f in files),
+            color=0x52F0EF,
+        )
+        await ctx.reply(embed=embed)
+        return
+
+    if filename:
+        search = filename.lower()
+        matches = [
+            f for f in files
+            if f.lower() == search or os.path.splitext(f)[0].lower() == search
+        ]
+
+        if not matches:
+            await ctx.reply(f"Couldn't find `{filename}` in the folder.")
+            return
+
+        choice = matches[0]
+    else:
+        choice = random.choice(files)
+
     path = os.path.join(flowery_folder, choice)
 
-    status = await ctx.reply("Uploading...")
+    status = await ctx.reply("uploading... 🌸")
 
     await ctx.reply(file=fluxer.File(path, filename=choice))
     await status.delete()
@@ -407,10 +439,6 @@ async def prefixset(ctx, new_prefix: str = None):
     funcs.set_prefix(ctx.guild.id, new_prefix)
 
     await ctx.reply(f"Prefix changed to: `{new_prefix}`")
-
-debug = False
-# debug = True
-
 
 if not debug:
     funcs.keep_alive()
