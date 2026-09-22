@@ -16,9 +16,6 @@ import keep_alive
 
 load_dotenv()
 
-debug = False
-# debug = True
-
 bot = fluxer.Bot(command_prefix="!", intents=fluxer.Intents.all())
 
 def calculate(expr):
@@ -112,6 +109,7 @@ async def naiseyhelp(ctx):
     embed.add_field(name="!gamble", value="Let's go gambling!!", inline=False)
     embed.add_field(name="!roll (Finishing number) (Starting number (Optional, Default is 1))", value="Rolls a random number between the Starting number and Finishing number.", inline=False)
     embed.add_field(name="!calc (equation)", value="Calculator! (type \"list\" as an equation to get a list of functions)", inline=False)
+    embed.add_field(name="!avatar (user)", value="Get a user's avatar.", inline=False)
     embed.add_field(name="!pet (user) (speed (the higher the number the slower the speed, default is 30))", value="Pets a user :3 (Warning: It takes some time to output the gif so be patient and don't overload it)", inline=False)
 
     embed.set_footer(text="(That's it for right now, other commands will be added in the future enjoy! :3)")
@@ -396,6 +394,8 @@ async def pet(ctx, *, args: str = None):
     speed_ms = 30
     text = args
 
+    user = ctx.author.mention
+
     if args:
         parts = args.rsplit(" ", 1)
         if len(parts) == 2 and parts[1].isdigit():
@@ -416,7 +416,7 @@ async def pet(ctx, *, args: str = None):
     make_pet_gif(avatar_bytes, gif_bytes, speed_ms=speed_ms)
     gif_bytes.seek(0)
 
-    await ctx.reply(file=fluxer.File(gif_bytes, filename="pet.gif"))
+    await ctx.reply(f"{user} has pet {target.mention} :3", file=fluxer.File(gif_bytes, filename="pet.gif"))
 
 @bot.command()
 async def avatar(ctx, *, who: str = None):
@@ -431,6 +431,9 @@ async def avatar(ctx, *, who: str = None):
     )
     embed.set_image(url=target.avatar_url)
     await ctx.reply(embed=embed)
+
+debug = False
+# debug = True
 
 if not debug:
     keep_alive.keep_alive()
