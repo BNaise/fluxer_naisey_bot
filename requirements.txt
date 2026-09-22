@@ -4,3 +4,4 @@ flask
 pet-pet-gif-fix
 aiohttp
 pillow
+psycopg2-binary

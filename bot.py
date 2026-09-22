@@ -1,6 +1,7 @@
 import os
 import random
 import io
+import psycopg2
 
 import aiohttp
 
@@ -12,7 +13,9 @@ import funcs
 
 load_dotenv()
 
-bot = fluxer.Bot(command_prefix=funcs.get_prefix, intents=fluxer.Intents.all())
+DATABASE_URL = os.getenv("DATABASE_URL")
+
+bot = fluxer.Bot(command_prefix=funcs.get_bot_prefix, intents=fluxer.Intents.all())
 
 @bot.event
 async def on_ready():
@@ -388,11 +391,11 @@ async def setprefix(ctx, new_prefix: str = None):
         return
 
     if not new_prefix:
-        await ctx.reply(f"Current prefix is: `{funcs.prefixes.get(str(ctx.guild.id), funcs.DEFAULT_PREFIX)}`")
+        current_prefix = funcs.get_prefix(ctx.guild.id)
+        await ctx.reply(f"Current prefix is: `{current_prefix}`")
         return
 
-    funcs.prefixes[str(ctx.guild.id)] = new_prefix
-    funcs.save_prefixes(funcs.prefixes)
+    funcs.set_prefix(ctx.guild.id, new_prefix)
 
     await ctx.reply(f"Prefix changed to: `{new_prefix}`")
 

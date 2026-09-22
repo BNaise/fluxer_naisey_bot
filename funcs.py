@@ -5,30 +5,74 @@ import math
 import cmath
 import re
 import os
-import json
+import psycopg2
 
 from petpetgif_fix import petpet
 from PIL import Image
 
-PREFIX_FILE = "prefixes.json"
 DEFAULT_PREFIX = "!"
 
-def load_prefixes():
-    if os.path.exists(PREFIX_FILE):
-        with open(PREFIX_FILE, "r") as f:
-            return json.load(f)
-    return {}
+def get_connection():
+    return psycopg2.connect(os.getenv("DATABASE_URL"))
 
-def save_prefixes(prefixes):
-    with open(PREFIX_FILE, "w") as f:
-        json.dump(prefixes, f)
 
-prefixes = load_prefixes()
+def init_db():
+    conn = get_connection()
+    cursor = conn.cursor()
 
-def get_prefix(bot, message):
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS prefixes (
+            server_id TEXT PRIMARY KEY,
+            prefix TEXT NOT NULL
+        )
+    """)
+
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+
+def get_prefix(server_id):
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute(
+        "SELECT prefix FROM prefixes WHERE server_id = %s",
+        (str(server_id),)
+    )
+
+    result = cursor.fetchone()
+
+    cursor.close()
+    conn.close()
+
+    return result[0] if result else DEFAULT_PREFIX
+
+
+def set_prefix(server_id, prefix):
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        INSERT INTO prefixes (server_id, prefix)
+        VALUES (%s, %s)
+        ON CONFLICT (server_id)
+        DO UPDATE SET prefix = EXCLUDED.prefix
+    """, (str(server_id), prefix))
+
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+
+def get_bot_prefix(bot, message):
     if message.guild is None:
         return DEFAULT_PREFIX
-    return prefixes.get(str(message.guild.id), DEFAULT_PREFIX)
+
+    return get_prefix(message.guild.id)
+
+
+init_db()
 
 def make_pet_gif(source, dest, speed_ms=20):
     temp = io.BytesIO()
