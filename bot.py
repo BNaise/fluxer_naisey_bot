@@ -2,6 +2,10 @@ import os
 import random
 import re
 import math
+import io
+
+import aiohttp
+import petpet
 
 import fluxer
 
@@ -365,6 +369,23 @@ async def calc(ctx, *, equation: str):
 
     except Exception as e:
       await ctx.reply(f"Error: {e}")
+
+@bot.command()
+async def pet(ctx, *, who: str = None):
+    if ctx.mentions:
+        target = ctx.mentions[0]
+    else:
+        target = ctx.author
+
+    async with aiohttp.ClientSession() as session:
+        async with session.get(target.avatar_url) as resp:
+            avatar_bytes = io.BytesIO(await resp.read())
+
+    gif_bytes = io.BytesIO()
+    petpet.make(source=avatar_bytes, dest=gif_bytes)
+    gif_bytes.seek(0)
+
+    await ctx.reply(file=fluxer.File(gif_bytes, filename="pet.gif"))
 
 if not debug:
     keep_alive.keep_alive()
