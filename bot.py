@@ -12,7 +12,7 @@ import funcs
 
 load_dotenv()
 
-bot = fluxer.Bot(command_prefix="!", intents=fluxer.Intents.all())
+bot = fluxer.Bot(command_prefix=funcs.get_prefix, intents=fluxer.Intents.all())
 
 @bot.event
 async def on_ready():
@@ -22,23 +22,27 @@ async def on_ready():
 @bot.command()
 async def naiseyhelp(ctx):
 
+    prefux = funcs.prefixes.get(str(ctx.guild.id), funcs.DEFAULT_PREFIX)
+
     embed = fluxer.Embed(
         title="Naisey's commands",
         description="Here's everything I can do right now :P",
         color=0x52F0EF
     )
-    embed.add_field(name="!naiseyhelp", value="Sends this help message", inline=False)
-    embed.add_field(name="!hug (user)", value="Sends a hug to the mentioned user by you :3", inline=False)
-    embed.add_field(name="!permahug (user)", value="Sends a permanent hug to the mentioned user by you ^w^", inline=False)
-    embed.add_field(name="!kiss (user)", value="Kiss the mentioned user", inline=False)
-    embed.add_field(name="!cheekkiss (user)", value="Kiss the mentioned user on the cheek :3", inline=False)
-    embed.add_field(name="!silly (user (optional))", value="Silly :P", inline=False)
-    embed.add_field(name="!deltarot", value="Says Deltarots -_-", inline=False)
-    embed.add_field(name="!gamble", value="Let's go gambling!!", inline=False)
-    embed.add_field(name="!roll (Finishing number) (Starting number (Optional, Default is 1))", value="Rolls a random number between the Starting number and Finishing number.", inline=False)
-    embed.add_field(name="!calc (equation)", value="Calculator! (type \"list\" as an equation to get a list of functions)", inline=False)
-    embed.add_field(name="!avatar (user)", value="Get a user's avatar.", inline=False)
-    embed.add_field(name="!pet (user) (speed (the higher the number the slower the speed, default is 30))", value="Pets a user :3 (Warning: It takes some time to output the gif so be patient and don't overload it)", inline=False)
+    embed.add_field(name=f"{prefux}naiseyhelp", value="Sends this help message", inline=False)
+    embed.add_field(name=f"{prefux}hug (user)", value="Sends a hug to the mentioned user by you :3", inline=False)
+    embed.add_field(name=f"{prefux}permahug (user)", value="Sends a permanent hug to the mentioned user by you ^w^", inline=False)
+    embed.add_field(name=f"{prefux}kiss (user)", value="Kiss the mentioned user", inline=False)
+    embed.add_field(name=f"{prefux}cheekkiss (user)", value="Kiss the mentioned user on the cheek :3", inline=False)
+    embed.add_field(name=f"{prefux}silly (user (optional))", value="Silly :P", inline=False)
+    embed.add_field(name=f"{prefux}deltarot", value="Says Deltarots -_-", inline=False)
+    embed.add_field(name=f"{prefux}gamble", value="Let's go gambling!!", inline=False)
+    embed.add_field(name=f"{prefux}roll (Finishing number) (Starting number (Optional, Default is 1))", value="Rolls a random number between the Starting number and Finishing number.", inline=False)
+    embed.add_field(name=f"{prefux}calc (equation)", value="Calculator! (type \"list\" as an equation to get a list of functions)", inline=False)
+    embed.add_field(name=f"{prefux}avatar (user)", value="Get a user's avatar.", inline=False)
+    embed.add_field(name=f"{prefux}pet (user) (speed (the higher the number the slower the speed, default is 30))", value="Pets a user :3 (Warning: It takes some time to output the gif so be patient and don't overload it)", inline=False)
+    embed.add_field(name=f"{prefux}flowery", value="Flowery :3", inline=False)
+    embed.add_field(name=f"{prefux}setprefix (prefix)", value="Set the bots prefix (Admin only)", inline=False)
 
     embed.set_footer(text="(That's it for right now, other commands will be added in the future enjoy! :3)")
 
@@ -359,8 +363,38 @@ async def flowery(ctx):
 
     status = await ctx.reply("Uploading...")
 
-    await ctx.send(file=fluxer.File(path, filename=choice))
+    await ctx.reply(file=fluxer.File(path, filename=choice))
     await status.delete()
+
+@bot.command()
+async def setprefix(ctx, new_prefix: str = None):
+    if ctx.guild is None:
+        await ctx.reply("This only works in a server, not DMs.")
+        return
+
+    ADMINISTRATOR = 0x8
+
+    member = await ctx.guild.fetch_member(ctx.author.id)
+    roles = await ctx.guild.fetch_roles()
+
+    is_admin = any(
+        (role.permissions & ADMINISTRATOR) == ADMINISTRATOR
+        for role in roles
+        if role.id in member.roles
+    )
+
+    if not is_admin:
+        await ctx.reply("You need to be an admin to change the prefix.")
+        return
+
+    if not new_prefix:
+        await ctx.reply(f"Current prefix is: `{funcs.prefixes.get(str(ctx.guild.id), funcs.DEFAULT_PREFIX)}`")
+        return
+
+    funcs.prefixes[str(ctx.guild.id)] = new_prefix
+    funcs.save_prefixes(funcs.prefixes)
+
+    await ctx.reply(f"Prefix changed to: `{new_prefix}`")
 
 debug = False
 # debug = True

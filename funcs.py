@@ -4,9 +4,31 @@ import io
 import math
 import cmath
 import re
+import os
+import json
 
 from petpetgif_fix import petpet
 from PIL import Image
+
+PREFIX_FILE = "prefixes.json"
+DEFAULT_PREFIX = "!"
+
+def load_prefixes():
+    if os.path.exists(PREFIX_FILE):
+        with open(PREFIX_FILE, "r") as f:
+            return json.load(f)
+    return {}
+
+def save_prefixes(prefixes):
+    with open(PREFIX_FILE, "w") as f:
+        json.dump(prefixes, f)
+
+prefixes = load_prefixes()
+
+def get_prefix(bot, message):
+    if message.guild is None:
+        return DEFAULT_PREFIX
+    return prefixes.get(str(message.guild.id), DEFAULT_PREFIX)
 
 def make_pet_gif(source, dest, speed_ms=20):
     temp = io.BytesIO()
