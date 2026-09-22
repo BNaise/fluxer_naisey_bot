@@ -25,7 +25,7 @@ async def on_ready():
 @bot.command()
 async def naiseyhelp(ctx):
 
-    prefux = funcs.prefixes.get(str(ctx.guild.id), funcs.DEFAULT_PREFIX)
+    prefux = funcs.get_prefix(ctx.guild.id)
 
     embed = fluxer.Embed(
         title="Naisey's commands",
