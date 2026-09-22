@@ -1,90 +1,18 @@
 import os
 import random
-import re
-import math
 import io
 
 import aiohttp
-from petpetgif_fix import petpet
-from PIL import Image
 
 import fluxer
 
 from dotenv import load_dotenv
 
-import keep_alive
+import funcs
 
 load_dotenv()
 
 bot = fluxer.Bot(command_prefix="!", intents=fluxer.Intents.all())
-
-def calculate(expr):
-    if expr.strip().lower() == "list":
-        return "\n".join([
-            "+  -  *  /  x  ^",
-            "sqrt(x)",
-            "sin(x)  cos(x)  tan(x)          [radians]",
-            "asin(x) acos(x) atan(x)         [radians]",
-            "sind(x) cosd(x) tand(x)         [degrees]",
-            "asind(x) acosd(x) atand(x)      [degrees]",
-            "sinh(x) cosh(x) tanh(x)",
-            "log(x) log(x, base) log10(x) log2(x)",
-            "exp(x)",
-            "abs(x)",
-            "factorial(x)",
-            "round(x) round(x, n)",
-            "floor(x) ceil(x)",
-            "gcd(a, b) lcm(a, b)",
-            "hypot(a, b)",
-            "mod(a, b)",
-            "min(a, b, ...) max(a, b, ...)",
-            "deg(x) rad(x)",
-            "pi  e",
-        ])
-    expr = expr.replace('x', '*').replace('X', '*').replace('^', '**')
-    if not re.fullmatch(r'[\d+\-*/().\s^a-zA-Z,]+', expr):
-        raise ValueError("Invalid characters in expression")
-    allowed_names = {
-        "sqrt": math.sqrt,
-        # radians (standard)
-        "sin": math.sin,
-        "cos": math.cos,
-        "tan": math.tan,
-        "asin": math.asin,
-        "acos": math.acos,
-        "atan": math.atan,
-        # degrees
-        "sind": lambda x: math.sin(math.radians(x)),
-        "cosd": lambda x: math.cos(math.radians(x)),
-        "tand": lambda x: math.tan(math.radians(x)),
-        "asind": lambda x: math.degrees(math.asin(x)),
-        "acosd": lambda x: math.degrees(math.acos(x)),
-        "atand": lambda x: math.degrees(math.atan(x)),
-        # hyperbolic
-        "sinh": math.sinh,
-        "cosh": math.cosh,
-        "tanh": math.tanh,
-        "log": math.log,
-        "log10": math.log10,
-        "log2": math.log2,
-        "exp": math.exp,
-        "pi": math.pi,
-        "e": math.e,
-        "abs": abs,
-        "factorial": math.factorial,
-        "round": round,
-        "floor": math.floor,
-        "ceil": math.ceil,
-        "gcd": math.gcd,
-        "lcm": math.lcm,
-        "hypot": math.hypot,
-        "mod": lambda a, b: a % b,
-        "min": min,
-        "max": max,
-        "deg": math.degrees,
-        "rad": math.radians,
-    }
-    return eval(expr, {"__builtins__": {}}, allowed_names)
 
 @bot.event
 async def on_ready():
@@ -365,29 +293,10 @@ async def cheekkiss(ctx, *, who: str = None):
 async def calc(ctx, *, equation: str):
 
     try:
-      await ctx.reply(f"{equation} =\n{calculate(equation)}")
+      await ctx.reply(f"{equation} =\n{funcs.calculate(equation)}")
 
     except Exception as e:
       await ctx.reply(f"Error: {e}")
-
-def make_pet_gif(source, dest, speed_ms=20):
-    temp = io.BytesIO()
-    petpet.make(source, temp)
-    temp.seek(0)
-
-    img = Image.open(temp)
-    frames = []
-    try:
-        while True:
-            frames.append(img.copy())
-            img.seek(img.tell() + 1)
-    except EOFError:
-        pass
-
-    frames[0].save(
-        dest, format="GIF", save_all=True,
-        append_images=frames[1:], duration=speed_ms, loop=0,disposal=2,
-    )
 
 @bot.command()
 async def pet(ctx, *, args: str = None):
@@ -413,7 +322,7 @@ async def pet(ctx, *, args: str = None):
             avatar_bytes = io.BytesIO(await resp.read())
 
     gif_bytes = io.BytesIO()
-    make_pet_gif(avatar_bytes, gif_bytes, speed_ms=speed_ms)
+    funcs.make_pet_gif(avatar_bytes, gif_bytes, speed_ms=speed_ms)
     gif_bytes.seek(0)
 
     await ctx.reply(f"{user} has pet {target.mention} :3", file=fluxer.File(gif_bytes, filename="pet.gif"))
@@ -432,11 +341,11 @@ async def avatar(ctx, *, who: str = None):
     embed.set_image(url=target.avatar_url)
     await ctx.reply(embed=embed)
 
-debug = False
-# debug = True
+# debug = False
+debug = True
 
 if not debug:
-    keep_alive.keep_alive()
+    funcs.keep_alive()
 
 # 4. Run the bot using your Fluxer token
 if __name__ == "__main__":

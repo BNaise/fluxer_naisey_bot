@@ -1,0 +1,110 @@
+from flask import Flask
+from threading import Thread
+import io
+import math
+import cmath
+import re
+
+from petpetgif_fix import petpet
+from PIL import Image
+
+def make_pet_gif(source, dest, speed_ms=20):
+    temp = io.BytesIO()
+    petpet.make(source, temp)
+    temp.seek(0)
+
+    img = Image.open(temp)
+    frames = []
+    try:
+        while True:
+            frames.append(img.copy())
+            img.seek(img.tell() + 1)
+    except EOFError:
+        pass
+
+    frames[0].save(
+        dest, format="GIF", save_all=True,
+        append_images=frames[1:], duration=speed_ms, loop=0,disposal=2,
+    )
+
+def calculate(expr):
+    if expr.strip().lower() == "list":
+        return "\n".join([
+            "+  -  *  /  x  ^",
+            "sqrt(x)",
+            "sin(x)  cos(x)  tan(x)          [radians]",
+            "asin(x) acos(x) atan(x)         [radians]",
+            "sind(x) cosd(x) tand(x)         [degrees]",
+            "asind(x) acosd(x) atand(x)      [degrees]",
+            "sinh(x) cosh(x) tanh(x)",
+            "log(x) log(x, base) log10(x) log2(x)",
+            "exp(x)",
+            "abs(x)",
+            "factorial(x)",
+            "round(x) round(x, n)",
+            "floor(x) ceil(x)",
+            "gcd(a, b) lcm(a, b)",
+            "hypot(a, b)",
+            "mod(a, b)",
+            "min(a, b, ...) max(a, b, ...)",
+            "deg(x) rad(x)",
+            "pi  e  i",
+        ])
+    expr = expr.replace('x', '*').replace('X', '*').replace('^', '**')
+    if not re.fullmatch(r'[\d+\-*/().\s^a-zA-Z,]+', expr):
+        raise ValueError("Invalid characters in expression")
+    allowed_names = {
+        "sqrt": cmath.sqrt,
+        # radians (standard)
+        "sin": cmath.sin,
+        "cos": cmath.cos,
+        "tan": cmath.tan,
+        "asin": cmath.asin,
+        "acos": cmath.acos,
+        "atan": cmath.atan,
+        # degrees
+        "sind": lambda x: cmath.sin(x * cmath.pi / 180),
+        "cosd": lambda x: cmath.cos(x * cmath.pi / 180),
+        "tand": lambda x: cmath.tan(x * cmath.pi / 180),
+        "asind": lambda x: cmath.asin(x) * 180 / cmath.pi,
+        "acosd": lambda x: cmath.acos(x) * 180 / cmath.pi,
+        "atand": lambda x: cmath.atan(x) * 180 / cmath.pi,
+        # hyperbolic
+        "sinh": cmath.sinh,
+        "cosh": cmath.cosh,
+        "tanh": cmath.tanh,
+        "log": cmath.log,
+        "log10": cmath.log10,
+        "log2": lambda x: cmath.log(x, 2),
+        "exp": cmath.exp,
+        "pi": cmath.pi,
+        "e": cmath.e,
+        "i": 1j,
+        "abs": abs,
+        "factorial": math.factorial,
+        "round": round,
+        "floor": math.floor,
+        "ceil": math.ceil,
+        "gcd": math.gcd,
+        "lcm": math.lcm,
+        "hypot": math.hypot,
+        "mod": lambda a, b: a % b,
+        "min": min,
+        "max": max,
+        "deg": lambda x: x * 180 / cmath.pi,
+        "rad": lambda x: x * cmath.pi / 180,
+    }
+    return eval(expr, {"__builtins__": {}}, allowed_names)
+
+app = Flask('')
+
+@app.route('/')
+def home():
+    return "Bot is running!"
+
+def run():
+    app.run(host='0.0.0.0', port=8000)
+
+def keep_alive():
+    t = Thread(target=run)
+    t.start()
