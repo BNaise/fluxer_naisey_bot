@@ -357,7 +357,7 @@ async def pet(ctx, *, args: str = None):
     gif_bytes.seek(0)
 
     await ctx.reply(f"{user} has pet {target.mention} :3", file=fluxer.File(gif_bytes, filename="pet.gif"))
-    await status.delete
+    await status.delete()
 
 @bot.command()
 async def avatar(ctx, *, who: str = None):
