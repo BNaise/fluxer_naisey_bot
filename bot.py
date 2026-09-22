@@ -370,7 +370,7 @@ async def flowery(ctx):
     await status.delete()
 
 @bot.command()
-async def setprefix(ctx, new_prefix: str = None):
+async def prefixset(ctx, new_prefix: str = None):
     if ctx.guild is None:
         await ctx.reply("This only works in a server, not DMs.")
         return
