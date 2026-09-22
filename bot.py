@@ -45,7 +45,7 @@ async def naiseyhelp(ctx):
     embed.add_field(name=f"{prefux}avatar (user)", value="Get a user's avatar.", inline=False)
     embed.add_field(name=f"{prefux}pet (user) (speed (the higher the number the slower the speed, default is 30))", value="Pets a user :3 (Warning: It takes some time to output the gif so be patient and don't overload it)", inline=False)
     embed.add_field(name=f"{prefux}flowery", value="Flowery :3", inline=False)
-    embed.add_field(name=f"{prefux}setprefix (prefix)", value="Set the bots prefix (Admin only)", inline=False)
+    embed.add_field(name=f"{prefux}prefixset (prefix)", value="Set the bots prefix (Admin only)", inline=False)
 
     embed.set_footer(text="(That's it for right now, other commands will be added in the future enjoy! :3)")
 
