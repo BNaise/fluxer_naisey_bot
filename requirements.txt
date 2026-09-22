@@ -1,6 +1,5 @@
 python-dotenv
 fluxer.py
 flask
-petpet
+pet-pet-gif-fix
 aiohttp
-setuptools
