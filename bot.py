@@ -309,6 +309,8 @@ async def pet(ctx, *, args: str = None):
 
     user = ctx.author.mention
 
+    status = await ctx.reply("Uploading...")
+
     if args:
         parts = args.rsplit(" ", 1)
         if len(parts) == 2 and parts[1].isdigit():
@@ -330,6 +332,7 @@ async def pet(ctx, *, args: str = None):
     gif_bytes.seek(0)
 
     await ctx.reply(f"{user} has pet {target.mention} :3", file=fluxer.File(gif_bytes, filename="pet.gif"))
+    await status.delete
 
 @bot.command()
 async def avatar(ctx, *, who: str = None):
@@ -344,6 +347,20 @@ async def avatar(ctx, *, who: str = None):
     )
     embed.set_image(url=target.avatar_url)
     await ctx.reply(embed=embed)
+
+flowery_folder = "files/audio/flowery_voice_clips/"
+
+@bot.command()
+async def flowery(ctx):
+    files = os.listdir(flowery_folder)
+
+    choice = random.choice(files)
+    path = os.path.join(flowery_folder, choice)
+
+    status = await ctx.reply("Uploading...")
+
+    await ctx.send(file=fluxer.File(path, filename=choice))
+    await status.delete()
 
 debug = False
 # debug = True
