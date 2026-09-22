@@ -399,6 +399,7 @@ async def setprefix(ctx, new_prefix: str = None):
 debug = False
 # debug = True
 
+
 if not debug:
     funcs.keep_alive()
 
