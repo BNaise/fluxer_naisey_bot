@@ -3,3 +3,4 @@ fluxer.py
 flask
 petpet
 aiohttp
+setuptools
