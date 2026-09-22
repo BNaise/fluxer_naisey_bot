@@ -366,12 +366,15 @@ async def avatar(ctx, *, who: str = None):
     else:
         target = ctx.author
 
+    status = await ctx.reply("Uploading...")
+
     embed = fluxer.Embed(
         title=f"{target.display_name}'s avatar",
         color=0xFFC0CB,
     )
     embed.set_image(url=target.avatar_url)
     await ctx.reply(embed=embed)
+    await status.delete()
 
 flowery_folder = "files/audio/flowery_voice_clips/"
 
