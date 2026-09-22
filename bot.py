@@ -15,8 +15,8 @@ import keep_alive
 
 load_dotenv()
 
-# debug = False
-debug = True
+debug = False
+# debug = True
 
 bot = fluxer.Bot(command_prefix="!", intents=fluxer.Intents.all())
 
