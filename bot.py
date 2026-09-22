@@ -5,7 +5,7 @@ import math
 import io
 
 import aiohttp
-from petpetgif import petpet
+from petpetgif_fix import petpet
 
 import fluxer
 
@@ -15,8 +15,8 @@ import keep_alive
 
 load_dotenv()
 
-debug = False
-# debug = True
+# debug = False
+debug = True
 
 bot = fluxer.Bot(command_prefix="!", intents=fluxer.Intents.all())
 
@@ -386,6 +386,20 @@ async def pet(ctx, *, who: str = None):
     gif_bytes.seek(0)
 
     await ctx.reply(file=fluxer.File(gif_bytes, filename="pet.gif"))
+
+@bot.command()
+async def avatar(ctx, *, who: str = None):
+    if ctx.mentions:
+        target = ctx.mentions[0]
+    else:
+        target = ctx.author
+
+    embed = fluxer.Embed(
+        title=f"{target.display_name}'s avatar",
+        color=0xFFC0CB,
+    )
+    embed.set_image(url=target.avatar_url)
+    await ctx.reply(embed=embed)
 
 if not debug:
     keep_alive.keep_alive()
