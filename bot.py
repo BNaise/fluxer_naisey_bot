@@ -298,13 +298,22 @@ async def cheekkiss(ctx, *, who: str = None):
 
 @bot.command()
 async def calc(ctx, *, equation: str):
+
+    bruh = ""
+    result = funcs.calculate(equation)
+
+    if result == "67":
+        bruh = " (Seriously bruh? -_-)"
+    elif result == "69":
+        bruh = " (Seriously bruh? -_-)"
+
     if equation == "9+10":
         await ctx.reply(f"{equation} =\n21")
     elif equation == "9 + 10":
         await ctx.reply(f"{equation} =\n21")
     else:
         try:
-          await ctx.reply(f"{equation} =\n{funcs.calculate(equation)}")
+          await ctx.reply(f"{equation} =\n{result + bruh}")
 
         except Exception as e:
           await ctx.reply(f"Error: {e}")
