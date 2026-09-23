@@ -36,7 +36,7 @@ async def naiseyhelp(ctx):
     if ctx.guild is None:
       prefux = "!"
     else:
-      prefix = funcs.get_prefix(ctx.guild.id)
+      prefux = funcs.get_prefix(ctx.guild.id)
 
     embed = fluxer.Embed(
         title="Naisey's commands",
