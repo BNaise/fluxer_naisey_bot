@@ -33,11 +33,11 @@ async def on_ready():
 # Commands
 @bot.command()
 async def naiseyhelp(ctx):
-
-    if ctx.guild is None:
-      prefux = "!"
-    else:
+    if ctx.guild:
       prefix = funcs.get_prefix(ctx.guild.id)
+    else:
+      prefux = "!"
+
     embed = fluxer.Embed(
         title="Naisey's commands",
         description="Here's everything I can do right now :P",
