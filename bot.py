@@ -85,7 +85,6 @@ async def hug(ctx, *, who: str = None):
         f"{user} pulls {target} into a cozy hug! 🤗",
         f"{user} gives {target} a wholesome hug! 🤗🫂",
         f"{user} hugs {target}. Awwww! 🤗",
-        f"{user} has hugged {target}. They are now legally required to be happy. 🤗",
         f"HUG DETECTED! {user} has hugged {target}! 🤗",
         f"{user} launches themselves at {target} with a hug! 🤗🫂",
         f"{user} and {target} are temporarily trapped in a hug. 🤗",
