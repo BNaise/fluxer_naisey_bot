@@ -98,7 +98,35 @@ async def hug(ctx, *, who: str = None):
     elif who:
         await ctx.reply(choice)
     else:
-        await ctx.reply(f"{user} gave themselves a hug 🫂🥺")
+        await ctx.reply(f"{user} gave themselves a hug 🫂🥺")@bot.command()
+
+async def cuddle(ctx, *, who: str = None):
+    user = ctx.author.mention
+
+    target = who
+
+    if who in ("@everyone", "@here"):
+        await ctx.reply("You can't just do that!")
+        return
+
+    messages = \
+    [
+        f"{user} cuddles {target}. Awwwww :3 🫂",
+        f"{user} and {target} are now cuddling! :3 🫂",
+        f"{user} snuggles up to {target} for a cozy cuddle! :3 🫂",
+        f"{user} gives {target} a warm cuddle! :3 🫂",
+        f"{user} and {target} are wrapped up in a cuddle! :3 🫂",
+        f"{user} and {target} are having a cuddle session! :3 🫂"
+    ]
+
+    choice = random.choice(messages)
+
+    if who == user:
+        await ctx.reply("You can't just do that!")
+    elif who:
+        await ctx.reply(choice)
+    else:
+        await ctx.reply("You can't just do that!")
 
 @bot.command()
 async def praise(ctx, *, who: str = None):
