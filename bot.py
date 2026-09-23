@@ -111,12 +111,12 @@ async def cuddle(ctx, *, who: str = None):
 
     messages = \
     [
-        f"{user} cuddles {target}. Awwwww :3 🫂",
-        f"{user} and {target} are now cuddling! :3 🫂",
-        f"{user} snuggles up to {target} for a cozy cuddle! :3 🫂",
-        f"{user} gives {target} a warm cuddle! :3 🫂",
-        f"{user} and {target} are wrapped up in a cuddle! :3 🫂",
-        f"{user} and {target} are having a cuddle session! :3 🫂"
+        f"{user} is cuddling {target}. Awwwww :3",
+        f"{user} and {target} are now cuddling! :3",
+        f"{user} snuggles up to {target} for a cozy cuddle! :3",
+        f"{user} gives {target} a warm cuddle! :3",
+        f"{user} and {target} are wrapped up in a cuddle! :3",
+        f"{user} and {target} are having a cuddle session! :3"
     ]
 
     choice = random.choice(messages)
