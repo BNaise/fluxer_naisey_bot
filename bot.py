@@ -100,6 +100,7 @@ async def hug(ctx, *, who: str = None):
     else:
         await ctx.reply(f"{user} gave themselves a hug 🫂🥺")@bot.command()
 
+@bot.command()
 async def cuddle(ctx, *, who: str = None):
     user = ctx.author.mention
 
