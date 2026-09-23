@@ -33,8 +33,10 @@ async def on_ready():
 # Commands
 @bot.command()
 async def naiseyhelp(ctx):
-
-    prefux = funcs.get_prefix(ctx.guild.id)
+    if ctx.guild is None:
+      prefux = "!"
+    else:
+      prefux = funcs.get_prefix(ctx.guild.id)
 
     embed = fluxer.Embed(
         title="Naisey's commands",
@@ -100,6 +102,7 @@ async def hug(ctx, *, who: str = None):
     else:
         await ctx.reply(f"{user} gave themselves a hug 🫂🥺")@bot.command()
 
+@bot.command()
 async def cuddle(ctx, *, who: str = None):
     user = ctx.author.mention
 
