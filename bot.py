@@ -424,7 +424,11 @@ async def flowery(ctx, *, filename: str = None):
             description="\n".join(f"- {f}" for f in sorted(files)),
             color=0x52F0EF,
         )
-        await ctx.reply(embed=embed)
+        try:
+            await ctx.author.send(embed=embed)
+            await ctx.reply("Sent you the list in DMs!")
+        except Exception:
+            await ctx.reply("Couldn't DM you - check your privacy setting allow DMs from server members.")
         return
     elif filename and filename.lower() == "ls":
         embed = fluxer.Embed(
@@ -432,7 +436,11 @@ async def flowery(ctx, *, filename: str = None):
             description="\n".join(f"- {f}" for f in sorted(files)),
             color=0x52F0EF,
         )
-        await ctx.reply(embed=embed)
+        try:
+            await ctx.author.send(embed=embed)
+            await ctx.reply("Sent you the list in DMs!")
+        except Exception:
+            await ctx.reply("Couldn't DM you - check your privacy setting allow DMs from server members.")
         return
 
     if filename:
