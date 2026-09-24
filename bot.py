@@ -61,11 +61,7 @@ async def naiseyhelp(ctx):
 
     embed.set_footer(text="(That's it for right now, other commands will be added in the future enjoy! :3)")
 
-    try:
-      await ctx.reply("test", allowed_mentions={"replied_user": False})
-    except Exception as e:
-      print(repr(e))
-      await ctx.reply(f"error: {e}")
+    await ctx.reply(embed=embed)
 
 @bot.command()
 async def hug(ctx, *, who: str = None):
