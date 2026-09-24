@@ -46,6 +46,7 @@ async def naiseyhelp(ctx):
     embed.add_field(name=f"{prefux}naiseyhelp", value="Sends this help message", inline=False)
     embed.add_field(name=f"{prefux}hug (user)", value="Sends a hug to the mentioned user by you :3", inline=False)
     embed.add_field(name=f"{prefux}permahug (user)", value="Sends a permanent hug to the mentioned user by you ^w^", inline=False)
+    embed.add_field(name=f"{prefux}cuddle (user)", value="Sends a cuddle to the mentioned from you :3", inline=False)
     embed.add_field(name=f"{prefux}kiss (user)", value="Kiss the mentioned user", inline=False)
     embed.add_field(name=f"{prefux}cheekkiss (user)", value="Kiss the mentioned user on the cheek :3", inline=False)
     embed.add_field(name=f"{prefux}silly (user [optional])", value="Silly :P", inline=False)
@@ -115,10 +116,12 @@ async def cuddle(ctx, *, who: str = None):
     [
         f"{user} is cuddling {target}. Awwwww :3",
         f"{user} and {target} are now cuddling! :3",
-        f"{user} snuggles up to {target} for a cozy cuddle! :3",
         f"{user} gives {target} a warm cuddle! :3",
         f"{user} and {target} are wrapped up in a cuddle! :3",
-        f"{user} and {target} are having a cuddle session! :3"
+        f"{user} and {target} are having a cuddle session! :3",
+        f"{user} and {target} are snuggled up together! :3",
+        f"{user} has cuddles {target} into oblivian :3"
+        f"{target} got absolutly loved and cuddled by {user} :3"
     ]
 
     choice = random.choice(messages)
