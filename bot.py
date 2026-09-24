@@ -423,6 +423,14 @@ async def flowery(ctx, *, filename: str = None):
         )
         await ctx.reply(embed=embed)
         return
+    elif filename and filename.lower() == "ls":
+        embed = fluxer.Embed(
+            title="Flowery clips",
+            description="\n".join(f"- {f}" for f in sorted(files)),
+            color=0x52F0EF,
+        )
+        await ctx.reply(embed=embed)
+        return
 
     if filename:
         search = filename.lower()
