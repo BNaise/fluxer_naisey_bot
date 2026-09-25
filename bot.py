@@ -197,7 +197,8 @@ async def nuzzle(ctx, *, who: str = None):
     messages = \
         [
             f"{user} nuzzles {target} like a susie plushie ^w^",
-            f"{target} is being nuzzled in 180 rpm by {user} ^^"
+            f"{target} is being nuzzled in 180 rpm by {user} ^^",
+            f"{target} feels the soft nuzzle of {user} :3"
         ]
 
     choice = random.choice(messages)
