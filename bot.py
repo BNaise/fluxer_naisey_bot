@@ -75,10 +75,10 @@ async def hug(ctx, *, who: str = None):
     reciprocal = False
 
     if ctx.mentions and ctx.guild is not None:
-    target_id = ctx.mentions[0].id
-    author_id = ctx.author.id
+      target_id = ctx.mentions[0].id
+      author_id = ctx.author.id
 
-    last_hugger = funcs.get_last_hugger(ctx.guild.id, author_id)
+      last_hugger = funcs.get_last_hugger(ctx.guild.id, author_id)
     if last_hugger == str(target_id):
         reciprocal = True
         funcs.clear_last_hugger(ctx.guild.id, author_id)  # debt paid, reset
