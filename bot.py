@@ -184,6 +184,31 @@ async def praise(ctx, *, who: str = None):
         await ctx.reply("Mention a user or write someones name")
 
 @bot.command()
+async def nuzzle(ctx, *, who: str = None):
+    user = ctx.author.mention
+
+    target = who
+
+    if who in ("@everyone", "@here"):
+        await ctx.reply("You can't just do that!")
+        return
+
+    messages = \
+        [
+            f"{user} nuzzles {target} like a susie plushie ^w^",
+            f"{target} is being nuzzled in 180 rpm by {user} ^^"
+        ]
+
+    choice = random.choice(messages)
+
+    if who == user:
+        await ctx.reply("You can't just do that!")
+    elif who:
+        await ctx.reply(choice)
+    else:
+        await ctx.reply("Mention a user or write someones name")
+
+@bot.command()
 async def permahug(ctx, *, who: str = None):
     user = ctx.author.mention
 
