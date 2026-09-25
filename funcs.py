@@ -112,6 +112,20 @@ def set_last_hugger(server_id, target_id, hugger_id):
     cursor.close()
     conn.close()
 
+
+def clear_last_hugger(server_id, target_id):
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute(
+        "DELETE FROM last_hugged WHERE server_id = %s AND target_id = %s",
+        (str(server_id), str(target_id))
+    )
+
+    conn.commit()
+    cursor.close()
+    conn.close()
+
 def init_db_start():
     init_db()
 
