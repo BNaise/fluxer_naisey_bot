@@ -27,6 +27,15 @@ def init_db():
         )
     """)
 
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS last_hugged (
+            server_id TEXT NOT NULL,
+            target_id TEXT NOT NULL,
+            hugger_id TEXT NOT NULL,
+            PRIMARY KEY (server_id, target_id)
+        )
+    """)
+
     conn.commit()
     cursor.close()
     conn.close()
@@ -70,6 +79,38 @@ def get_bot_prefix(bot, message):
         return DEFAULT_PREFIX
 
     return get_prefix(message.guild.id)
+
+def get_last_hugger(server_id, target_id):
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute(
+        "SELECT hugger_id FROM last_hugged WHERE server_id = %s AND target_id = %s",
+        (str(server_id), str(target_id))
+    )
+
+    result = cursor.fetchone()
+
+    cursor.close()
+    conn.close()
+
+    return result[0] if result else None
+
+
+def set_last_hugger(server_id, target_id, hugger_id):
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        INSERT INTO last_hugged (server_id, target_id, hugger_id)
+        VALUES (%s, %s, %s)
+        ON CONFLICT (server_id, target_id)
+        DO UPDATE SET hugger_id = EXCLUDED.hugger_id
+    """, (str(server_id), str(target_id), str(hugger_id)))
+
+    conn.commit()
+    cursor.close()
+    conn.close()
 
 def init_db_start():
     init_db()
