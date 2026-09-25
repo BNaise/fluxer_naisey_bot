@@ -67,31 +67,49 @@ async def naiseyhelp(ctx):
 async def hug(ctx, *, who: str = None):
     user = ctx.author.mention
 
-    target = who
-
     if who in ("@everyone", "@here"):
         await ctx.reply("You can't just do that!")
         return
 
-    messages = \
-    [
-        f"{user} tightly hugs {target} 🫂",
-        f"{target} got absolutely loved and hugged by {user} 🫂",
-        f"{user} hugs {target} so much that they won't let go 🫂",
-        f"Hey {target}! {user} just sent you a ton of hugs! ^^ 🤗",
-        f"{user} gives {target} a big warm hug! 🤗",
-        f"{user} wraps their arms around {target}! 🫂",
-        f"{user} gives {target} a much-needed hug! 🫂",
-        f"{user} hugs {target} with all their might! 🫂",
-        f"{user} pulls {target} into a cozy hug! 🤗",
-        f"{user} gives {target} a wholesome hug! 🤗🫂",
-        f"{user} hugs {target}. Awwww! 🤗",
-        f"HUG DETECTED! {user} has hugged {target}! 🤗",
-        f"{user} launches themselves at {target} with a hug! 🤗🫂",
-        f"{user} and {target} are temporarily trapped in a hug. 🤗",
-        f"{user} sends a hug directly to {target}'s soul. 🤗🫂",
-        f"{user} hugs {target}. No escape. 🫂"
-    ]
+    target = who
+    reciprocal = False
+
+    if ctx.mentions and ctx.guild is not None:
+        target_id = ctx.mentions[0].id
+        author_id = ctx.author.id
+
+        last_hugger = funcs.get_last_hugger(ctx.guild.id, author_id)
+        if last_hugger == str(target_id):
+            reciprocal = True
+
+        funcs.set_last_hugger(ctx.guild.id, target_id, author_id)
+
+    if reciprocal:
+        messages = [
+            f"{user} hugs {target} back! Aww, mutual hugs 🫂💕",
+            f"{target} hugged {user} first, and now {user} returns the favor! 🫂",
+            f"{user} and {target} share a hug back and forth. So wholesome! 🤗",
+        ]
+    else:
+        messages = [
+            f"{user} tightly hugs {target} 🫂",
+            f"{target} got absolutely loved and hugged by {user} 🫂",
+            f"{user} hugs {target} so much that they won't let go 🫂",
+            f"Hey {target}! {user} just sent you a ton of hugs! ^^ 🤗",
+            f"{user} gives {target} a big warm hug! 🤗",
+            f"{user} wraps their arms around {target}! 🫂",
+            f"{user} gives {target} a much-needed hug! 🫂",
+            f"{user} hugs {target} with all their might! 🫂",
+            f"{user} pulls {target} into a cozy hug! 🤗",
+            f"{user} gives {target} a wholesome hug! 🤗🫂",
+            f"{user} hugs {target}. Awwww! 🤗",
+            f"{user} has hugged {target}. They are now legally required to be happy. 🤗",
+            f"HUG DETECTED! {user} has hugged {target}! 🤗",
+            f"{user} launches themselves at {target} with a hug! 🤗🫂",
+            f"{user} and {target} are temporarily trapped in a hug. 🤗",
+            f"{user} sends a hug directly to {target}'s soul. 🤗🫂",
+            f"{user} hugs {target}. No escape. 🫂",
+        ]
 
     choice = random.choice(messages)
 
@@ -100,7 +118,7 @@ async def hug(ctx, *, who: str = None):
     elif who:
         await ctx.reply(choice)
     else:
-        await ctx.reply(f"{user} gave themselves a hug 🫂🥺")@bot.command()
+        await ctx.reply(f"{user} gave themselves a hug 🫂🥺")
 
 @bot.command()
 async def cuddle(ctx, *, who: str = None):
