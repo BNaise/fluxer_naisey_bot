@@ -1,7 +1,6 @@
 import os
 import random
 import io
-import psycopg2
 
 import aiohttp
 
@@ -79,12 +78,13 @@ async def hug(ctx, *, who: str = None):
       author_id = ctx.author.id
       scope_id = ctx.guild.id if ctx.guild else f"dm-{ctx.channel_id}"
 
-    last_hugger = funcs.get_last_hugger(scope_id, author_id)
-    if last_hugger == str(target_id):
-        reciprocal = True
-        funcs.clear_last_hugger(scope_id, author_id)
-    else:
-        funcs.set_last_hugger(scope_id, target_id, author_id)
+    if ctx.mentions:
+        last_hugger = funcs.get_last_hugger(scope_id, author_id)
+        if last_hugger == str(target_id):
+            reciprocal = True
+            funcs.clear_last_hugger(scope_id, author_id)
+        else:
+            funcs.set_last_hugger(scope_id, target_id, author_id)
 
     if reciprocal:
         messages = [
