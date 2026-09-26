@@ -1,6 +1,7 @@
 import os
 import random
 import io
+import psycopg2
 
 import aiohttp
 
@@ -14,8 +15,8 @@ load_dotenv()
 
 DATABASE_URL = os.getenv("DATABASE_URL")
 
-# debug = False
-debug = True
+debug = False
+# debug = True
 
 if not debug:
     funcs.init_db_start()
@@ -73,16 +74,17 @@ async def hug(ctx, *, who: str = None):
     target = who
     reciprocal = False
 
-    if ctx.mentions and ctx.guild is not None:
+    if ctx.mentions:
       target_id = ctx.mentions[0].id
       author_id = ctx.author.id
-      last_hugger = funcs.get_last_hugger(ctx.guild.id, author_id)
-    if ctx.mentions and ctx.guild is not None:
-        if last_hugger == str(target_id):
-            reciprocal = True
-            funcs.clear_last_hugger(ctx.guild.id, author_id)  # debt paid, reset
-        else:
-            funcs.set_last_hugger(ctx.guild.id, target_id, author_id)
+      scope_id = ctx.guild.id if ctx.guild else f"dm-{ctx.channel_id}"
+
+    last_hugger = funcs.get_last_hugger(scope_id, author_id)
+    if last_hugger == str(target_id):
+        reciprocal = True
+        funcs.clear_last_hugger(scope_id, author_id)
+    else:
+        funcs.set_last_hugger(scope_id, target_id, author_id)
 
     if reciprocal:
         messages = [
@@ -195,7 +197,8 @@ async def nuzzle(ctx, *, who: str = None):
     messages = \
         [
             f"{user} nuzzles {target} like a susie plushie ^w^",
-            f"{target} is being nuzzled in 180 rpm by {user} ^^"
+            f"{target} is being nuzzled in 180 rpm by {user} ^^",
+            f"{target} feels the soft nuzzle of {user} :3"
         ]
 
     choice = random.choice(messages)
