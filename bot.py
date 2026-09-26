@@ -74,11 +74,10 @@ async def hug(ctx, *, who: str = None):
     reciprocal = False
 
     if ctx.mentions:
-      target_id = ctx.mentions[0].id
-      author_id = ctx.author.id
-      scope_id = ctx.guild.id if ctx.guild else f"dm-{ctx.channel_id}"
+        target_id = ctx.mentions[0].id
+        author_id = ctx.author.id
+        scope_id = ctx.guild.id if ctx.guild else f"dm-{ctx.channel_id}"
 
-    if ctx.mentions:
         last_hugger = funcs.get_last_hugger(scope_id, author_id)
         if last_hugger == str(target_id):
             reciprocal = True
