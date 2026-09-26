@@ -1,7 +1,6 @@
 import os
 import random
 import io
-import psycopg2
 
 import aiohttp
 
@@ -15,8 +14,8 @@ load_dotenv()
 
 DATABASE_URL = os.getenv("DATABASE_URL")
 
-debug = False
-# debug = True
+# debug = False
+debug = True
 
 if not debug:
     funcs.init_db_start()
@@ -77,13 +76,13 @@ async def hug(ctx, *, who: str = None):
     if ctx.mentions and ctx.guild is not None:
       target_id = ctx.mentions[0].id
       author_id = ctx.author.id
-
       last_hugger = funcs.get_last_hugger(ctx.guild.id, author_id)
-    if last_hugger == str(target_id):
-        reciprocal = True
-        funcs.clear_last_hugger(ctx.guild.id, author_id)  # debt paid, reset
-    else:
-        funcs.set_last_hugger(ctx.guild.id, target_id, author_id)
+    if ctx.mentions and ctx.guild is not None:
+        if last_hugger == str(target_id):
+            reciprocal = True
+            funcs.clear_last_hugger(ctx.guild.id, author_id)  # debt paid, reset
+        else:
+            funcs.set_last_hugger(ctx.guild.id, target_id, author_id)
 
     if reciprocal:
         messages = [
