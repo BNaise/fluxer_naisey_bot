@@ -529,6 +529,7 @@ async def kawkaw(ctx, *, filename: str = None):
         )
 
         await ctx.author.send(embed=embed)
+        return
 
     elif filename and filename.lower() == "ls":
         embed = fluxer.Embed(
@@ -538,6 +539,7 @@ async def kawkaw(ctx, *, filename: str = None):
         )
 
         await ctx.author.send(embed=embed)
+        return
 
     if filename:
         search = filename.lower()
