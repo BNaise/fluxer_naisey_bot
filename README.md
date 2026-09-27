@@ -37,4 +37,4 @@ TOKEN=your_bot_token
 DATABASE_URL=your_postgres_url
 
 Then:
-python main.py
+python bot.py
