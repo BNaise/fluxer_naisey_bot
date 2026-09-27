@@ -46,6 +46,7 @@ async def naiseyhelp(ctx):
     embed.add_field(name=f"{prefux}hug (user)", value="Sends a hug to the mentioned user by you :3", inline=False)
     embed.add_field(name=f"{prefux}permahug (user)", value="Sends a permanent hug to the mentioned user by you ^w^", inline=False)
     embed.add_field(name=f"{prefux}cuddle (user)", value="Sends a cuddle to the mentioned from you :3", inline=False)
+    embed.add_field(name=f"{prefux}nuzzle (user)", value="Nuzzle the mentioned user :3", inline=False)
     embed.add_field(name=f"{prefux}kiss (user)", value="Kiss the mentioned user", inline=False)
     embed.add_field(name=f"{prefux}cheekkiss (user)", value="Kiss the mentioned user on the cheek :3", inline=False)
     embed.add_field(name=f"{prefux}silly (user [optional])", value="Silly :P", inline=False)
@@ -56,6 +57,7 @@ async def naiseyhelp(ctx):
     embed.add_field(name=f"{prefux}avatar (user)", value="Get a user's avatar.", inline=False)
     embed.add_field(name=f"{prefux}pet (user) (speed (the higher the number the slower the speed, default is 30))", value="Pets a user :3 (Warning: It takes some time to output the gif so be patient and don't overload it)", inline=False)
     embed.add_field(name=f"{prefux}flowery (file name [optional, type \"list\" for list of files])", value="Flowery :3", inline=False)
+    embed.add_field(name=f"{prefux}kawkaw (file name [optional, type \"list\" for list of files])", value="Kawkaw :3", inline=False)
     embed.add_field(name=f"{prefux}prefixset (prefix)", value="Set the bots prefix (Admin only)", inline=False)
 
     embed.set_footer(text="(That's it for right now, other commands will be added in the future enjoy! :3)")
@@ -506,6 +508,55 @@ async def flowery(ctx, *, filename: str = None):
     path = os.path.join(flowery_folder, choice)
 
     status = await ctx.reply("uploading... 🌸")
+
+    await ctx.reply(file=fluxer.File(path, filename=choice))
+    await status.delete()
+
+kawkaw_folder = "files/audio/kawkaw/"
+
+@bot.command()
+async def kawkaw(ctx, *, filename: str = None):
+    files = os.listdir(kawkaw_folder)
+    if not files:
+        await ctx.reply("No files in the folder!")
+        return
+
+    if filename and filename.lower() == "list":
+        embed = fluxer.Embed(
+            title="Kawkaw :3",
+            description="\n".join(f"- {f}" for f in sorted(files)),
+            color=0x52F0EF,
+        )
+
+        await ctx.author.send(embed=embed)
+
+    elif filename and filename.lower() == "ls":
+        embed = fluxer.Embed(
+            title="Flowery clips",
+            description="\n".join(f"- {f}" for f in sorted(files)),
+            color=0x52F0EF,
+        )
+
+        await ctx.author.send(embed=embed)
+
+    if filename:
+        search = filename.lower()
+        matches = [
+            f for f in files
+            if f.lower() == search or os.path.splitext(f)[0].lower() == search
+        ]
+
+        if not matches:
+            await ctx.reply(f"Couldn't find `{filename}` in the folder.")
+            return
+
+        choice = matches[0]
+    else:
+        choice = random.choice(files)
+
+    path = os.path.join(flowery_folder, choice)
+
+    status = await ctx.reply("uploading...")
 
     await ctx.reply(file=fluxer.File(path, filename=choice))
     await status.delete()
