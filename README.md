@@ -15,7 +15,7 @@ This bot is built to run on [Render](https://render.com) (free tier works fine, 
 ### 3. Create a Web Service on Render
 - **New → Web Service**, connect this repo
 - **Build Command:** `pip install -r requirements.txt`
-- **Start Command:** `python main.py`
+- **Start Command:** `python bot.py`
 
 ### 4. Set environment variables
 In the service's **Environment** tab:
