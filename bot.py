@@ -141,8 +141,8 @@ async def cuddle(ctx, *, who: str = None):
         f"{user} and {target} are wrapped up in a cuddle! :3",
         f"{user} and {target} are having a cuddle session! :3",
         f"{user} and {target} are snuggled up together! :3",
-        f"{user} has cuddles {target} into oblivian :3"
-        f"{target} got absolutly loved and cuddled by {user} :3"
+        f"{user} has cuddles {target} into oblivian :3",
+        f"{target} got absolutely loved and cuddled by {user} :3"
     ]
 
     choice = random.choice(messages)
@@ -349,7 +349,7 @@ async def kiss(ctx, *, who: str = None):
     [
         f"{user} kissed {target}! They're so cute!",
         f"OMG- GUYS- {user} JUST KISSED {target}!!!!",
-        f"{user} **VIOLENTLY** pulled {target} to them and **SMOOCHED** them on the **LIPS**, not letting **ANYONE ELSE** in",
+        f"{user} **VIOLENTLY** pulled {target} to them and **SMOOCHED** them on the **LIPS**, not letting **ANYONE ELSE** in >:3",
         f"Hehehehe, {user} gave {target} a little smooooch!"
     ]
 
