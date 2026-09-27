@@ -554,7 +554,7 @@ async def kawkaw(ctx, *, filename: str = None):
     else:
         choice = random.choice(files)
 
-    path = os.path.join(flowery_folder, choice)
+    path = os.path.join(kawkaw_folder, choice)
 
     status = await ctx.reply("uploading...")
 
