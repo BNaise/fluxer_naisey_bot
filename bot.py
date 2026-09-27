@@ -208,8 +208,10 @@ async def nuzzle(ctx, *, who: str = None):
         await ctx.reply("You can't just do that!")
     elif who:
         if choice == f"{user} nuzzles {target} like a susie plushie ^w^":
+            status = await ctx.reply("Uploading...")
             file = fluxer.File("files/images/gifs/susie_plush_nuzzle.gif")
             await ctx.reply(choice, file=file)
+            await status.delete()
         else:
             await ctx.reply(choice)
     else:
