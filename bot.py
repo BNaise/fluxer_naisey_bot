@@ -207,7 +207,11 @@ async def nuzzle(ctx, *, who: str = None):
     if who == user:
         await ctx.reply("You can't just do that!")
     elif who:
-        await ctx.reply(choice)
+        if choice == f"{user} nuzzles {target} like a susie plushie ^w^":
+            file = fluxer.File("files/images/gifs/susie_plush_nuzzle.gif")
+            await ctx.reply(choice, file=file)
+        else:
+            await ctx.reply(choice)
     else:
         await ctx.reply("Mention a user or write someones name")
 
@@ -308,7 +312,7 @@ async def deltarot(ctx):
     choice = random.choice(messages)
 
     if choice == "Hey undyne!\nHow many human souls do we need to break the barrier?":
-        file = fluxer.File("files/undyne-seven.webp")
+        file = fluxer.File("files/images/undyne-seven.webp")
         await ctx.reply(choice, file=file)
     else:
         await ctx.reply(choice)
