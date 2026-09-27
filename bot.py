@@ -532,17 +532,17 @@ async def kawkaw(ctx, *, filename: str = None):
             color=0x52F0EF,
         )
 
-        await ctx.author.send(embed=embed)
+        await ctx.reply(embed=embed)
         return
 
     elif filename and filename.lower() == "ls":
         embed = fluxer.Embed(
-            title="Flowery clips",
+            title="Kawkaw :3",
             description="\n".join(f"- {f}" for f in sorted(files)),
             color=0x52F0EF,
         )
 
-        await ctx.author.send(embed=embed)
+        await ctx.reply(embed=embed)
         return
 
     if filename:
