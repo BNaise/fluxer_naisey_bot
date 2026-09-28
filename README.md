@@ -10,7 +10,7 @@ This bot is built to run on [Render](https://render.com) (free tier works fine, 
 
 ### 2. Create a Postgres database
 - On Render: **New → PostgreSQL**
-- Copy the **Internal Database URL** it gives you
+- Copy the **Internal Database URL** it gives you (Copy External if it doesn't work)
 
 ### 3. Create a Web Service on Render
 - **New → Web Service**, connect this repo
@@ -33,8 +33,12 @@ Bot is online! Logged in as <your bot's username>
 pip install -r requirements.txt
 
 Create a `.env` file:
+
 TOKEN=your_bot_token
-DATABASE_URL=your_postgres_url
+
+TOKEN2=your_debug_bot_token (only if you're debugging)
+
+DATABASE_URL=your_postgres_url (Put external link to debug locally)
 
 Then:
 python bot.py
