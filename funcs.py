@@ -37,11 +37,6 @@ def init_db():
         )
     """)
 
-    cursor.execute("""
-        ALTER TABLE last_hugged
-        ADD COLUMN IF NOT EXISTS hugged_at TIMESTAMP NOT NULL DEFAULT NOW()
-    """)
-
     conn.commit()
     cursor.close()
     conn.close()

@@ -17,6 +17,7 @@ DATABASE_URL = os.getenv("DATABASE_URL")
 # Debug the bot
 debug = False
 # debug = True
+
 #Starts Database
 funcs.init_db_start()
 
