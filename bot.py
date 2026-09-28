@@ -15,8 +15,8 @@ load_dotenv()
 DATABASE_URL = os.getenv("DATABASE_URL")
 
 # Debug the bot
-debug = False
-# debug = True
+# debug = False
+debug = True
 
 #Starts Database
 funcs.init_db_start()
@@ -71,11 +71,14 @@ async def naiseyhelp(ctx):
 async def hug(ctx, *, who: str = None):
     user = ctx.author.mention
 
-    if who in ("@everyone", "@here"):
-        await ctx.reply("You can't just do that!")
+    if who in "@everyone":
+        await ctx.reply(f"{user} gives a giant hug to everyone! ^^")
         return
-    elif who == bot.user.mention:
-        await ctx.reply("Awwww Thanks >w<")
+    elif who in "@here":
+        await ctx.reply(f"{user} gives a giant hug to everyone here! ^^")
+        return
+    elif who in bot.user.mention:
+        await ctx.reply("Awww Thank youuu! ^^\n*Hugs you back ^^")
         return
 
     target = who
@@ -135,8 +138,14 @@ async def cuddle(ctx, *, who: str = None):
 
     target = who
 
-    if who in ("@everyone", "@here"):
-        await ctx.reply("You can't just do that!")
+    if who in "@everyone":
+        await ctx.reply(f"{user} gives a giant cuddle to everyone! ^^")
+        return
+    elif who in "@here":
+        await ctx.reply(f"{user} gives a giant cuddle to everyone here! ^^")
+        return
+    elif who in bot.user.mention:
+        await ctx.reply("Awwww thanks! ^w^\n*Cuddles back ^^")
         return
 
     messages = \
@@ -166,8 +175,14 @@ async def praise(ctx, *, who: str = None):
 
     target = who
 
-    if who in ("@everyone", "@here"):
-        await ctx.reply("You can't just do that!")
+    if who in "@everyone":
+        await ctx.reply(f"{user} has praised everyone! (everyone likes it :3)")
+        return
+    elif who in "@here":
+        await ctx.reply(f"{user} has praised everyone here! (everyone (here) likes it :3)")
+        return
+    elif who in bot.user.mention:
+        await ctx.reply("Thanks >w<\nyou're awesome too! ^//^")
         return
 
     messages = \
@@ -197,8 +212,14 @@ async def nuzzle(ctx, *, who: str = None):
 
     target = who
 
-    if who in ("@everyone", "@here"):
-        await ctx.reply("You can't just do that!")
+    if who in "@everyone":
+        await ctx.reply(f"{user} has nuzzled everyone! Awww so cute! ^^")
+        return
+    elif who in "@here":
+        await ctx.reply(f"{user} has nuzzled everyone here! Awwww so cute! ^^")
+        return
+    elif who in bot.user.mention:
+        await ctx.reply("Thanks! >w<\n*nuzzles back! ^^")
         return
 
     messages = \
@@ -229,8 +250,14 @@ async def permahug(ctx, *, who: str = None):
 
     target = who
 
-    if who in ("@everyone", "@here"):
-        await ctx.reply("You can't just do that!")
+    if who in "@everyone":
+        await ctx.reply(f"{user} has permanently hugged everyone and won't let go")
+        return
+    elif who in "@here":
+        await ctx.reply(f"{user} has permanently hugged everyone here and won't let go")
+        return
+    elif who in bot.user.mention:
+        await ctx.reply("Thank you! :3\n*Comforts you")
         return
 
     messages = \
@@ -257,8 +284,14 @@ async def silly(ctx, *, who: str = None):
 
     target = who
 
-    if who in ("@everyone", "@here"):
-        await ctx.reply("You can't just do that!")
+    if who in "@everyone":
+        await ctx.reply(f"{user} does silly thing to everyone >:3")
+        return
+    elif who in "@here":
+        await ctx.reply(f"{user} does silly thing to everyone >:3")
+        return
+    elif who in bot.user.mention:
+        await ctx.reply("Wuh? OwO")
         return
 
     if not who:
@@ -351,6 +384,16 @@ async def kiss(ctx, *, who: str = None):
 
     target = who
 
+    if who in "@everyone":
+        await ctx.reply(f"{user} has kissed everyone awwww ^w^")
+        return
+    elif who in "@here":
+        await ctx.reply(f"{user} has kissed everyone here awwww ^w^")
+        return
+    elif who in bot.user.mention:
+        await ctx.reply("T-thanks? >/////<")
+        return
+
     messages = \
     [
         f"{user} kissed {target}! They're so cute!",
@@ -366,7 +409,7 @@ async def kiss(ctx, *, who: str = None):
     elif who:
         await ctx.reply(choice)
     else:
-        await ctx.reply(f"{user} kissed themselves? ...how?")
+        await ctx.reply("Mention someone or put someones name to kiss them :3")
 
 @bot.command()
 async def cheekkiss(ctx, *, who: str = None):
@@ -374,8 +417,14 @@ async def cheekkiss(ctx, *, who: str = None):
 
     target = who
 
-    if who in ("@everyone", "@here"):
-        await ctx.reply("You can't just do that!")
+    if who in "@everyone":
+        await ctx.reply(f"{user} has kissed everyone on the cheek awwww ^w^")
+        return
+    elif who in "@here":
+        await ctx.reply(f"{user} has kissed everyone here on the cheek awwww ^w^")
+        return
+    elif who in bot.user.mention:
+        await ctx.reply("T-thanks >///<")
         return
 
     messages = \
@@ -395,7 +444,7 @@ async def cheekkiss(ctx, *, who: str = None):
     elif who:
         await ctx.reply(choice)
     else:
-        await ctx.reply(f"{user} kissed themselves on the cheek? ...how?")
+        await ctx.reply("Mention someone or put someones name to kiss them on the cheek :3")
 
 @bot.command()
 async def calc(ctx, *, equation: str):
@@ -426,9 +475,15 @@ async def pet(ctx, *, args: str = None):
 
     user = ctx.author.mention
 
-    status = await ctx.reply("Uploading...")
+    if args in "@everyone":
+        await ctx.reply(f"{user} has pet everyone! yayyy ^w^")
+        return
+    elif args in "@here":
+        await ctx.reply(f"{user} has pet everyone here! yayyy ^w^")
+        return
+    else:
+        status = await ctx.reply("Uploading...")
 
-    if args:
         parts = args.rsplit(" ", 1)
         if len(parts) == 2 and parts[1].isdigit():
             text, speed_ms = parts[0], int(parts[1])
@@ -448,7 +503,12 @@ async def pet(ctx, *, args: str = None):
     funcs.make_pet_gif(avatar_bytes, gif_bytes, speed_ms=speed_ms)
     gif_bytes.seek(0)
 
-    await ctx.reply(f"{user} has pet {target.mention} :3", file=fluxer.File(gif_bytes, filename="pet.gif"))
+    if args in bot.user.mention:
+        await ctx.reply(f"{user} has pet {target.mention} :3\nThanks ~^w^~", file=fluxer.File(gif_bytes, filename="pet.gif"))
+    elif args in user:
+        await ctx.reply(f"{user} has pet themselves?", file=fluxer.File(gif_bytes, filename="pet.gif"))
+    else:
+        await ctx.reply(f"{user} has pet {target.mention} :3", file=fluxer.File(gif_bytes, filename="pet.gif"))
     await status.delete()
 
 @bot.command()
@@ -639,6 +699,13 @@ async def murder(ctx, *, who: str = None):
 
     target = who
 
+    if target in ("@everyone", "@here"):
+        await ctx.reply(f"{user} has taken the genocide root 😈")
+        return
+    if target in bot.user.mention:
+        await ctx.reply("Whaaa? what did I do? 😨")
+        return
+
     messages = \
     [
         f"{user} killed {target} when the light went out so no one would know it was them... >:3",
@@ -650,11 +717,11 @@ async def murder(ctx, *, who: str = None):
     choice = random.choice(messages)
 
     if who == user:
-        await ctx.reply(f"BAH- {user} JUST K-KILLED THEMSELVES??? NOOOOOOOOOOOOOOOOOO 😱")
+        await ctx.reply("That's suicide. Don't joke with that. If you are not okay, call a suicide helpline.")
     elif who:
         await ctx.reply(choice)
     else:
-        await ctx.reply(f"BAH- {user} JUST K-KILLED THEMSELVES??? NOOOOOOOOOOOOOOOOOO 😱")
+        await ctx.reply("Mention someone or put someones name to slay themmm >:3")
 
 @bot.command()
 async def prefixset(ctx, new_prefix: str = None):
