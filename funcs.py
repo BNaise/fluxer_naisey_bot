@@ -88,7 +88,7 @@ def get_last_hugger(server_id, target_id):
     cursor = conn.cursor()
 
     cursor.execute(
-        """SELECT hugger_id FROM last_hugged WHERE server_id = %s AND target_id = %s AND hugged at > NOW() - make_interval(days => %s)""",
+        """SELECT hugger_id FROM last_hugged WHERE server_id = %s AND target_id = %s AND hugged_at > NOW() - make_interval(days => %s)""",
         (str(server_id), str(target_id), HUG_EXPIRY_DAYS)
     )
 
@@ -132,7 +132,10 @@ def clear_last_hugger(server_id, target_id):
 def init_db_start():
     init_db()
 
+MIN_SPEED_MS = 20
 def make_pet_gif(source, dest, speed_ms=20):
+    speed_ms = max(speed_ms, MIN_SPEED_MS)
+
     temp = io.BytesIO()
     petpet.make(source, temp)
     temp.seek(0)
