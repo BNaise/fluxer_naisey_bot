@@ -58,7 +58,7 @@ async def naiseyhelp(ctx):
     embed.add_field(name=f"{prefux}calc (equation)", value="Calculator! (type \"list\" as an equation to get a list of functions)", inline=False)
     embed.add_field(name=f"{prefux}avatar (user)", value="Get a user's avatar.", inline=False)
     embed.add_field(name=f"{prefux}pet (user) (speed (the higher the number the slower the speed, default is 30))", value="Pets a user :3 (Warning: It takes some time to output the gif so be patient and don't overload it)", inline=False)
-    embed.add_field(name=f"{prefux}flowery (file name [optional, type \"list\" for list of files])", value="Flowery :3", inline=False)
+    embed.add_field(name=f"{prefux}flowery (file name [optional, type \"list\" for list of files])", value=f"Flowery :3 \n(also do {prefux}flowery grep `text` to search for files)", inline=False)
     embed.add_field(name=f"{prefux}kawkaw (file name [optional, type \"list\" for list of files])", value="Kawkaw :3", inline=False)
     embed.add_field(name=f"{prefux}prefixset (prefix)", value="Set the bots prefix (Admin only)", inline=False)
 
@@ -499,6 +499,35 @@ async def flowery(ctx, *, filename: str = None):
         return
 
     if filename:
+        parts = filename.split(maxsplit=1)
+        if parts and parts[0].lower() == "grep":
+            if len(parts) < 2:
+                await ctx.reply("Usage: `flowery grep <text>`")
+                return
+
+            query = parts[1].lower()
+            found = [f for f in sorted(files) if query in f.lower()]
+
+            if not found:
+                await ctx.reply(f"No clips matching `{parts[1]}`.")
+                return
+
+            embed = fluxer.Embed(
+                title=f"Flowery clips matching \"{parts[1]}\"",
+                description="\n".join(f"- {f}" for f in found),
+                color=0x52F0EF,
+            )
+
+            if len(found) <= 15:
+                await ctx.reply(embed=embed)
+            else:
+                try:
+                    await ctx.reply(embed=embed)
+                except Exception:
+                    await ctx.reply("Try a more specific search.")
+            return
+
+    if filename:
         search = filename.lower()
         matches = [
             f for f in files
@@ -548,6 +577,35 @@ async def kawkaw(ctx, *, filename: str = None):
 
         await ctx.reply(embed=embed)
         return
+
+    if filename:
+        parts = filename.split(maxsplit=1)
+        if parts and parts[0].lower() == "grep":
+            if len(parts) < 2:
+                await ctx.reply("Usage: `kawkaw grep <text>`")
+                return
+
+            query = parts[1].lower()
+            found = [f for f in sorted(files) if query in f.lower()]
+
+            if not found:
+                await ctx.reply(f"No clips matching `{parts[1]}`.")
+                return
+
+            embed = fluxer.Embed(
+                title=f"Kawkaw clips matching \"{parts[1]}\"",
+                description="\n".join(f"- {f}" for f in found),
+                color=0x52F0EF,
+            )
+
+            if len(found) <= 15:
+                await ctx.reply(embed=embed)
+            else:
+                try:
+                    await ctx.reply(embed=embed)
+                except Exception:
+                    await ctx.reply("Try a more specific search.")
+            return
 
     if filename:
         search = filename.lower()
