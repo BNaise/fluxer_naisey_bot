@@ -73,6 +73,9 @@ async def hug(ctx, *, who: str = None):
     if who in ("@everyone", "@here"):
         await ctx.reply("You can't just do that!")
         return
+    elif who == bot.user.mention:
+        await ctx.reply("Awwww Thanks >w<")
+        return
 
     target = who
     reciprocal = False
@@ -118,11 +121,9 @@ async def hug(ctx, *, who: str = None):
 
     choice = random.choice(messages)
 
-    if who == user:
+    if target == user:
         await ctx.reply(f"{user} gave themselves a hug 🫂🥺")
-    elif who == bot.user.mention:
-        await ctx.reply("Awwww Thanks >w<")
-    elif who:
+    elif target:
         await ctx.reply(choice)
     else:
         await ctx.reply(f"{user} gave themselves a hug 🫂🥺")
