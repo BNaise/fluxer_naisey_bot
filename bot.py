@@ -52,6 +52,7 @@ async def naiseyhelp(ctx):
     embed.add_field(name=f"{prefux}kiss (user)", value="Kiss the mentioned user", inline=False)
     embed.add_field(name=f"{prefux}cheekkiss (user)", value="Kiss the mentioned user on the cheek :3", inline=False)
     embed.add_field(name=f"{prefux}silly (user [optional])", value="Silly :P", inline=False)
+    embed.add_field(name=f"{prefux}murder (user)", value="Murderrrr >:3", inline=False)
     embed.add_field(name=f"{prefux}deltarot", value="Says Deltarots -_-", inline=False)
     embed.add_field(name=f"{prefux}gamble", value="Let's go gambling!!", inline=False)
     embed.add_field(name=f"{prefux}roll (Finishing number) (Starting number [Optional, Default is 1])", value="Rolls a random number between the Starting number and Finishing number.", inline=False)
@@ -631,6 +632,29 @@ async def kawkaw(ctx, *, filename: str = None):
 
     await ctx.reply(file=fluxer.File(path, filename=choice))
     await status.delete()
+
+@bot.command()
+async def murder(ctx, *, who: str = None):
+    user = ctx.author.mention
+
+    target = who
+
+    messages = \
+    [
+        f"{user} killed {target} when the light went out so no one would know it was them... >:3",
+        f"{user} just went \"BOO\", giving {target} a fatal heart attack 😨",
+        f"{user} just pulled out a bazooka and blew {target} up!?!? 😨",
+        f"{user} just went \"OOGA BOOGA\", giving {target} a fatal heart attack 😈",
+    ]
+
+    choice = random.choice(messages)
+
+    if who == user:
+        await ctx.reply(f"BAH- {user} JUST K-KILLED THEMSELVES??? NOOOOOOOOOOOOOOOOOO 😱")
+    elif who:
+        await ctx.reply(choice)
+    else:
+        await ctx.reply(f"BAH- {user} JUST K-KILLED THEMSELVES??? NOOOOOOOOOOOOOOOOOO 😱")
 
 @bot.command()
 async def prefixset(ctx, new_prefix: str = None):
