@@ -32,8 +32,14 @@ def init_db():
             server_id TEXT NOT NULL,
             target_id TEXT NOT NULL,
             hugger_id TEXT NOT NULL,
+            hugged_at TIMESTAMP NOT NULL DEFAULT NOW(),
             PRIMARY KEY (server_id, target_id)
         )
+    """)
+
+    cursor.execute("""
+        ALTER TABLE last_hugged
+        ADD COLUMN IF NOT EXISTS hugged_at TIMESTAMP NOT NULL DEFAULT NOW()
     """)
 
     conn.commit()
@@ -80,13 +86,15 @@ def get_bot_prefix(bot, message):
 
     return get_prefix(message.guild.id)
 
+HUG_EXPIRY_DAYS = 3
+
 def get_last_hugger(server_id, target_id):
     conn = get_connection()
     cursor = conn.cursor()
 
     cursor.execute(
-        "SELECT hugger_id FROM last_hugged WHERE server_id = %s AND target_id = %s",
-        (str(server_id), str(target_id))
+        """SELECT hugger_id FROM last_hugged WHERE server_id = %s AND target_id = %s AND hugged at > NOW() - make_interval(days => %s)""",
+        (str(server_id), str(target_id), HUG_EXPIRY_DAYS)
     )
 
     result = cursor.fetchone()
@@ -102,10 +110,10 @@ def set_last_hugger(server_id, target_id, hugger_id):
     cursor = conn.cursor()
 
     cursor.execute("""
-        INSERT INTO last_hugged (server_id, target_id, hugger_id)
-        VALUES (%s, %s, %s)
+        INSERT INTO last_hugged (server_id, target_id, hugger_id, hugged_at)
+        VALUES (%s, %s, %s, NOW())
         ON CONFLICT (server_id, target_id)
-        DO UPDATE SET hugger_id = EXCLUDED.hugger_id
+        DO UPDATE SET hugger_id = EXCLUDED.hugger_id, hugged_at = NOW()
     """, (str(server_id), str(target_id), str(hugger_id)))
 
     conn.commit()
