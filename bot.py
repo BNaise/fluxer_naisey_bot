@@ -15,8 +15,8 @@ load_dotenv()
 DATABASE_URL = os.getenv("DATABASE_URL")
 
 # Debug the bot
-debug = False
-# debug = True
+# debug = False
+debug = True
 
 #Starts Database
 funcs.init_db_start()
@@ -120,6 +120,8 @@ async def hug(ctx, *, who: str = None):
 
     if who == user:
         await ctx.reply(f"{user} gave themselves a hug 🫂🥺")
+    elif who == bot.user.mention:
+        await ctx.reply("Awwww Thanks >w<")
     elif who:
         await ctx.reply(choice)
     else:
