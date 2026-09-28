@@ -14,13 +14,15 @@ load_dotenv()
 
 DATABASE_URL = os.getenv("DATABASE_URL")
 
+# Debug the bot
 debug = False
 # debug = True
 
-if not debug:
-    funcs.init_db_start()
+#Starts Database
+funcs.init_db_start()
 
 if not debug:
+    #Sets the prefix
     bot = fluxer.Bot(command_prefix=funcs.get_bot_prefix, intents=fluxer.Intents.all())
 else:
     bot = fluxer.Bot(command_prefix="!", intents=fluxer.Intents.all())
