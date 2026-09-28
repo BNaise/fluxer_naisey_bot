@@ -33,8 +33,11 @@ Bot is online! Logged in as <your bot's username>
 pip install -r requirements.txt
 
 Create a `.env` file:
+
 TOKEN=your_bot_token
+
 TOKEN2=your_debug_bot_token (only if you're debugging)
+
 DATABASE_URL=your_postgres_url (Put external link to debug locally)
 
 Then:
