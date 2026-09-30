@@ -753,6 +753,16 @@ async def prefixset(ctx, new_prefix: str = None):
 
     await ctx.reply(f"Prefix changed to: `{new_prefix}`")
 
+@bot.command()
+async def rake(ctx):
+    rake = [
+        "files/images/rake.png",
+        "files/images/rake_heart.png"
+    ]
+    choice = random.choice(rake)
+    file = fluxer.File(choice)
+    await ctx.reply(file=file)
+
 if not debug:
     funcs.keep_alive()
 
