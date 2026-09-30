@@ -760,8 +760,10 @@ async def rake(ctx):
         "files/images/rake_heart.png"
     ]
     choice = random.choice(rake)
+    status = await ctx.reply("uploading...")
     file = fluxer.File(choice)
     await ctx.reply(file=file)
+    await status.delete()
 
 if not debug:
     funcs.keep_alive()
