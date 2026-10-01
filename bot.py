@@ -284,17 +284,17 @@ async def silly(ctx, *, who: str = None):
 
     target = who
 
-    if who in "@everyone":
+    if who == "@everyone":
         await ctx.reply(f"{user} does silly thing to everyone >:3")
         return
-    elif who in "@here":
+    elif who == "@here":
         await ctx.reply(f"{user} does silly thing to everyone >:3")
         return
-    elif who in bot.user.mention:
+    elif who == bot.user.mention:
         await ctx.reply("Wawa? OwO")
         return
 
-    elif not who:
+    if not who:
         messages = \
             [
               "Bleh",
