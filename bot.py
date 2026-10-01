@@ -291,10 +291,10 @@ async def silly(ctx, *, who: str = None):
         await ctx.reply(f"{user} does silly thing to everyone >:3")
         return
     elif who in bot.user.mention:
-        await ctx.reply("Wuh? OwO")
+        await ctx.reply("Wawa? OwO")
         return
 
-    if not who:
+    elif not who:
         messages = \
             [
               "Bleh",
