@@ -736,9 +736,6 @@ async def revive(ctx, *, who: str = None):
     if target in ("@everyone", "@here"):
         await ctx.reply(f"{user} revived everyone! yayy! they be on the pacifist root ^w^")
         return
-    if target in bot.user.mention:
-        await ctx.reply("Thankies ^^")
-        return
 
     messages = \
     [
@@ -751,6 +748,8 @@ async def revive(ctx, *, who: str = None):
 
     if who == user:
         await ctx.reply(f"... Oh my god *{user}'S **IMMORTAL**-*!")
+    elif who == bot.user.mention:
+        await ctx.reply("Thankies ^^")
     elif who:
         await ctx.reply(choice)
     else:
