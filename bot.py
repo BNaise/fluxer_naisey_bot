@@ -800,7 +800,7 @@ async def rake(ctx):
 
 @bot.command()
 async def bored(ctx):
-    file = "files/images/gifs/bernii_bored.gif"
+    file = fluxer.File("files/images/gifs/bernii_bored.gif")
     status = await ctx.reply("uploading...")
     await ctx.reply(file=file)
     await status.delete()
