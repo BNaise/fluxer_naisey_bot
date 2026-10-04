@@ -53,8 +53,10 @@ async def naiseyhelp(ctx):
     embed.add_field(name=f"{prefux}cheekkiss (user)", value="Kiss the mentioned user on the cheek :3", inline=False)
     embed.add_field(name=f"{prefux}silly (user [optional])", value="Silly :P", inline=False)
     embed.add_field(name=f"{prefux}murder (user)", value="Murderrrr >:3", inline=False)
+    embed.add_field(name=f"{prefux}revive (user)", value="Revive the dead :3", inline=False)
     embed.add_field(name=f"{prefux}deltarot", value="Says Deltarots -_-", inline=False)
     embed.add_field(name=f"{prefux}gamble", value="Let's go gambling!!", inline=False)
+    embed.add_field(name=f"{prefux}bored", value="Bored -_-", inline=False)
     embed.add_field(name=f"{prefux}roll (Finishing number) (Starting number [Optional, Default is 1])", value="Rolls a random number between the Starting number and Finishing number.", inline=False)
     embed.add_field(name=f"{prefux}calc (equation)", value="Calculator! (type \"list\" as an equation to get a list of functions)", inline=False)
     embed.add_field(name=f"{prefux}avatar (user)", value="Get a user's avatar.", inline=False)
@@ -62,6 +64,7 @@ async def naiseyhelp(ctx):
     embed.add_field(name=f"{prefux}flowery (file name [optional, type \"list\" for list of files])", value=f"Flowery :3 \n(also do {prefux}flowery grep `text` to search for files)", inline=False)
     embed.add_field(name=f"{prefux}kawkaw (file name [optional, type \"list\" for list of files])", value="Kawkaw :3", inline=False)
     embed.add_field(name=f"{prefux}prefixset (prefix)", value="Set the bots prefix (Admin only)", inline=False)
+    embed.add_field(name=f"{prefux}uh-uh-uh this one is a secret >:3", value="Let's see if you can find it Ow<*", inline=False)
 
     embed.set_footer(text="(That's it for right now, other commands will be added in the future enjoy! :3)")
 
@@ -724,6 +727,35 @@ async def murder(ctx, *, who: str = None):
         await ctx.reply("Mention someone or put someones name to slay themmm >:3")
 
 @bot.command()
+async def revive(ctx, *, who: str = None):
+    user = ctx.author.mention
+
+    target = who
+
+    if target in ("@everyone", "@here"):
+        await ctx.reply(f"{user} revived everyone! yayy! they be on the pacifist root ^w^")
+        return
+    if target in bot.user.mention:
+        await ctx.reply("Thankies ^^")
+        return
+
+    messages = \
+    [
+        f"{user} crouched by {target} and held `E` for a few seconds",
+        f"{user} performed a ritual and sacrificed a doll(?) to bring {target} back to life",
+        f"In a flash of light, {user} descended upon {target} and gave them the gift of another life"
+    ]
+
+    choice = random.choice(messages)
+
+    if who == user:
+        await ctx.reply(f"... Oh my god *{user}'S **IMMORTAL**-*!")
+    elif who:
+        await ctx.reply(choice)
+    else:
+        await ctx.reply("Mention someone or put someones name to revive them :3")
+
+@bot.command()
 async def prefixset(ctx, new_prefix: str = None):
     if ctx.guild is None:
         await ctx.reply("This only works in a server, not DMs.")
@@ -762,6 +794,13 @@ async def rake(ctx):
     choice = random.choice(rake)
     status = await ctx.reply("uploading...")
     file = fluxer.File(choice)
+    await ctx.reply(file=file)
+    await status.delete()
+
+@bot.command()
+async def bored(ctx):
+    file = "files/images/gifs/bernii_bored.gif"
+    status = await ctx.reply("uploading...")
     await ctx.reply(file=file)
     await status.delete()
 
