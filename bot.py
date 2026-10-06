@@ -57,6 +57,7 @@ async def naiseyhelp(ctx):
     embed.add_field(name=f"{prefux}deltarot", value="Says Deltarots -_-", inline=False)
     embed.add_field(name=f"{prefux}gamble", value="Let's go gambling!!", inline=False)
     embed.add_field(name=f"{prefux}bored", value="Bored -_-", inline=False)
+    embed.add_field(name=f"{prefux}starwalker", value="Starwalker :)", inline=False)
     embed.add_field(name=f"{prefux}roll (Finishing number) (Starting number [Optional, Default is 1])", value="Rolls a random number between the Starting number and Finishing number.", inline=False)
     embed.add_field(name=f"{prefux}calc (equation)", value="Calculator! (type \"list\" as an equation to get a list of functions)", inline=False)
     embed.add_field(name=f"{prefux}avatar (user)", value="Get a user's avatar.", inline=False)
@@ -795,6 +796,29 @@ async def rake(ctx):
     status = await ctx.reply("uploading...")
     file = fluxer.File(choice)
     await ctx.reply(file=file)
+    await status.delete()
+
+@bot.command()
+async def starwalker(ctx):
+
+    messages = [
+        "These birds are pissing me off\nI am the ORIGINAL\n\n\nStarwalker",
+        "It was a long journey but now it is time\n`*Transforms*`\nThe Final\n\nStarwalker",
+        "These tropical birds are tropissing me off\nI am the Tropical\n\n\nStarwalker"
+    ]
+
+    choice = random.choice(messages)
+
+    if choice == "These birds are pissing me off\nI am the ORIGINAL\n\n\nStarwalker":
+        file_choice = "files/images/starwalker.png"
+    elif choice == "It was a long journey but now it is time\n`*Transforms*`\nThe Final\n\nStarwalker":
+        file_choice = "files/images/starwalker_final.png"
+    elif choice == "These tropical birds are tropissing me off\nI am the Tropical\n\n\nStarwalker":
+        file_choice = "files/images/starwalker_tropical.png"
+
+    status = await ctx.reply("uploading...")
+    file = fluxer.File(file_choice)
+    await ctx.reply(choice, file=file)
     await status.delete()
 
 @bot.command()
