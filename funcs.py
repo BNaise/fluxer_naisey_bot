@@ -81,7 +81,7 @@ def get_bot_prefix(bot, message):
 
     return get_prefix(message.guild.id)
 
-HUG_EXPIRY_DAYS = 3
+HUG_EXPIRY_DAYS = 1
 
 def get_last_hugger(server_id, target_id):
     conn = get_connection()
