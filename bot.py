@@ -1,14 +1,16 @@
 import os
 import random
 import io
+import re
 
 import aiohttp
+import asyncio
 
 import fluxer
 
 from dotenv import load_dotenv
 
-import funcs
+from funtions import database, keep_alive, pet_gif, multi_pet_gif, calculator
 
 load_dotenv()
 
@@ -19,11 +21,11 @@ debug = False
 # debug = True
 
 #Starts Database
-funcs.init_db_start()
+database.init_db_start()
 
 if not debug:
     #Sets the prefix
-    bot = fluxer.Bot(command_prefix=funcs.get_bot_prefix, intents=fluxer.Intents.all())
+    bot = fluxer.Bot(command_prefix=database.get_bot_prefix, intents=fluxer.Intents.all())
 else:
     bot = fluxer.Bot(command_prefix="!", intents=fluxer.Intents.all())
 
@@ -37,7 +39,7 @@ async def naiseyhelp(ctx):
     if ctx.guild is None:
       prefux = "!"
     else:
-      prefux = funcs.get_prefix(ctx.guild.id)
+      prefux = database.get_prefix(ctx.guild.id)
 
     embed = fluxer.Embed(
         title="Naisey's commands",
@@ -62,7 +64,8 @@ async def naiseyhelp(ctx):
     embed.add_field(name=f"{prefux}roll (Finishing number) (Starting number [Optional, Default is 1])", value="Rolls a random number between the Starting number and Finishing number.", inline=False)
     embed.add_field(name=f"{prefux}calc (equation)", value="Calculator! (type \"list\" as an equation to get a list of functions)", inline=False)
     embed.add_field(name=f"{prefux}avatar (user)", value="Get a user's avatar.", inline=False)
-    embed.add_field(name=f"{prefux}pet (user) (speed (the higher the number the slower the speed, default is 30))", value="Pets a user :3 (Warning: It takes some time to output the gif so be patient and don't overload it)", inline=False)
+    embed.add_field(name=f"{prefux}pet (users [maximum 10]) (speed (the higher the number the slower the speed, default is 40))", value="Pets a user :3 (Warning: It takes some time to output the gif so be patient and don't overload it)", inline=False)
+    embed.add_field(name=f"{prefux}petmix (users [maximum 10]) (speed (the higher the number the slower the speed, default is 40))", value="Basically pet but outputs a single gif file with all the users", inline=False)
     embed.add_field(name=f"{prefux}flowery (file name [optional, type \"list\" for list of files])", value=f"Flowery :3 \n(also do {prefux}flowery grep `text` to search for files)", inline=False)
     embed.add_field(name=f"{prefux}kawkaw (file name [optional, type \"list\" for list of files])", value="Kawkaw :3", inline=False)
     embed.add_field(name=f"{prefux}prefixset (prefix)", value="Set the bots prefix (Admin only)", inline=False)
@@ -94,12 +97,12 @@ async def hug(ctx, *, who: str = None):
         author_id = ctx.author.id
         scope_id = ctx.guild.id if ctx.guild else f"dm-{ctx.channel_id}"
 
-        last_hugger = funcs.get_last_hugger(scope_id, author_id)
+        last_hugger = database.get_last_hugger(scope_id, author_id)
         if last_hugger == str(target_id):
             reciprocal = True
-            funcs.clear_last_hugger(scope_id, author_id)
+            database.clear_last_hugger(scope_id, author_id)
         else:
-            funcs.set_last_hugger(scope_id, target_id, author_id)
+            database.set_last_hugger(scope_id, target_id, author_id)
 
     if reciprocal:
         messages = [
@@ -473,7 +476,7 @@ async def cheekkiss(ctx, *, who: str = None):
 async def calc(ctx, *, equation: str):
 
     bruh = ""
-    result = funcs.calculate(equation)
+    result = calculator.calculate(equation)
 
     if result == 67:
         bruh = " (Seriously bruh? -_-)"
@@ -493,45 +496,123 @@ async def calc(ctx, *, equation: str):
 
 @bot.command()
 async def pet(ctx, *, args: str = None):
-    speed_ms = 30
+    speed_ms = 40
     text = args
 
     user = ctx.author.mention
 
-    if args in "@everyone":
-        await ctx.reply(f"{user} has pet everyone! yayyy ^w^")
-        return
-    elif args in "@here":
-        await ctx.reply(f"{user} has pet everyone here! yayyy ^w^")
-        return
-    else:
-        status = await ctx.reply("Uploading...")
-
+    if args:
         parts = args.rsplit(" ", 1)
         if len(parts) == 2 and parts[1].isdigit():
             text, speed_ms = parts[0], int(parts[1])
         elif args.isdigit():
             text, speed_ms = None, int(args)
+    else:
+        await ctx.reply("Mention someone to pet :3")
+        return
 
     if ctx.mentions:
-        target = ctx.mentions[0]
-    else:
-        target = ctx.author
+        speed_ms = max(speed_ms, 20)
 
+        # Pull every raw mention ID from the message content, duplicates included
+        raw_ids = re.findall(r'<@!?(\d+)>', ctx.content)
+
+        if raw_ids:
+            # Look up the actual User object for each ID using ctx.mentions (deduped),
+            # then rebuild the full repeated list in the order they appeared
+            mention_lookup = {str(m.id): m for m in ctx.mentions}
+            targets = [mention_lookup[i] for i in raw_ids[:10] if i in mention_lookup]
+        else:
+            targets = [ctx.author]
+    else:
+        await ctx.reply("Please mention a valid user :P")
+        return
+
+    status = await ctx.reply("petting... 🫳")
+
+    files = []
     async with aiohttp.ClientSession() as session:
-        async with session.get(target.avatar_url) as resp:
-            avatar_bytes = io.BytesIO(await resp.read())
+        for target in targets:
+            async with session.get(target.avatar_url) as resp:
+                avatar_bytes = io.BytesIO(await resp.read())
+
+            gif_bytes = io.BytesIO()
+            await asyncio.to_thread(pet_gif.make_pet_gif, avatar_bytes, gif_bytes, speed_ms)
+            gif_bytes.seek(0)
+
+            files.append(fluxer.File(gif_bytes, filename=f"pet_{target.id}_{len(files)}.gif"))
+
+    target_mentions = [t.mention for t in targets]
+    if len(target_mentions) == 1:
+        names = target_mentions[0]
+    else:
+        names = ", ".join(target_mentions[:-1]) + f" and {target_mentions[-1]}"
+
+    content = f"{ctx.author.mention} has pet {names} :3"
+    # await status.delete()
+    if args in bot.user.mention:
+        await ctx.reply(f"{user} has pet {target} :3\nThanks ~^w^~", files=files)
+    elif args in user:
+        await ctx.reply(f"{user} has pet themselves?", files=files)
+    else:
+        await ctx.reply(content=content, files=files)
+    # await ctx.reply(files=files)
+    await status.delete()
+
+@bot.command()
+async def petmix(ctx, *, args: str = None):
+    speed_ms = 40
+    text = args
+
+    if args:
+        parts = args.rsplit(" ", 1)
+        if len(parts) == 2 and parts[1].isdigit():
+            text, speed_ms = parts[0], int(parts[1])
+        elif args.isdigit():
+            text, speed_ms = None, int(args)
+    else:
+        await ctx.reply("Mention users to pet :3")
+        return
+
+    if ctx.mentions:
+        if len(ctx.mentions) > 1:
+            speed_ms = max(speed_ms, 20)
+
+            raw_ids = re.findall(r'<@!?(\d+)>', ctx.content)
+
+            if raw_ids:
+                mention_lookup = {str(m.id): m for m in ctx.mentions}
+                targets = [mention_lookup[i] for i in raw_ids[:10] if i in mention_lookup]
+            # else:
+            #     targets = [ctx.author]
+        elif len(ctx.mentions) == 1:
+            await ctx.reply("Mention more than one user to mix pet :3")
+            return
+    else:
+        await ctx.reply("Please mention valid users :P")
+        return
+
+    status = await ctx.reply("petting... 🫳")
+
+    avatar_byte_list = []
+    async with aiohttp.ClientSession() as session:
+        for target in targets:
+            async with session.get(target.avatar_url) as resp:
+                avatar_byte_list.append(io.BytesIO(await resp.read()))
 
     gif_bytes = io.BytesIO()
-    funcs.make_pet_gif(avatar_bytes, gif_bytes, speed_ms=speed_ms)
+    await asyncio.to_thread(multi_pet_gif.make_multi_pet_gif, avatar_byte_list, gif_bytes, speed_ms)
     gif_bytes.seek(0)
 
-    if args in bot.user.mention:
-        await ctx.reply(f"{user} has pet {target.mention} :3\nThanks ~^w^~", file=fluxer.File(gif_bytes, filename="pet.gif"))
-    elif args in user:
-        await ctx.reply(f"{user} has pet themselves?", file=fluxer.File(gif_bytes, filename="pet.gif"))
+    target_mentions = [t.mention for t in targets]
+    if len(target_mentions) == 1:
+        names = target_mentions[0]
     else:
-        await ctx.reply(f"{user} has pet {target.mention} :3", file=fluxer.File(gif_bytes, filename="pet.gif"))
+        names = ", ".join(target_mentions[:-1]) + f" and {target_mentions[-1]}"
+
+    content = f"{ctx.author.mention} has pet {names} :3"
+
+    await ctx.send(content=content, file=fluxer.File(gif_bytes, filename="petall.gif"))
     await status.delete()
 
 @bot.command()
@@ -796,11 +877,11 @@ async def prefixset(ctx, new_prefix: str = None):
         return
 
     if not new_prefix:
-        current_prefix = funcs.get_prefix(ctx.guild.id)
+        current_prefix = database.get_prefix(ctx.guild.id)
         await ctx.reply(f"Current prefix is: `{current_prefix}`")
         return
 
-    funcs.set_prefix(ctx.guild.id, new_prefix)
+    database.set_prefix(ctx.guild.id, new_prefix)
 
     await ctx.reply(f"Prefix changed to: `{new_prefix}`")
 
@@ -864,7 +945,7 @@ async def coinflip(ctx):
     await ctx.reply("The coin has landed on: " + choice)
 
 if not debug:
-    funcs.keep_alive()
+    keep_alive.keep_alive()
 
 # 4. Run the bot using your Fluxer token
 if __name__ == "__main__":
