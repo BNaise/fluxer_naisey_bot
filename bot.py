@@ -314,7 +314,7 @@ async def silly(ctx, *, who: str = None):
           await ctx.reply(f"{user} does silly thing to everyone >:3")
           return
       elif who in "@here":
-          await ctx.reply(f"{user} does silly thing to everyone >:3")
+          await ctx.reply(f"{user} does silly thing to everyone in here >:3")
           return
       elif who in bot.user.mention:
           await ctx.reply("Wawa? OwO")
@@ -373,6 +373,24 @@ async def deltarot(ctx):
             "Hey i think this kinda took a weird route.",
             "Human... I remember... You're genocides...",
             "Hey undyne!\nHow many human souls do we need to break the barrier?",
+            "Hey there little guy!",
+            "Heh its my jarona!",
+            "He is in some king of snowgrave.",
+            "*_Swoon_",
+            "I'm the Roaring Knight! and am a fraud!",
+            "*You looked behind the tree",
+            "*Well there is a man here",
+            "*And he is offering you a egg",
+            "*Susie's idea",
+            "WD.Gaster in deltarune build it all from a empty room.",
+            "Its 12:25 outside.",
+            "Well this stinks.",
+            "I'm Old!",
+            "I'm fOld!",
+            "What do you do with a drunken gonner!\n What do you do with a drunken gonner!\nWhat do you do with a drunken gonner!\nEarly in the Roaring!",
+            "PINK AND YELLOW?!?! 🩷=💛",
+            "*Why wold Chara do this?!?!",## naise add chara doing What me??? pose to this line pls!!! :3 ty already!! :3 oh and i added the png lol it is Chara_What_Me.png in the files/images folder :3 ##
+            "I am Frisk.",
             f"CHAOS CHAOS!"
         ]
 
@@ -381,6 +399,8 @@ async def deltarot(ctx):
     if choice == "Hey undyne!\nHow many human souls do we need to break the barrier?":
         file = fluxer.File("files/images/undyne-seven.webp")
         await ctx.reply(choice, file=file)
+    elif choice == "*Why wold Chara do this?!?!":
+        file = fluxer.File("files/images/Chara_What_Me.png")
     else:
         await ctx.reply(choice)
 
@@ -821,7 +841,7 @@ async def murder(ctx, *, who: str = None):
     choice = random.choice(messages)
 
     if who == user:
-        await ctx.reply("That's suicide. Don't joke with that. If you are not okay, call a suicide helpline.")
+        await ctx.reply("That's suicide. Don't joke with that. If you are not okay, call a suicide helpline. Here are some resources:\n1.https://blog.opencounseling.com/suicide-hotlines/\n2.https://findahelpline.com\n3.https://en.wikipedia.org/wiki/List_of_suicide_crisis_lines yes we have wiki for this.")
     elif who:
         await ctx.reply(choice)
     else:
