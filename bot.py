@@ -629,7 +629,7 @@ async def petmix(ctx, *, args: str = None):
 
     content = f"{ctx.author.mention} has pet {names} :3"
 
-    await ctx.send(content=content, file=fluxer.File(gif_bytes, filename="petall.gif"))
+    await ctx.reply(content=content, file=fluxer.File(gif_bytes, filename="petall.gif"))
     await status.delete()
 
 @bot.command()
