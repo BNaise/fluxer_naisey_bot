@@ -3,5 +3,5 @@ fluxer.py
 flask
 pet-pet-gif-fix
 aiohttp
-pillow
+pillow==10.4.0
 psycopg2-binary
