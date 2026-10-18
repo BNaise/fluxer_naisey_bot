@@ -842,7 +842,7 @@ async def murder(ctx, *, who: str = None):
     choice = random.choice(messages)
 
     if who == user:
-        await ctx.reply("That's suicide. Don't joke with that. If you are not okay, call a suicide helpline. Here are some resources:\n1.https://blog.opencounseling.com/suicide-hotlines/\n2.https://findahelpline.com\n3.https://en.wikipedia.org/wiki/List_of_suicide_crisis_lines yes we have wiki for this.")
+        await ctx.reply("That's suicide. Don't joke with that. If you are not okay, call a suicide helpline. Here are some resources:\n1.https://blog.opencounseling.com/suicide-hotlines/\n2.https://findahelpline.com\n3.https://en.wikipedia.org/wiki/List_of_suicide_crisis_lines\nyes we have wiki for this.")
     elif who:
         await ctx.reply(choice)
     else:
