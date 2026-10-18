@@ -549,18 +549,23 @@ async def pet(ctx, *, args: str = None):
         return
 
     status = await ctx.reply("petting... 🫳")
+    print("checkpoint 1: placeholder sent, targets:", [t.id for t in targets])
 
     files = []
     async with aiohttp.ClientSession() as session:
         for target in targets:
+            print("checkpoint 2: downloading avatar for", target.id)
             async with session.get(target.avatar_url) as resp:
                 avatar_bytes = io.BytesIO(await resp.read())
+            print("checkpoint 3: avatar downloaded, starting gif gen")
 
             gif_bytes = io.BytesIO()
             await asyncio.to_thread(pet_gif.make_pet_gif, avatar_bytes, gif_bytes, speed_ms)
+            print("checkpoint 4: gif gen done")
             gif_bytes.seek(0)
 
             files.append(fluxer.File(gif_bytes, filename=f"pet_{target.id}_{len(files)}.gif"))
+            print("checkpoint 5: file appended")
 
     target_mentions = [t.mention for t in targets]
     if len(target_mentions) == 1:
