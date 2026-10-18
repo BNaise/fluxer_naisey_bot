@@ -596,19 +596,15 @@ async def petmix(ctx, *, args: str = None):
         return
 
     if ctx.mentions:
-        if len(ctx.mentions) > 1:
-            speed_ms = max(speed_ms, 20)
+          speed_ms = max(speed_ms, 20)
 
-            raw_ids = re.findall(r'<@!?(\d+)>', ctx.content)
+          raw_ids = re.findall(r'<@!?(\d+)>', ctx.content)
 
-            if raw_ids:
-                mention_lookup = {str(m.id): m for m in ctx.mentions}
-                targets = [mention_lookup[i] for i in raw_ids[:10] if i in mention_lookup]
-            # else:
-            #     targets = [ctx.author]
-        elif len(ctx.mentions) == 1:
-            await ctx.reply("Mention more than one user to mix pet :3")
-            return
+          if raw_ids:
+              mention_lookup = {str(m.id): m for m in ctx.mentions}
+              targets = [mention_lookup[i] for i in raw_ids[:10] if i in mention_lookup]
+          # else:
+          #     targets = [ctx.author]
     else:
         await ctx.reply("Please mention valid users :P")
         return
