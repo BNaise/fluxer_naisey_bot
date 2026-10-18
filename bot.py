@@ -401,6 +401,7 @@ async def deltarot(ctx):
         await ctx.reply(choice, file=file)
     elif choice == "*Why wold Chara do this?!?!":
         file = fluxer.File("files/images/Chara_What_Me.png")
+        await ctx.reply(choice, file=file)
     else:
         await ctx.reply(choice)
 
