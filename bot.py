@@ -849,6 +849,58 @@ async def murder(ctx, *, who: str = None):
         await ctx.reply("Mention someone or put someones name to slay themmm >:3")
 
 @bot.command()
+async def ship(ctx, *, args: str = None):
+    if not args:
+        await ctx.reply("Mention two people to ship :3")
+        return
+
+    raw_ids = re.findall(r'<@!?(\d+)>', ctx.content)
+
+    if len(raw_ids) < 2:
+        await ctx.reply("Mention two people to ship them together :3")
+        return
+
+    mention_lookup = {str(m.id): m for m in ctx.mentions}
+    targets = [mention_lookup[i] for i in raw_ids[:2] if i in mention_lookup]
+
+    if len(targets) < 2:
+        await ctx.reply("Couldn't find both users mentioned :P")
+        return
+
+    a, b = targets[0], targets[1]
+
+    name_a = a.display_name
+    name_b = b.display_name
+
+    half_a = name_a[:max(1, len(name_a) // 2)]
+    half_b = name_b[len(name_b) // 2:]
+    ship_name = half_a + half_b
+
+    percent = random.randint(0, 100)
+
+    if percent >= 90:
+        verdict = "Soulmates! 💕"
+    elif percent >= 70:
+        verdict = "Pretty cute together ^w^"
+    elif percent >= 40:
+        verdict = "Eh, could go either way"
+    elif percent >= 15:
+        verdict = "Yikes, rough start"
+    else:
+        verdict = "Absolutely not 💀"
+
+    bar_filled = percent // 10
+    bar = "█" * bar_filled + "░" * (10 - bar_filled)
+
+    embed = fluxer.Embed(
+        title=f"💘 {ship_name} 💘",
+        description=f"{a.mention} x {b.mention}\n\n`{bar}` **{percent}%**\n{verdict}",
+        color=0xFF69B4,
+    )
+
+    await ctx.reply(embed=embed)
+
+@bot.command()
 async def revive(ctx, *, who: str = None):
     user = ctx.author.mention
 
