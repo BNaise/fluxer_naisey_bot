@@ -35,7 +35,7 @@ async def on_ready():
 
 # Commands
 @bot.command()
-async def naiseyhelp(ctx):
+async def help(ctx):
     if ctx.guild is None:
         prefux = "!"
     else:
