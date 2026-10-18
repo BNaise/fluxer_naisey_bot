@@ -1,10 +1,20 @@
 import math
 import cmath
 import re
+import signal
 
-MAX_EXPONENT = 1000
 MAX_RESULT_DIGITS = 1000
 MAX_FACTORIAL_INPUT = 10000
+CALC_TIMEOUT_SECONDS = 2
+
+
+class CalcTimeout(Exception):
+    pass
+
+
+def _timeout_handler(signum, frame):
+    raise CalcTimeout()
+
 
 def calculate(expr):
     if expr.strip().lower() == "list":
@@ -32,26 +42,21 @@ def calculate(expr):
     expr = expr.replace('x', '*').replace('X', '*').replace('^', '**')
     if not re.fullmatch(r'[\d+\-*/().\s^a-zA-Z,]+', expr):
         raise ValueError("Invalid characters in expression")
-    for base, exp in re.findall(r'(\d+)\s*\*\*\s*(\d+)', expr):
-        if int(exp) > MAX_EXPONENT:
-            raise ValueError(f"Exponent too large (max {MAX_EXPONENT})")
+
     allowed_names = {
         "sqrt": cmath.sqrt,
-        # radians (standard)
         "sin": cmath.sin,
         "cos": cmath.cos,
         "tan": cmath.tan,
         "asin": cmath.asin,
         "acos": cmath.acos,
         "atan": cmath.atan,
-        # degrees
         "sind": lambda x: cmath.sin(x * cmath.pi / 180),
         "cosd": lambda x: cmath.cos(x * cmath.pi / 180),
         "tand": lambda x: cmath.tan(x * cmath.pi / 180),
         "asind": lambda x: cmath.asin(x) * 180 / cmath.pi,
         "acosd": lambda x: cmath.acos(x) * 180 / cmath.pi,
         "atand": lambda x: cmath.atan(x) * 180 / cmath.pi,
-        # hyperbolic
         "sinh": cmath.sinh,
         "cosh": cmath.cosh,
         "tanh": cmath.tanh,
@@ -76,7 +81,16 @@ def calculate(expr):
         "deg": lambda x: x * 180 / cmath.pi,
         "rad": lambda x: x * cmath.pi / 180,
     }
-    result = eval(expr, {"__builtins__": {}}, allowed_names)
+
+    signal.signal(signal.SIGALRM, _timeout_handler)
+    signal.alarm(CALC_TIMEOUT_SECONDS)
+
+    try:
+        result = eval(expr, {"__builtins__": {}}, allowed_names)
+    except CalcTimeout:
+        raise ValueError("That calculation is too large/complex to compute.")
+    finally:
+        signal.alarm(0)
 
     if isinstance(result, (int, float, complex)):
         if len(str(result)) > MAX_RESULT_DIGITS:
