@@ -1,6 +1,5 @@
 python-dotenv
 fluxer.py
-flask
 pet-pet-gif-fix
 aiohttp
 pillow==10.4.0
