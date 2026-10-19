@@ -503,9 +503,13 @@ async def cheekkiss(ctx, *, who: str = None):
 @bot.command()
 async def calc(ctx, *, equation: str):
 
-    bruh = ""
-    result = calculator.calculate(equation)
+    try:
+        result = calculator.calculate(equation)
+    except Exception as e:
+        await ctx.reply(f"Error: {e}")
+        return
 
+    bruh = ""
     if result == 67:
         bruh = " (Seriously bruh? -_-)"
     elif result == 69:
@@ -516,11 +520,7 @@ async def calc(ctx, *, equation: str):
     elif equation == "9 + 10":
         await ctx.reply(f"{equation} =\n21")
     else:
-        try:
-          await ctx.reply(f"{equation} =\n{result}{bruh}")
-
-        except Exception as e:
-          await ctx.reply(f"Error: {e}")
+        await ctx.reply(f"{equation} =\n{result}{bruh}")
 
 @bot.command()
 async def pet(ctx, *, args: str = None):
