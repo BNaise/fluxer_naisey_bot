@@ -856,6 +856,10 @@ async def murder(ctx, *, who: str = None):
     else:
         await ctx.reply("Mention someone or put someones name to slay themmm >:3")
 
+HARDCODED_SHIPS = {
+    frozenset({1518272833992527872, 1471779547901222947}): "Made for each other",
+}
+
 @bot.command()
 async def ship(ctx, *, args: str = None):
     if not args:
@@ -884,18 +888,23 @@ async def ship(ctx, *, args: str = None):
     half_b = name_b[len(name_b) // 2:]
     ship_name = half_a + half_b
 
-    percent = random.randint(0, 100)
-
-    if percent >= 90:
-        verdict = "Soulmates! 💕"
-    elif percent >= 70:
-        verdict = "Pretty cute together ^w^"
-    elif percent >= 40:
-        verdict = "Eh, could go either way"
-    elif percent >= 15:
-        verdict = "Yikes, rough start"
+    pair_key = frozenset({a.id, b.id})
+    if pair_key in HARDCODED_SHIPS:
+        percent = 100
+        verdict = HARDCODED_SHIPS[pair_key]
     else:
-        verdict = "Absolutely not 💀"
+        percent = random.randint(0, 100)
+
+        if percent >= 90:
+            verdict = "Soulmates! 💕"
+        elif percent >= 70:
+            verdict = "Pretty cute together ^w^"
+        elif percent >= 40:
+            verdict = "Eh, could go either way"
+        elif percent >= 15:
+            verdict = "Yikes, rough start"
+        else:
+            verdict = "Absolutely not 💀"
 
     bar_filled = percent // 10
     bar = "█" * bar_filled + "░" * (10 - bar_filled)
