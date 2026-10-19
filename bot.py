@@ -1025,8 +1025,8 @@ async def coinflip(ctx):
     choice = random.choice(messages)
     await ctx.reply("The coin has landed on: " + choice)
 
-if not debug:
-    keep_alive.keep_alive()
+# if not debug:
+#     keep_alive.keep_alive()
 
 # 4. Run the bot using your Fluxer token
 if __name__ == "__main__":
