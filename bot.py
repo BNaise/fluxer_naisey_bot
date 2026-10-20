@@ -46,7 +46,7 @@ async def help(ctx):
         prefux = database.get_prefix(ctx.guild.id)
 
     commands_list = [
-        (f"{prefux}naiseyhelp", "Sends this help message"),
+        (f"{prefux}help", "Sends this help message"),
         (f"{prefux}hug <user>", "Hug someone ^^"),
         (f"{prefux}permahug <user>", "Hug someone forever :3"),
         (f"{prefux}cuddle <user>", "Cuddle someone ^w^"),
@@ -68,7 +68,7 @@ async def help(ctx):
         (f"{prefux}calc <equation>", "Calculator — type `list` as the equation for functions"),
         (f"{prefux}avatar [user]", "Get a user's avatar (yours if no user given)"),
         (f"{prefux}pet [user/image...] [speed=40]", "Pet up to 10 users/images — separate gifs. Lower speed number = faster pet"),
-        (f"{prefux}petall [user/image...] [speed=40]", "Same as pet, but one combined gif"),
+        (f"{prefux}petmix [user/image...] [speed=40]", "Same as pet, but one combined gif"),
         (f"{prefux}flowery [name/list/grep <text>]", "Flowery voice clips"),
         (f"{prefux}kawkaw [name/list/grep <text>]", "Kawkaw clips"),
         (f"{prefux}prefixset <prefix>", "Change the bot's prefix — admin only"),
