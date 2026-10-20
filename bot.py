@@ -33,6 +33,10 @@ else:
 async def on_ready():
     print(f"Bot is online! Logged in as {bot.user.username}")
 
+# "@everyone" or "@here" detection
+def is_everyone_or_here(who):
+    return who is not None and who.strip().lower() in ("@everyone", "@here")
+
 # Commands
 @bot.command()
 async def help(ctx):
@@ -86,13 +90,13 @@ async def help(ctx):
 async def hug(ctx, *, who: str = None):
     user = ctx.author.mention
 
-    if who in "@everyone":
-        await ctx.reply(f"{user} gives a giant hug to everyone! ^^")
-        return
-    elif who in "@here":
-        await ctx.reply(f"{user} gives a giant hug to everyone here! ^^")
-        return
-    elif who in bot.user.mention:
+    if is_everyone_or_here(who):
+        if who.strip().lower() == "@everyone":
+            await ctx.reply(f"{user} gives a giant hug to everyone! ^^")
+        else:
+            await ctx.reply(f"{user} gives a giant hug to everyone here! ^^")
+
+    if who == bot.user.mention:
         await ctx.reply("Awww Thank youuu! ^^\n*Hugs you back ^^")
         return
 
@@ -153,13 +157,13 @@ async def cuddle(ctx, *, who: str = None):
 
     target = who
 
-    if who in "@everyone":
-        await ctx.reply(f"{user} gives a giant cuddle to everyone! ^^")
-        return
-    elif who in "@here":
-        await ctx.reply(f"{user} gives a giant cuddle to everyone here! ^^")
-        return
-    elif who in bot.user.mention:
+    if is_everyone_or_here(who):
+        if who.strip().lower() == "@everyone":
+            await ctx.reply(f"{user} gives a giant cuddle to everyone! ^^")
+        else:
+            await ctx.reply(f"{user} gives a giant cuddle to everyone here! ^^")
+
+    if who == bot.user.mention:
         await ctx.reply("Awwww thanks! ^w^\n*Cuddles back ^^")
         return
 
@@ -207,13 +211,13 @@ async def praise(ctx, *, who: str = None):
       isnt = "aren't"
       more = " guys "
 
-    if who in "@everyone":
-        await ctx.reply(f"{user} has praised everyone! (everyone likes it :3)")
-        return
-    elif who in "@here":
-        await ctx.reply(f"{user} has praised everyone here! (everyone (here) likes it :3)")
-        return
-    elif who in bot.user.mention:
+    if is_everyone_or_here(who):
+        if who.strip().lower() == "@everyone":
+            await ctx.reply(f"{user} has praised everyone! (everyone likes it :3)")
+        else:
+            await ctx.reply(f"{user} has praised everyone here! (everyone (here) likes it :3)")
+
+    if who == bot.user.mention:
         await ctx.reply("Thanks >w<\nyou're awesome too! ^//^")
         return
 
@@ -244,13 +248,13 @@ async def nuzzle(ctx, *, who: str = None):
 
     target = who
 
-    if who in "@everyone":
-        await ctx.reply(f"{user} has nuzzled everyone! Awww so cute! ^^")
-        return
-    elif who in "@here":
-        await ctx.reply(f"{user} has nuzzled everyone here! Awwww so cute! ^^")
-        return
-    elif who in bot.user.mention:
+    if is_everyone_or_here(who):
+        if who.strip().lower() == "@everyone":
+            await ctx.reply(f"{user} has nuzzled everyone! Awww so cute! ^^")
+        else:
+            await ctx.reply(f"{user} has nuzzled everyone here! Awwww so cute! ^^")
+
+    if who == bot.user.mention:
         await ctx.reply("Thanks! >w<\n*nuzzles back! ^^")
         return
 
@@ -282,13 +286,13 @@ async def permahug(ctx, *, who: str = None):
 
     target = who
 
-    if who in "@everyone":
-        await ctx.reply(f"{user} has permanently hugged everyone and won't let go")
-        return
-    elif who in "@here":
-        await ctx.reply(f"{user} has permanently hugged everyone here and won't let go")
-        return
-    elif who in bot.user.mention:
+    if is_everyone_or_here(who):
+        if who.strip().lower() == "@everyone":
+            await ctx.reply(f"{user} has permanently hugged everyone and won't let go")
+        else:
+            await ctx.reply(f"{user} has permanently hugged everyone here and won't let go")
+
+    if who == bot.user.mention:
         await ctx.reply("Thank you! :3\n*Comforts you")
         return
 
@@ -317,13 +321,13 @@ async def silly(ctx, *, who: str = None):
     target = who
 
     if who:
-      if who in "@everyone":
-          await ctx.reply(f"{user} does silly thing to everyone >:3")
-          return
-      elif who in "@here":
-          await ctx.reply(f"{user} does silly thing to everyone in here >:3")
-          return
-      elif who in bot.user.mention:
+
+      if is_everyone_or_here(who):
+          if who.strip().lower() == "@everyone":
+            await ctx.reply(f"{user} does silly thing to everyone >:3")
+          else:
+            await ctx.reply(f"{user} does silly thing to everyone in here >:3")
+      if who == bot.user.mention:
           await ctx.reply("Wawa? OwO")
           return
 
@@ -438,13 +442,12 @@ async def kiss(ctx, *, who: str = None):
 
     target = who
 
-    if who in "@everyone":
-        await ctx.reply(f"{user} has kissed everyone awwww ^w^")
-        return
-    elif who in "@here":
-        await ctx.reply(f"{user} has kissed everyone here awwww ^w^")
-        return
-    elif who in bot.user.mention:
+    if is_everyone_or_here(who):
+        if who.strip().lower() == "@everyone":
+            await ctx.reply(f"{user} has kissed everyone awwww ^w^")
+        else:
+            await ctx.reply(f"{user} has kissed everyone here awwww ^w^")
+    if who == bot.user.mention:
         await ctx.reply("T-thanks? >/////<")
         return
 
@@ -471,13 +474,12 @@ async def cheekkiss(ctx, *, who: str = None):
 
     target = who
 
-    if who in "@everyone":
-        await ctx.reply(f"{user} has kissed everyone on the cheek awwww ^w^")
-        return
-    elif who in "@here":
-        await ctx.reply(f"{user} has kissed everyone here on the cheek awwww ^w^")
-        return
-    elif who in bot.user.mention:
+    if is_everyone_or_here(who):
+        if who.strip().lower() == "@everyone":
+            await ctx.reply(f"{user} has kissed everyone on the cheek awwww ^w^")
+        else:
+            await ctx.reply(f"{user} has kissed everyone here on the cheek awwww ^w^")
+    if who == bot.user.mention:
         await ctx.reply("T-thanks >///<")
         return
 
@@ -832,10 +834,12 @@ async def murder(ctx, *, who: str = None):
 
     target = who
 
-    if target in ("@everyone", "@here"):
-        await ctx.reply(f"{user} has taken the genocide root 😈")
-        return
-    if target in bot.user.mention:
+    if is_everyone_or_here(who):
+        if who.strip().lower() == "@everyone":
+            await ctx.reply(f"{user} has taken the genocide root 😈")
+        else:
+            await ctx.reply(f"{user} has taken the genocide root 😈")
+    if who == bot.user.mention:
         await ctx.reply("Whaaa? what did I do? 😨")
         return
 
@@ -857,7 +861,7 @@ async def murder(ctx, *, who: str = None):
         await ctx.reply("Mention someone or put someones name to slay themmm >:3")
 
 HARDCODED_SHIPS = {
-    frozenset({1518272833992527872, 1471779547901222947}): "Made for each other",
+    frozenset({1518272833992527872, 1471779547901222947}): ("Jaise", "Made for each other 💘"),
 }
 
 @bot.command()
@@ -891,7 +895,7 @@ async def ship(ctx, *, args: str = None):
     pair_key = frozenset({a.id, b.id})
     if pair_key in HARDCODED_SHIPS:
         percent = 100
-        verdict = HARDCODED_SHIPS[pair_key]
+        ship_name, verdict = HARDCODED_SHIPS[pair_key]
     else:
         percent = random.randint(0, 100)
 
