@@ -5,41 +5,57 @@ Privacy policy: [PRIVACY.md](PRIVACY.md)
 
 ## Deploying
 
-This bot is built to run on [Render](https://render.com) (free tier works fine, with the usual caveat that free instances spin down after inactivity and take ~50s to wake back up, I recommend setting up uptimerobot for that which pings it every 5 minutes or so).
+This bot runs on [HeavenCloud](https://heavencloud.in), free 24/7 Discord/Fluxer bot hosting with no credit card required. The database runs on [Neon](https://console.neon.tech), a permanent free Postgres host.
 
-### 1. Fork/clone this repo
+### 1. Fork this repo
+- Fork this repository to your own GitHub account
 
-### 2. Create a Postgres database
-- On Render: **New → PostgreSQL**
-- Copy the **Internal Database URL** it gives you (Copy External if it doesn't work)
+### 2. Create a Neon database
+- Go to console.neon.tech and sign up
+- Create a new project
+- Copy the connection string it gives you — looks like:
+  postgresql://user:password@ep-xxxx.region.aws.neon.tech/dbname?sslmode=require
 
-### 3. Create a Web Service on Render
-- **New → Web Service**, connect this repo
-- **Build Command:** `pip install -r requirements.txt`
-- **Start Command:** `python bot.py`
+### 3. Join the Discord and claim a free server
+- Join HeavenCloud's Discord: https://discord.gg/getvps
+- Follow their bot's instructions to claim your free bot-hosting server
 
-### 4. Set environment variables
-In the service's **Environment** tab:
-| Key | Value |
+### 4. Configure the Startup tab
+In your server's panel, go to Startup and set:
+
+| Variable | Value |
 |---|---|
-| `TOKEN` | Your Fluxer bot token |
-| `DATABASE_URL` | The Postgres URL from step 2 |
+| Git Repo Address | https://github.com/YOUR_USERNAME/fluxer_naisey_bot |
+| Git Branch | (leave blank to use the default branch) |
+| User Uploaded Files | False |
+| Auto Update | True |
+| App.py File | bot.py |
+| Additional Python Packages | (leave blank) |
+| Git Username | (your GitHub username, only needed if the repo is private) |
+| Git Access Token | (a GitHub personal access token, only needed if the repo is private) |
+| Requirements File | requirements.txt |
 
-### 5. Deploy
-Render will auto-build and start the bot. Check the **Logs** tab for:
-Bot is online! Logged in as <your bot's username>
+Docker Image: Python 3.13
+
+### 5. Upload a .env file
+In the server's panel, go to Files and create a .env file with:
+
+TOKEN=your_fluxer_bot_token
+DATABASE_URL=your_neon_connection_string
+
+### 6. Start the server
+Click Start on the server dashboard. With Auto Update on, it'll pull the repo and install dependencies automatically.
 
 ### Running locally instead
 
 pip install -r requirements.txt
 
-Create a `.env` file:
+Create a .env file:
 
 TOKEN=your_bot_token
-
 TOKEN2=your_debug_bot_token (only if you're debugging)
-
-DATABASE_URL=your_postgres_url (Put external link to debug locally)
+DATABASE_URL=your_neon_connection_string
 
 Then:
+
 python bot.py
