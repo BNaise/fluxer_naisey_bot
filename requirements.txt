@@ -2,5 +2,6 @@ python-dotenv
 fluxer.py
 pet-pet-gif-fix
 aiohttp
+flask
 pillow==10.4.0
 psycopg2-binary
