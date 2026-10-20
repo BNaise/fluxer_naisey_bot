@@ -10,7 +10,7 @@ import fluxer
 
 from dotenv import load_dotenv
 
-from funtions import database, pet_gif, multi_pet_gif, calculator
+from funtions import database, pet_gif, multi_pet_gif, calculator, keep_alive
 
 load_dotenv()
 
@@ -1037,6 +1037,9 @@ async def coinflip(ctx):
 
     choice = random.choice(messages)
     await ctx.reply("The coin has landed on: " + choice)
+
+if not debug:
+  keep_alive.keep_alive()
 
 # 4. Run the bot using your Fluxer token
 if __name__ == "__main__":
