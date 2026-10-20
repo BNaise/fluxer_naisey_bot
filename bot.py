@@ -910,7 +910,7 @@ async def ship(ctx, *, args: str = None):
         else:
             verdict = "Absolutely not 💀"
 
-    bar_filled = percent // 10
+    bar_filled = min(percent // 10, 10)
     bar = "█" * bar_filled + "░" * (10 - bar_filled)
 
     embed = fluxer.Embed(
