@@ -861,7 +861,8 @@ async def murder(ctx, *, who: str = None):
         await ctx.reply("Mention someone or put someones name to slay themmm >:3")
 
 HARDCODED_SHIPS = {
-    frozenset({1518272833992527872, 1471779547901222947}): ("Jaise", "Made for each other 💘"),
+    frozenset({1518272833992527872, 1471779547901222947}): ("Jaise",999, "Made for each other 💘"),
+    frozenset({1535833572982665216, 1543089610605727744}): ("coneXiAn",34416769, "Made for each other 💘"),
 }
 
 @bot.command()
@@ -894,8 +895,7 @@ async def ship(ctx, *, args: str = None):
 
     pair_key = frozenset({a.id, b.id})
     if pair_key in HARDCODED_SHIPS:
-        percent = 100
-        ship_name, verdict = HARDCODED_SHIPS[pair_key]
+        ship_name, percent, verdict = HARDCODED_SHIPS[pair_key]
     else:
         percent = random.randint(0, 100)
 
