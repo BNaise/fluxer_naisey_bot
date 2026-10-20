@@ -190,11 +190,11 @@ async def cuddle(ctx, *, who: str = None):
     choice = random.choice(messages)
 
     if who == user:
-        await ctx.reply("You can't just do that!")
+        await ctx.reply(f"{user} cuddled themselves??")
     elif who:
         await ctx.reply(choice)
     else:
-        await ctx.reply("You can't just do that!")
+        await ctx.reply(f"{user} cuddled themselves??")
 
 @bot.command()
 async def praise(ctx, *, who: str = None):
@@ -236,7 +236,7 @@ async def praise(ctx, *, who: str = None):
     choice = random.choice(messages)
 
     if who == user:
-        await ctx.reply("You can't just do that!")
+        await ctx.reply(f"{user} praised themselves. Must be really confident")
     elif who:
         await ctx.reply(choice)
     else:
@@ -268,7 +268,7 @@ async def nuzzle(ctx, *, who: str = None):
     choice = random.choice(messages)
 
     if who == user:
-        await ctx.reply("You can't just do that!")
+        await ctx.reply(f"{user} nuzzled themselves?? Impossible...")
     elif who:
         if choice == f"{user} nuzzles {target} like a susie plushie ^w^":
             status = await ctx.reply("Uploading...")
