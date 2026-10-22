@@ -8,6 +8,8 @@ import asyncio
 
 import fluxer
 
+from fluxer import utils
+
 from dotenv import load_dotenv
 
 from funtions import database, pet_gif, multi_pet_gif, calculator, keep_alive
@@ -88,6 +90,7 @@ async def help(ctx):
 
 @bot.command()
 async def hug(ctx, *, who: str = None):
+    who = utils.escape_mentions(who) if who else who
     user = ctx.author.mention
 
     if is_everyone_or_here(who):
