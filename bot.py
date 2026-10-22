@@ -39,6 +39,11 @@ async def on_ready():
 def is_everyone_or_here(who):
     return who is not None and who.strip().lower() in ("@everyone", "@here")
 
+def sanitize_mass_mentions(text):
+    if text is None:
+        return text
+    return re.sub(r'@(everyone|here)', r'@\u200b\1', text, flags=re.IGNORECASE)
+
 # Commands
 @bot.command()
 async def help(ctx):
@@ -104,7 +109,7 @@ async def hug(ctx, *, who: str = None):
         await ctx.reply("Awww Thank youuu! ^^\n*Hugs you back ^^")
         return
 
-    who = utils.escape_mentions(who) if who else who
+    who = sanitize_mass_mentions(who) if who else who
 
     target = who
     reciprocal = False
