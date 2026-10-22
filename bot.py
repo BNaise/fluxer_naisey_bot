@@ -95,8 +95,10 @@ async def hug(ctx, *, who: str = None):
     if is_everyone_or_here(who):
         if who.strip().lower() == "@everyone":
             await ctx.reply(f"{user} gives a giant hug to everyone! ^^")
+            return
         else:
             await ctx.reply(f"{user} gives a giant hug to everyone here! ^^")
+            return
 
     if who == bot.user.mention:
         await ctx.reply("Awww Thank youuu! ^^\n*Hugs you back ^^")
