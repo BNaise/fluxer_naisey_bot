@@ -90,7 +90,6 @@ async def help(ctx):
 
 @bot.command()
 async def hug(ctx, *, who: str = None):
-    who = utils.escape_mentions(who) if who else who
     user = ctx.author.mention
 
     if is_everyone_or_here(who):
@@ -102,6 +101,8 @@ async def hug(ctx, *, who: str = None):
     if who == bot.user.mention:
         await ctx.reply("Awww Thank youuu! ^^\n*Hugs you back ^^")
         return
+
+    who = utils.escape_mentions(who) if who else who
 
     target = who
     reciprocal = False
