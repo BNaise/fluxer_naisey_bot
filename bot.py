@@ -109,7 +109,7 @@ async def hug(ctx, *, who: str = None):
         await ctx.reply("Awww Thank youuu! ^^\n*Hugs you back ^^")
         return
 
-    who = sanitize_mass_mentions(who) if who else who
+    # who = sanitize_mass_mentions(who) if who else who
 
     target = who
     reciprocal = False
