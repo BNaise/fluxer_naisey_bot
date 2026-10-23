@@ -171,19 +171,21 @@ async def hug(ctx, *, who: str = None):
 async def cuddle(ctx, *, who: str = None):
     user = ctx.author.mention
 
-    target = who
-
     if is_everyone_or_here(who):
         if who.strip().lower() == "@everyone":
             await ctx.reply(f"{user} gives a giant cuddle to everyone! ^^")
+            return
         else:
             await ctx.reply(f"{user} gives a giant cuddle to everyone here! ^^")
+            return
 
     if who == bot.user.mention:
         await ctx.reply("Awwww thanks! ^w^\n*Cuddles back ^^")
         return
 
     who = sanitize_mass_mentions(who) if who else who
+
+    target = who
 
     if len(ctx.mentions) < 2:
         messages = \
@@ -218,8 +220,6 @@ async def cuddle(ctx, *, who: str = None):
 async def praise(ctx, *, who: str = None):
     user = ctx.author.mention
 
-    target = who
-
     is_or_are = "is"
     isnt = "isn't"
     more = " "
@@ -232,14 +232,18 @@ async def praise(ctx, *, who: str = None):
     if is_everyone_or_here(who):
         if who.strip().lower() == "@everyone":
             await ctx.reply(f"{user} has praised everyone! (everyone likes it :3)")
+            return
         else:
             await ctx.reply(f"{user} has praised everyone here! (everyone (here) likes it :3)")
+            return
 
     if who == bot.user.mention:
         await ctx.reply("Thanks >w<\nyou're awesome too! ^//^")
         return
 
     who = sanitize_mass_mentions(who) if who else who
+
+    target = who
 
     messages = \
         [
@@ -266,19 +270,21 @@ async def praise(ctx, *, who: str = None):
 async def nuzzle(ctx, *, who: str = None):
     user = ctx.author.mention
 
-    target = who
-
     if is_everyone_or_here(who):
         if who.strip().lower() == "@everyone":
             await ctx.reply(f"{user} has nuzzled everyone! Awww so cute! ^^")
+            return
         else:
             await ctx.reply(f"{user} has nuzzled everyone here! Awwww so cute! ^^")
+            return
 
     if who == bot.user.mention:
         await ctx.reply("Thanks! >w<\n*nuzzles back! ^^")
         return
 
     who = sanitize_mass_mentions(who) if who else who
+
+    target = who
 
     messages = \
         [
@@ -306,19 +312,21 @@ async def nuzzle(ctx, *, who: str = None):
 async def permahug(ctx, *, who: str = None):
     user = ctx.author.mention
 
-    target = who
-
     if is_everyone_or_here(who):
         if who.strip().lower() == "@everyone":
             await ctx.reply(f"{user} has permanently hugged everyone and won't let go")
+            return
         else:
             await ctx.reply(f"{user} has permanently hugged everyone here and won't let go")
+            return
 
     if who == bot.user.mention:
         await ctx.reply("Thank you! :3\n*Comforts you")
         return
 
     who = sanitize_mass_mentions(who) if who else who
+
+    target = who
 
     messages = \
     [
@@ -342,20 +350,22 @@ async def permahug(ctx, *, who: str = None):
 async def silly(ctx, *, who: str = None):
     user = ctx.author.mention
 
-    target = who
-
     if who:
 
       if is_everyone_or_here(who):
           if who.strip().lower() == "@everyone":
             await ctx.reply(f"{user} does silly thing to everyone >:3")
+            return
           else:
             await ctx.reply(f"{user} does silly thing to everyone in here >:3")
+            return
       if who == bot.user.mention:
           await ctx.reply("Wawa? OwO")
           return
 
     who = sanitize_mass_mentions(who) if who else who
+
+    target = who
 
     if not who:
         messages = \
@@ -466,18 +476,20 @@ async def roll(ctx, finish: int = None, start: int = 1):
 async def kiss(ctx, *, who: str = None):
     user = ctx.author.mention
 
-    target = who
-
     if is_everyone_or_here(who):
         if who.strip().lower() == "@everyone":
             await ctx.reply(f"{user} has kissed everyone awwww ^w^")
+            return
         else:
             await ctx.reply(f"{user} has kissed everyone here awwww ^w^")
+            return
     if who == bot.user.mention:
         await ctx.reply("T-thanks? >/////<")
         return
 
     who = sanitize_mass_mentions(who) if who else who
+
+    target = who
 
     messages = \
     [
@@ -500,18 +512,20 @@ async def kiss(ctx, *, who: str = None):
 async def cheekkiss(ctx, *, who: str = None):
     user = ctx.author.mention
 
-    target = who
-
     if is_everyone_or_here(who):
         if who.strip().lower() == "@everyone":
             await ctx.reply(f"{user} has kissed everyone on the cheek awwww ^w^")
+            return
         else:
             await ctx.reply(f"{user} has kissed everyone here on the cheek awwww ^w^")
+            return
     if who == bot.user.mention:
         await ctx.reply("T-thanks >///<")
         return
 
     who = sanitize_mass_mentions(who) if who else who
+
+    target = who
 
     messages = \
     [
@@ -862,18 +876,20 @@ async def kawkaw(ctx, *, filename: str = None):
 async def murder(ctx, *, who: str = None):
     user = ctx.author.mention
 
-    target = who
-
     if is_everyone_or_here(who):
         if who.strip().lower() == "@everyone":
             await ctx.reply(f"{user} has taken the genocide root 😈")
+            return
         else:
             await ctx.reply(f"{user} has taken the genocide root 😈")
+            return
     if who == bot.user.mention:
         await ctx.reply("Whaaa? what did I do? 😨")
         return
 
     who = sanitize_mass_mentions(who) if who else who
+
+    target = who
 
     messages = \
     [
@@ -957,18 +973,20 @@ async def ship(ctx, *, args: str = None):
 async def revive(ctx, *, who: str = None):
     user = ctx.author.mention
 
-    target = who
-
     if is_everyone_or_here(who):
         if who.strip().lower() == "@everyone":
             await ctx.reply(f"{user} revived everyone! yayy! they be on the pacifist root ^w^")
+            return
         else:
             await ctx.reply(f"{user} revived everyone! yayy! they be on the pacifist root ^w^")
+            return
     if who == bot.user.mention:
         await ctx.reply("awawa,,, thx ^w^")
         return
 
     who = sanitize_mass_mentions(who) if who else who
+
+    target = who
 
     messages = \
     [
