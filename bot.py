@@ -50,6 +50,8 @@ def sanitize_mass_mentions(text):
     )
 
 # Commands
+
+#Info
 @bot.command()
 async def help(ctx):
     if ctx.guild is None:
@@ -98,6 +100,7 @@ async def help(ctx):
 
     await ctx.reply(embed=embed)
 
+# Affection
 @bot.command()
 async def hug(ctx, *, who: str = None):
     user = ctx.author.mention
@@ -166,6 +169,44 @@ async def hug(ctx, *, who: str = None):
         await ctx.reply(choice)
     else:
         await ctx.reply(f"{user} gave themselves a hug 🫂🥺")
+
+@bot.command()
+async def permahug(ctx, *, who: str = None):
+    user = ctx.author.mention
+
+    if is_everyone_or_here(who):
+        if who.strip().lower() == "@everyone":
+            await ctx.reply(f"{user} has permanently hugged everyone and won't let go")
+            return
+        else:
+            await ctx.reply(f"{user} has permanently hugged everyone here and won't let go")
+            return
+
+    if who == bot.user.mention:
+        await ctx.reply("Thank you! :3\n*Comforts you")
+        return
+
+    who = sanitize_mass_mentions(who) if who else who
+
+    target = who
+
+    messages = \
+    [
+        f"{user} permanently hugs {target} 🫂",
+        f"{user} hugs {target} permanently 🫂",
+        f"{user} hugs {target} and they won't let go, ever 🫂🫂",
+        f"{user} hugs {target} and never let's go until the end of time and beyond 🫂",
+        f"{user} has trapped {target} with an eternal hug 🫂"
+    ]
+
+    choice = random.choice(messages)
+
+    if who == user:
+        await ctx.reply(f"{user} gave themselves a permanent hug 🫂🥺")
+    elif who:
+        await ctx.reply(choice)
+    else:
+        await ctx.reply(f"{user} gave themselves a permanent hug 🫂🥺")
 
 @bot.command()
 async def cuddle(ctx, *, who: str = None):
@@ -309,170 +350,6 @@ async def nuzzle(ctx, *, who: str = None):
         await ctx.reply("Mention a user or write someones name")
 
 @bot.command()
-async def permahug(ctx, *, who: str = None):
-    user = ctx.author.mention
-
-    if is_everyone_or_here(who):
-        if who.strip().lower() == "@everyone":
-            await ctx.reply(f"{user} has permanently hugged everyone and won't let go")
-            return
-        else:
-            await ctx.reply(f"{user} has permanently hugged everyone here and won't let go")
-            return
-
-    if who == bot.user.mention:
-        await ctx.reply("Thank you! :3\n*Comforts you")
-        return
-
-    who = sanitize_mass_mentions(who) if who else who
-
-    target = who
-
-    messages = \
-    [
-        f"{user} permanently hugs {target} 🫂",
-        f"{user} hugs {target} permanently 🫂",
-        f"{user} hugs {target} and they won't let go, ever 🫂🫂",
-        f"{user} hugs {target} and never let's go until the end of time and beyond 🫂",
-        f"{user} has trapped {target} with an eternal hug 🫂"
-    ]
-
-    choice = random.choice(messages)
-
-    if who == user:
-        await ctx.reply(f"{user} gave themselves a permanent hug 🫂🥺")
-    elif who:
-        await ctx.reply(choice)
-    else:
-        await ctx.reply(f"{user} gave themselves a permanent hug 🫂🥺")
-
-@bot.command()
-async def silly(ctx, *, who: str = None):
-    user = ctx.author.mention
-
-    if who:
-
-      if is_everyone_or_here(who):
-          if who.strip().lower() == "@everyone":
-            await ctx.reply(f"{user} does silly thing to everyone >:3")
-            return
-          else:
-            await ctx.reply(f"{user} does silly thing to everyone in here >:3")
-            return
-      if who == bot.user.mention:
-          await ctx.reply("Wawa? OwO")
-          return
-
-    who = sanitize_mass_mentions(who) if who else who
-
-    target = who
-
-    if not who:
-        messages = \
-            [
-              "Bleh",
-              "Meow :3",
-              "Mrewwww :3",
-              "Nyaaaaa~",
-              "Nyon!",
-              "Ueueleuleuleue!"
-            ]
-    else:
-        messages = \
-            [
-              f"Ummmm {target}! {user} is purring at you ^w^",
-              f"Hehe {target}! {user} is meowing at you :3 ",
-              f"{user} is meowing at {target}! ~ ^w^ ~",
-              f"{target} is getting nuzzled by {user} ^^",
-              f"{user} is gently patting {target}'s head :3",
-              f"{target}! {user} tackles you with a hug :3"
-            ]
-
-    choice = random.choice(messages)
-
-    await ctx.reply(choice)
-
-@bot.command()
-async def deltarot(ctx):
-
-    messages = \
-        [
-            "JARONA!",
-            "Freedom’s just a penumbra phantasm for big shots with black knives about the world revolving around the hammer of justice sealed away with cutie mew mew magic at the pirate dojo in my castle town during the sunset of seven suns.",
-            "FREEDOM",
-            "FRIEND",
-            "GASTER",
-            "PENUMBRA PHANTASM",
-            "Friend inside me!",
-            "BIG SHOT",
-            "Papyrus is the roaring knight trust",
-            "Always bet on papyrus knight!",
-            "DECEMBER",
-            "Yeah... the WORLD is kinda REVOLVING...",
-            "Mike...",
-            "1997",
-            "1225",
-            "Rip Onion :'(",
-            "HERE I COME SANFRANDISCOOOOOOOO!",
-            "SUSTINGUS",
-            "Hey guys, I think I found a glue!",
-            "Mysterious wind",
-            "Hey i think this kinda took a weird route.",
-            "Human... I remember... You're genocides...",
-            "Hey undyne!\nHow many human souls do we need to break the barrier?",
-            "Hey there little guy!",
-            "Heh its my jarona!",
-            "He is in some king of snowgrave.",
-            "*_Swoon_",
-            "I'm the Roaring Knight! and am a fraud!",
-            "*You looked behind the tree",
-            "*Well there is a man here",
-            "*And he is offering you a egg",
-            "*Susie's idea",
-            "WD.Gaster in deltarune build it all from a empty room.",
-            "Its 12:25 outside.",
-            "Well this stinks.",
-            "I'm Old!",
-            "I'm fOld!",
-            "What do you do with a drunken gonner!\n What do you do with a drunken gonner!\nWhat do you do with a drunken gonner!\nEarly in the Roaring!",
-            "PINK AND YELLOW?!?! 🩷=💛",
-            "*Why wold Chara do this?!?!",## naise add chara doing What me??? pose to this line pls!!! :3 ty already!! :3 oh and i added the png lol it is Chara_What_Me.png in the files/images folder :3 ##
-            "I am Frisk.",
-            f"CHAOS CHAOS!"
-        ]
-
-    choice = random.choice(messages)
-
-    if choice == "Hey undyne!\nHow many human souls do we need to break the barrier?":
-        file = fluxer.File("files/images/undyne-seven.webp")
-        await ctx.reply(choice, file=file)
-    elif choice == "*Why wold Chara do this?!?!":
-        file = fluxer.File("files/images/Chara_What_Me.png")
-        await ctx.reply(choice, file=file)
-    else:
-        await ctx.reply(choice)
-
-@bot.command()
-async def gamble(ctx):
-
-    messages = ["Aww dang it!",
-                "I can't stop winning!"]
-
-    await ctx.reply(random.choice(messages))
-
-@bot.command()
-async def roll(ctx, finish: int = None, start: int = 1):
-
-    if finish:
-        if finish >= start:
-            random_number = random.randint(start, finish)
-            await ctx.reply(str(random_number))
-        elif finish < start:
-            await ctx.reply("Finishing number should be bigger then starting number.")
-    else:
-        await ctx.reply("Please enter a number")
-
-@bot.command()
 async def kiss(ctx, *, who: str = None):
     user = ctx.author.mention
 
@@ -545,28 +422,6 @@ async def cheekkiss(ctx, *, who: str = None):
         await ctx.reply(choice)
     else:
         await ctx.reply("Mention someone or put someones name to kiss them on the cheek :3")
-
-@bot.command()
-async def calc(ctx, *, equation: str):
-
-    try:
-        result = calculator.calculate(equation)
-    except Exception as e:
-        await ctx.reply(f"Error: {e}")
-        return
-
-    bruh = ""
-    if result == 67:
-        bruh = " (Seriously bruh? -_-)"
-    elif result == 69:
-        bruh = " (Seriously bruh? -_-)"
-
-    if equation == "9+10":
-        await ctx.reply(f"{equation} =\n21")
-    elif equation == "9 + 10":
-        await ctx.reply(f"{equation} =\n21")
-    else:
-        await ctx.reply(f"{equation} =\n{result}{bruh}")
 
 @bot.command()
 async def pet(ctx, *, args: str = None):
@@ -691,26 +546,183 @@ async def petmix(ctx, *, args: str = None):
     await status.delete()
 
 @bot.command()
-async def avatar(ctx, *, who: str = None):
-    if ctx.mentions:
-        target = ctx.mentions[0]
-    else:
-        target = ctx.author
+async def ship(ctx, *, args: str = None):
+    HARDCODED_SHIPS = {
+        frozenset({1518272833992527872, 1471779547901222947}): ("Jaise", 999, "Made for each other 💘"),
+        frozenset({1535833572982665216, 1543089610605727744}): ("coneXiAn", 34416769, "Made for each other 💘"),
+    }
+    if not args:
+        await ctx.reply("Mention two people to ship :3")
+        return
 
-    status = await ctx.reply("Uploading...")
+    raw_ids = re.findall(r'<@!?(\d+)>', ctx.content)
+
+    if len(raw_ids) < 2:
+        await ctx.reply("Mention two people to ship them together :3")
+        return
+
+    mention_lookup = {str(m.id): m for m in ctx.mentions}
+    targets = [mention_lookup[i] for i in raw_ids[:2] if i in mention_lookup]
+
+    if len(targets) < 2:
+        await ctx.reply("Couldn't find both users mentioned :P")
+        return
+
+    a, b = targets[0], targets[1]
+
+    name_a = a.display_name
+    name_b = b.display_name
+
+    half_a = name_a[:max(1, len(name_a) // 2)]
+    half_b = name_b[len(name_b) // 2:]
+    ship_name = half_a + half_b
+
+    pair_key = frozenset({a.id, b.id})
+    if pair_key in HARDCODED_SHIPS:
+        ship_name, percent, verdict = HARDCODED_SHIPS[pair_key]
+    else:
+        percent = random.randint(0, 100)
+
+        if percent >= 90:
+            verdict = "Soulmates! 💕"
+        elif percent >= 70:
+            verdict = "Pretty cute together ^w^"
+        elif percent >= 40:
+            verdict = "Eh, could go either way"
+        elif percent >= 15:
+            verdict = "Yikes, rough start"
+        else:
+            verdict = "Absolutely not 💀"
+
+    bar_filled = min(percent // 10, 10)
+    bar = "█" * bar_filled + "░" * (10 - bar_filled)
 
     embed = fluxer.Embed(
-        title=f"{target.display_name}'s avatar",
-        color=0xFFC0CB,
+        title=f"💘 {ship_name} 💘",
+        description=f"{a.mention} x {b.mention}\n\n`{bar}` **{percent}%**\n{verdict}",
+        color=0xFF69B4,
     )
-    embed.set_image(url=target.avatar_url)
-    await ctx.reply(embed=embed)
-    await status.delete()
 
-flowery_folder = "files/audio/flowery_voice_clips/"
+    await ctx.reply(embed=embed)
+
+# Funny
+@bot.command()
+async def silly(ctx, *, who: str = None):
+    user = ctx.author.mention
+
+    if who:
+
+      if is_everyone_or_here(who):
+          if who.strip().lower() == "@everyone":
+            await ctx.reply(f"{user} does silly thing to everyone >:3")
+            return
+          else:
+            await ctx.reply(f"{user} does silly thing to everyone in here >:3")
+            return
+      if who == bot.user.mention:
+          await ctx.reply("Wawa? OwO")
+          return
+
+    who = sanitize_mass_mentions(who) if who else who
+
+    target = who
+
+    if not who:
+        messages = \
+            [
+              "Bleh",
+              "Meow :3",
+              "Mrewwww :3",
+              "Nyaaaaa~",
+              "Nyon!",
+              "Ueueleuleuleue!"
+            ]
+    else:
+        messages = \
+            [
+              f"Ummmm {target}! {user} is purring at you ^w^",
+              f"Hehe {target}! {user} is meowing at you :3 ",
+              f"{user} is meowing at {target}! ~ ^w^ ~",
+              f"{target} is getting nuzzled by {user} ^^",
+              f"{user} is gently patting {target}'s head :3",
+              f"{target}! {user} tackles you with a hug :3"
+            ]
+
+    choice = random.choice(messages)
+
+    await ctx.reply(choice)
+
+@bot.command()
+async def deltarot(ctx):
+
+    messages = \
+        [
+            "JARONA!",
+            "Freedom’s just a penumbra phantasm for big shots with black knives about the world revolving around the hammer of justice sealed away with cutie mew mew magic at the pirate dojo in my castle town during the sunset of seven suns.",
+            "FREEDOM",
+            "FRIEND",
+            "GASTER",
+            "PENUMBRA PHANTASM",
+            "Friend inside me!",
+            "BIG SHOT",
+            "Papyrus is the roaring knight trust",
+            "Always bet on papyrus knight!",
+            "DECEMBER",
+            "Yeah... the WORLD is kinda REVOLVING...",
+            "Mike...",
+            "1997",
+            "1225",
+            "Rip Onion :'(",
+            "HERE I COME SANFRANDISCOOOOOOOO!",
+            "SUSTINGUS",
+            "Hey guys, I think I found a glue!",
+            "Mysterious wind",
+            "Hey i think this kinda took a weird route.",
+            "Human... I remember... You're genocides...",
+            "Hey undyne!\nHow many human souls do we need to break the barrier?",
+            "Hey there little guy!",
+            "Heh its my jarona!",
+            "He is in some king of snowgrave.",
+            "*_Swoon_",
+            "I'm the Roaring Knight! and am a fraud!",
+            "*You looked behind the tree",
+            "*Well there is a man here",
+            "*And he is offering you a egg",
+            "*Susie's idea",
+            "WD.Gaster in deltarune build it all from a empty room.",
+            "Its 12:25 outside.",
+            "Well this stinks.",
+            "I'm Old!",
+            "I'm fOld!",
+            "What do you do with a drunken gonner!\n What do you do with a drunken gonner!\nWhat do you do with a drunken gonner!\nEarly in the Roaring!",
+            "PINK AND YELLOW?!?! 🩷=💛",
+            "*Why wold Chara do this?!?!",## naise add chara doing What me??? pose to this line pls!!! :3 ty already!! :3 oh and i added the png lol it is Chara_What_Me.png in the files/images folder :3 ##
+            "I am Frisk.",
+            f"CHAOS CHAOS!"
+        ]
+
+    choice = random.choice(messages)
+
+    if choice == "Hey undyne!\nHow many human souls do we need to break the barrier?":
+        file = fluxer.File("files/images/undyne-seven.webp")
+        await ctx.reply(choice, file=file)
+    elif choice == "*Why wold Chara do this?!?!":
+        file = fluxer.File("files/images/Chara_What_Me.png")
+        await ctx.reply(choice, file=file)
+    else:
+        await ctx.reply(choice)
+
+@bot.command()
+async def gamble(ctx):
+
+    messages = ["Aww dang it!",
+                "I can't stop winning!"]
+
+    await ctx.reply(random.choice(messages))
 
 @bot.command()
 async def flowery(ctx, *, filename: str = None):
+    flowery_folder = "files/audio/flowery_voice_clips/"
     files = os.listdir(flowery_folder)
     if not files:
         await ctx.reply("No files in the folder!")
@@ -792,10 +804,9 @@ async def flowery(ctx, *, filename: str = None):
     await ctx.reply(file=fluxer.File(path, filename=choice))
     await status.delete()
 
-kawkaw_folder = "files/audio/kawkaw/"
-
 @bot.command()
 async def kawkaw(ctx, *, filename: str = None):
+    kawkaw_folder = "files/audio/kawkaw/"
     files = os.listdir(kawkaw_folder)
     if not files:
         await ctx.reply("No files in the folder!")
@@ -908,67 +919,6 @@ async def murder(ctx, *, who: str = None):
     else:
         await ctx.reply("Mention someone or put someones name to slay themmm >:3")
 
-HARDCODED_SHIPS = {
-    frozenset({1518272833992527872, 1471779547901222947}): ("Jaise",999, "Made for each other 💘"),
-    frozenset({1535833572982665216, 1543089610605727744}): ("coneXiAn",34416769, "Made for each other 💘"),
-}
-
-@bot.command()
-async def ship(ctx, *, args: str = None):
-    if not args:
-        await ctx.reply("Mention two people to ship :3")
-        return
-
-    raw_ids = re.findall(r'<@!?(\d+)>', ctx.content)
-
-    if len(raw_ids) < 2:
-        await ctx.reply("Mention two people to ship them together :3")
-        return
-
-    mention_lookup = {str(m.id): m for m in ctx.mentions}
-    targets = [mention_lookup[i] for i in raw_ids[:2] if i in mention_lookup]
-
-    if len(targets) < 2:
-        await ctx.reply("Couldn't find both users mentioned :P")
-        return
-
-    a, b = targets[0], targets[1]
-
-    name_a = a.display_name
-    name_b = b.display_name
-
-    half_a = name_a[:max(1, len(name_a) // 2)]
-    half_b = name_b[len(name_b) // 2:]
-    ship_name = half_a + half_b
-
-    pair_key = frozenset({a.id, b.id})
-    if pair_key in HARDCODED_SHIPS:
-        ship_name, percent, verdict = HARDCODED_SHIPS[pair_key]
-    else:
-        percent = random.randint(0, 100)
-
-        if percent >= 90:
-            verdict = "Soulmates! 💕"
-        elif percent >= 70:
-            verdict = "Pretty cute together ^w^"
-        elif percent >= 40:
-            verdict = "Eh, could go either way"
-        elif percent >= 15:
-            verdict = "Yikes, rough start"
-        else:
-            verdict = "Absolutely not 💀"
-
-    bar_filled = min(percent // 10, 10)
-    bar = "█" * bar_filled + "░" * (10 - bar_filled)
-
-    embed = fluxer.Embed(
-        title=f"💘 {ship_name} 💘",
-        description=f"{a.mention} x {b.mention}\n\n`{bar}` **{percent}%**\n{verdict}",
-        color=0xFF69B4,
-    )
-
-    await ctx.reply(embed=embed)
-
 @bot.command()
 async def revive(ctx, *, who: str = None):
     user = ctx.author.mention
@@ -1005,36 +955,6 @@ async def revive(ctx, *, who: str = None):
         await ctx.reply(choice)
     else:
         await ctx.reply("Mention someone or put someones name to revive them :3")
-
-@bot.command()
-async def prefixset(ctx, new_prefix: str = None):
-    if ctx.guild is None:
-        await ctx.reply("This only works in a server, not DMs.")
-        return
-
-    ADMINISTRATOR = 0x8
-
-    member = await ctx.guild.fetch_member(ctx.author.id)
-    roles = await ctx.guild.fetch_roles()
-
-    is_admin = any(
-        (role.permissions & ADMINISTRATOR) == ADMINISTRATOR
-        for role in roles
-        if role.id in member.roles
-    )
-
-    if not is_admin:
-        await ctx.reply("You need to be an admin to change the prefix.")
-        return
-
-    if not new_prefix:
-        current_prefix = database.get_prefix(ctx.guild.id)
-        await ctx.reply(f"Current prefix is: `{current_prefix}`")
-        return
-
-    database.set_prefix(ctx.guild.id, new_prefix)
-
-    await ctx.reply(f"Prefix changed to: `{new_prefix}`")
 
 @bot.command()
 async def rake(ctx):
@@ -1085,6 +1005,88 @@ async def yogurt(ctx):
     file = fluxer.File(gurt)
     await ctx.reply(file=file)
     await status.delete()
+
+# Useful
+@bot.command()
+async def roll(ctx, finish: int = None, start: int = 1):
+
+    if finish:
+        if finish >= start:
+            random_number = random.randint(start, finish)
+            await ctx.reply(str(random_number))
+        elif finish < start:
+            await ctx.reply("Finishing number should be bigger then starting number.")
+    else:
+        await ctx.reply("Please enter a number")
+
+@bot.command()
+async def calc(ctx, *, equation: str):
+
+    try:
+        result = calculator.calculate(equation)
+    except Exception as e:
+        await ctx.reply(f"Error: {e}")
+        return
+
+    bruh = ""
+    if result == 67:
+        bruh = " (Seriously bruh? -_-)"
+    elif result == 69:
+        bruh = " (Seriously bruh? -_-)"
+
+    if equation == "9+10":
+        await ctx.reply(f"{equation} =\n21")
+    elif equation == "9 + 10":
+        await ctx.reply(f"{equation} =\n21")
+    else:
+        await ctx.reply(f"{equation} =\n{result}{bruh}")
+
+@bot.command()
+async def avatar(ctx, *, who: str = None):
+    if ctx.mentions:
+        target = ctx.mentions[0]
+    else:
+        target = ctx.author
+
+    status = await ctx.reply("Uploading...")
+
+    embed = fluxer.Embed(
+        title=f"{target.display_name}'s avatar",
+        color=0xFFC0CB,
+    )
+    embed.set_image(url=target.avatar_url)
+    await ctx.reply(embed=embed)
+    await status.delete()
+
+@bot.command()
+async def prefixset(ctx, new_prefix: str = None):
+    if ctx.guild is None:
+        await ctx.reply("This only works in a server, not DMs.")
+        return
+
+    ADMINISTRATOR = 0x8
+
+    member = await ctx.guild.fetch_member(ctx.author.id)
+    roles = await ctx.guild.fetch_roles()
+
+    is_admin = any(
+        (role.permissions & ADMINISTRATOR) == ADMINISTRATOR
+        for role in roles
+        if role.id in member.roles
+    )
+
+    if not is_admin:
+        await ctx.reply("You need to be an admin to change the prefix.")
+        return
+
+    if not new_prefix:
+        current_prefix = database.get_prefix(ctx.guild.id)
+        await ctx.reply(f"Current prefix is: `{current_prefix}`")
+        return
+
+    database.set_prefix(ctx.guild.id, new_prefix)
+
+    await ctx.reply(f"Prefix changed to: `{new_prefix}`")
 
 @bot.command()
 async def coinflip(ctx):
