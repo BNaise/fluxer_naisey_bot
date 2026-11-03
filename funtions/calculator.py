@@ -69,7 +69,7 @@ def calculate(expr):
         "e": cmath.e,
         "i": 1j,
         "abs": abs,
-        "fabs": math.fabs
+        "fabs": math.fabs,
         "factorial": lambda x: math.factorial(x) if x <= MAX_FACTORIAL_INPUT else (_ for _ in ()).throw(ValueError(f"Factorial input too large (max {MAX_FACTORIAL_INPUT})")),
         "round": round,
         "floor": math.floor,
