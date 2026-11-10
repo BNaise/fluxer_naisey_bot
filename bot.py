@@ -8,8 +8,6 @@ import asyncio
 
 import fluxer
 
-from fluxer import utils
-
 from dotenv import load_dotenv
 
 from funtions import database, pet_gif, multi_pet_gif, calculator, keep_alive
@@ -49,7 +47,7 @@ def sanitize_mass_mentions(text):
         flags=re.IGNORECASE,
     )
 
-# Commands
+# ---------------- Commands ----------------
 
 #Info
 @bot.command()
@@ -153,7 +151,6 @@ async def hug(ctx, *, who: str = None):
             f"{user} pulls {target} into a cozy hug! 🤗",
             f"{user} gives {target} a wholesome hug! 🤗🫂",
             f"{user} hugs {target}. Awwww! 🤗",
-            f"{user} has hugged {target}. They are now legally required to be happy. 🤗",
             f"HUG DETECTED! {user} has hugged {target}! 🤗",
             f"{user} launches themselves at {target} with a hug! 🤗🫂",
             f"{user} and {target} are temporarily trapped in a hug. 🤗",
