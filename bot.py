@@ -25,7 +25,11 @@ database.init_db_start()
 
 if not debug:
     #Sets the prefix
-    bot = fluxer.Bot(command_prefix=database.get_bot_prefix, intents=fluxer.Intents.all())
+    bot = fluxer.Bot(
+        command_prefix=database.get_bot_prefix,
+        intents=fluxer.Intents.all(),
+        api_url=os.getenv("API_URL"),  # unset = official instance
+    )
 else:
     bot = fluxer.Bot(command_prefix="!", intents=fluxer.Intents.all())
 
@@ -1093,9 +1097,6 @@ async def coinflip(ctx):
 
     choice = random.choice(messages)
     await ctx.reply("The coin has landed on: " + choice)
-
-if not debug:
-  keep_alive.keep_alive()
 
 # 4. Run the bot using your Fluxer token
 if __name__ == "__main__":
