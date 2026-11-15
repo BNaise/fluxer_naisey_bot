@@ -47,9 +47,51 @@ def sanitize_mass_mentions(text):
         flags=re.IGNORECASE,
     )
 
+# Emoji's
+kralsei_hug = "<:kralsei_hug:1571227949686857729>"
+kralsei_hug_blushing = "<:kralsei_hug_blushing:1571227949686857738>"
+ralsei_happy = "<:ralsei_happy:1571227839728979976>"
+ralsei_cute = "<:ralsei_cute:1571227839728979975>"
+ralsei_laughing = "<:ralsei_laughing:1571227970985533440>"
+ralsei_cute_evil = "<:ralsei_cute_evil:1571227839728979974>"
+ralsei_shocked = "<:ralsei_shocked:1571227839728979973>"
+kris_wiggle = "<a:kris_wiggle:1571236858451464192>"
+driving_in_my_caaar = "<:driving_in_my_caaar:1571238766977228801>"
+errrm = "<:errrm:1571238766977228800>"
+mama_miba = "<:mama_miba:1571239830371696640>"
+lancer = "<:lancer:1571236945449725953>"
+dess_shocked = "<:dess_shocked:1571238766977228803>"
+ralsei_splat = "<:ralsei_splat:1571236964617695232>"
+spamton_dance = "<a:spamton_dance:1571236937279213568>"
+YOUR_TAKING_TOO_LONG = "<:YOUR_TAKING_TOO_LONG:1571238766977228805>"
+your_taking_too_long = "<:your_taking_too_long:1571238766977228804>"
+vulkin_happy = "<:vulkin_happy:1571240165479817216>"
+friend_inside_me = "<:friend_inside_me:1571238766977228806>"
+the_final_starwalker = "<:the_final_starwalker:1571240447966183424>"
+the_original_starwalker = "<:the_original_starwalker:1571240447966183425>"
+tenna_dance = "<a:tenna_dance:1571237176673308672>"
+tenna_dance_2 = "<a:tenna_dance_2:1571237190023786496>"
+jevil_dance = "<a:jevil_dance:1571239375449104385>"
+gaster_dance = "<a:gaster_dance:1571237592937005056>"
+boooom = "<a:boooom:1571239255940804608>"
+ralsei_heart = "<:ralsei_heart:1571227839728979970>"
+
 # ---------------- Commands ----------------
 
 #Info
+# @bot.command()
+# async def test(ctx):
+#
+#     messages = (f"{kralsei_hug}{kralsei_hug_blushing}{ralsei_happy}"
+#                 f"{ralsei_cute}{ralsei_laughing}{ralsei_cute_evil}"
+#                 f"{ralsei_shocked}{kris_wiggle}{driving_in_my_caaar}"
+#                 f"{errrm}{mama_miba}{lancer}{dess_shocked}{ralsei_splat}"
+#                 f"{spamton_dance}{YOUR_TAKING_TOO_LONG}{your_taking_too_long}"
+#                 f"{vulkin_happy}{friend_inside_me}{the_final_starwalker}{the_original_starwalker}"
+#                 f"{tenna_dance}{tenna_dance_2}{jevil_dance}{gaster_dance}{boooom}{ralsei_heart}")
+#
+#     await ctx.reply(messages)
+
 @bot.command()
 async def help(ctx):
     if ctx.guild is None:
@@ -134,28 +176,28 @@ async def hug(ctx, *, who: str = None):
 
     if reciprocal:
         messages = [
-            f"{user} hugs {target} back! Aww, mutual hugs 🫂💕",
-            f"{target} hugged {user} first, and now {user} returns the favor! 🫂",
-            f"{user} and {target} share a hug back and forth. So wholesome! 🤗",
+            f"{user} hugs {target} back! Aww, mutual hugs 🫂{ralsei_happy}{kralsei_hug}",
+            f"{target} hugged {user} first, and now {user} returns the favor! 🫂{kralsei_hug}",
+            f"{user} and {target} share a hug back and forth. So wholesome! {ralsei_heart}{kralsei_hug}",
         ]
     else:
         messages = [
-            f"{user} tightly hugs {target} 🫂",
-            f"{target} got absolutely loved and hugged by {user} 🫂",
-            f"{user} hugs {target} so much that they won't let go 🫂",
-            f"Hey {target}! {user} just sent you a ton of hugs! ^^ 🤗",
-            f"{user} gives {target} a big warm hug! 🤗",
-            f"{user} wraps their arms around {target}! 🫂",
-            f"{user} gives {target} a much-needed hug! 🫂",
-            f"{user} hugs {target} with all their might! 🫂",
-            f"{user} pulls {target} into a cozy hug! 🤗",
-            f"{user} gives {target} a wholesome hug! 🤗🫂",
-            f"{user} hugs {target}. Awwww! 🤗",
-            f"HUG DETECTED! {user} has hugged {target}! 🤗",
-            f"{user} launches themselves at {target} with a hug! 🤗🫂",
-            f"{user} and {target} are temporarily trapped in a hug. 🤗",
-            f"{user} sends a hug directly to {target}'s soul. 🤗🫂",
-            f"{user} hugs {target}. No escape. 🫂",
+            f"{user} tightly hugs {target} :people_hugging:{kralsei_hug}{kralsei_hug_blushing}",
+            f"{target} got absolutely loved and hugged by {user} {kralsei_hug}{kralsei_hug_blushing}{ralsei_heart}",
+            f"{user} hugs {target} so much that they won't let go :people_hugging:{kralsei_hug}{kralsei_hug_blushing}",
+            f"Hey {target}! {user} just sent you a ton of hugs! ^^ {kralsei_hug}{kralsei_hug_blushing}{ralsei_heart}",
+            f"{user} gives {target} a big warm hug! {vulkin_happy}{kralsei_hug}",
+            f"{user} wraps their arms around {target}! {kralsei_hug_blushing}",
+            f"{user} gives {target} a much-needed hug! {kralsei_hug_blushing}{ralsei_happy}",
+            f"{user} hugs {target} with all their might! {ralsei_happy}{kralsei_hug_blushing}",
+            f"{user} pulls {target} into a cozy hug! {kralsei_hug_blushing}",
+            f"{user} gives {target} a wholesome hug! {ralsei_happy}{kralsei_hug_blushing}{ralsei_heart}",
+            f"{user} hugs {target}. Awwww! {ralsei_happy}{kralsei_hug}",
+            f"HUG DETECTED! {user} has hugged {target}! {kralsei_hug}{ralsei_heart}",
+            f"{user} launches themselves at {target} with a hug! {kralsei_hug_blushing}",
+            f"{user} and {target} are temporarily trapped in a hug. {ralsei_happy}{kralsei_hug_blushing}",
+            f"{user} sends a hug directly to {target}'s soul. {kralsei_hug_blushing}{ralsei_heart}",
+            f"{user} hugs {target}. No escape. {ralsei_cute_evil}{kralsei_hug_blushing}"
         ]
 
     choice = random.choice(messages)
@@ -189,11 +231,11 @@ async def permahug(ctx, *, who: str = None):
 
     messages = \
     [
-        f"{user} permanently hugs {target} 🫂",
-        f"{user} hugs {target} permanently 🫂",
-        f"{user} hugs {target} and they won't let go, ever 🫂🫂",
-        f"{user} hugs {target} and never let's go until the end of time and beyond 🫂",
-        f"{user} has trapped {target} with an eternal hug 🫂"
+        f"{user} permanently hugs {target} {kralsei_hug}{kralsei_hug_blushing}",
+        f"{user} hugs {target} permanently {kralsei_hug_blushing}",
+        f"{user} hugs {target} and they won't let go, ever {kralsei_hug_blushing}",
+        f"{user} hugs {target} and never let's go until the end of time and beyond {kralsei_hug_blushing}",
+        f"{user} has trapped {target} with an eternal hug {kralsei_hug}"
     ]
 
     choice = random.choice(messages)
@@ -367,10 +409,10 @@ async def kiss(ctx, *, who: str = None):
 
     messages = \
     [
-        f"{user} kissed {target}! They're so cute!",
-        f"OMG- GUYS- {user} JUST KISSED {target}!!!!",
-        f"{user} **VIOLENTLY** pulled {target} to them and **SMOOCHED** them on the **LIPS**, not letting **ANYONE ELSE** in >:3",
-        f"Hehehehe, {user} gave {target} a little smooooch!"
+        f"{user} kissed {target}! They're so cute! {ralsei_happy}",
+        f"OMG- GUYS- {user} JUST KISSED {target}!!!! {ralsei_cute}",
+        f"{user} **VIOLENTLY** pulled {target} to them and **SMOOCHED** them on the **LIPS**, not letting **ANYONE ELSE** in {ralsei_cute_evil}",
+        f"Hehehehe, {user} gave {target} a little smooooch! {ralsei_happy}"
     ]
 
     choice = random.choice(messages)
@@ -403,12 +445,12 @@ async def cheekkiss(ctx, *, who: str = None):
 
     messages = \
     [
-        f"{user} gave {target} a cute kiss on the cheek! Awwhh! :3",
-        f"{user} gave {target} a little cheek smooch! ^^",
-        f"{user} not so violently pulled {target} to them and pekced them on the cheek, letting everyone else in ^w^",
-        f"Hey guys, {user} gave {target} a little cheek smooch!!! :3",
-        f"Hehehe {user} is so cute, they just kissed {target} on the cheek ^^",
-        f"Hehehe- {user} gave {target} a peck on the cheek!!!! :3"
+        f"{user} gave {target} a cute kiss on the cheek! Awwhh! :3 {ralsei_happy}",
+        f"{user} gave {target} a little cheek smooch! ^^ {ralsei_happy}",
+        f"{user} not so violently pulled {target} to them and pekced them on the cheek, letting everyone else in ^w^ {ralsei_happy}",
+        f"Hey guys, {user} gave {target} a little cheek smooch!!! :3 {ralsei_cute}",
+        f"Hehehe {user} is so cute, they just kissed {target} on the cheek ^^ {ralsei_cute}",
+        f"Hehehe- {user} gave {target} a peck on the cheek!!!! :3 {ralsei_heart}"
     ]
 
     choice = random.choice(messages)
@@ -632,7 +674,8 @@ async def silly(ctx, *, who: str = None):
               "Mrewwww :3",
               "Nyaaaaa~",
               "Nyon!",
-              "Ueueleuleuleue!"
+              "Ueueleuleuleue!",
+              f"{kris_wiggle}"
             ]
     else:
         messages = \
@@ -695,7 +738,9 @@ async def deltarot(ctx):
             "PINK AND YELLOW?!?! 🩷=💛",
             "*Why wold Chara do this?!?!",## naise add chara doing What me??? pose to this line pls!!! :3 ty already!! :3 oh and i added the png lol it is Chara_What_Me.png in the files/images folder :3 ##
             "I am Frisk.",
-            f"CHAOS CHAOS!"
+            f"{gaster_dance}",
+            f"{friend_inside_me}",
+            f"CHAOS CHAOS! {jevil_dance}",
         ]
 
     choice = random.choice(messages)
