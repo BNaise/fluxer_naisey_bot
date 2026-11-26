@@ -91,6 +91,9 @@ ralsei_heart = "<:ralsei_heart:1571227839728979970>"
 #                 f"{tenna_dance}{tenna_dance_2}{jevil_dance}{gaster_dance}{boooom}{ralsei_heart}")
 #
 #     await ctx.reply(messages)
+@bot.command()
+async def test(ctx):
+  await ctx.reply("Bleh")
 
 @bot.command()
 async def help(ctx):
