@@ -10,7 +10,7 @@ import fluxer
 
 from dotenv import load_dotenv
 
-from funtions import database, pet_gif, multi_pet_gif, calculator, keep_alive
+from funtions import database, pet_gif, multi_pet_gif, calculator
 
 load_dotenv()
 
